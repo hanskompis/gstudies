@@ -4,8 +4,30 @@
     <head>
         <title></title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    </head>
-    <body>
-        <div>Seen any teletubbies around?</div>
-    </body>
+        <script type="text/template" id="buttonPictureTemplate">
+        <form>
+            <input type="button" id="visualizeButton" value="getGraph"/>
+        </form> 
+    </script>
+</head>
+<body>
+    <div>Seen any teletubbies around?</div>
+
+    <div id="mainContainer"></div>
+
+    <script src="assets/libs/jquery-1.8.0.min.js"></script>
+    <script src="assets/libs/underscore-min.js"></script>
+    <script src="assets/libs/backbone-min.js"></script>
+    <script src="assets/libs/mustache.js"></script>
+    <script src="assets/libs/raphael-min.js"></script>
+    <script src="assets/javascripts/application.js"></script>  
+    <script src="assets/javascripts/views.js"></script>
+    <script src="assets/javascripts/main.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            App.init();
+        });
+    </script>
+</body>
 </html>
