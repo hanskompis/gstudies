@@ -1,6 +1,6 @@
 
 package tktl.gstudies.domain;
 
-abstract class AbstractGraphicalObject {
-    private String type;
+public abstract class AbstractGraphicalObject {
+     String type;
 }

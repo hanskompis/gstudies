@@ -13,6 +13,9 @@ App.Views.mainView = Backbone.View.extend({
    
    visualizeAction: function() {
        var self = this;
-       alert("vitttuuuu");
+       //alert("vitttuuuu");
+       $.getJSON("../visualize",function(data){
+           self.render(data);
+       })
    }
 });
