@@ -19,7 +19,7 @@ public class VisualizeController {
     @RequestMapping(method = RequestMethod.GET, value = "visualize", produces = "application/json")
     @ResponseBody
     public List visualize(){
-        return this.graphicsService.getDummyData();
+        return this.graphicsService.getSumMoreDummyData();
     }
     
 }
