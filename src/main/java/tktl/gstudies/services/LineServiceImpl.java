@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import tktl.gstudies.domain.AbstractGraphicalObject;
+import tktl.gstudies.domain.Student;
 
 @Service
 public class LineServiceImpl implements LineService{
@@ -19,8 +20,13 @@ public class LineServiceImpl implements LineService{
     }
 
     @Override
-    public List<String> getLines() {
+    public List<String> getLines(List<Student> studs) {
         return this.lineStrings;
+    }
+
+    @Override
+    public void addLineString(int mx, int my, int lx, int ly) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
 }

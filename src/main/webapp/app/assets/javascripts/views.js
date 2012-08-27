@@ -4,7 +4,8 @@ App.Views.mainView = Backbone.View.extend({
        $(this.el).html(content);
        var paper = Raphael("mainContainer", 1000, 600);
        paper.rect(1,1,990,590,10);
-       paper.add(contents);       
+       //paper.path("M30,30L90,90");
+       paper.add(contents);
    },
    
    events: {

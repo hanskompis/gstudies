@@ -2,7 +2,6 @@ package tktl.gstudies.services;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,6 +96,7 @@ public class GraphicsServiceImpl implements GraphicsService {
             objs.add(new Rectangle("rect", ((offset + 1) * 100), (i * 50), 50, 20, 5));   
             objs.add(new Text(((offset + 1) * 100)+25, (i * 50)+10, diffCourses.get(i-1)));
         }
+        //objs.add(new Path("M30,30L90,90"));
         return objs; 
     }
 
