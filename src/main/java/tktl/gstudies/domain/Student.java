@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
-@Scope("prototype")
+//@Scope("prototype")
 public class Student {
     private String nimi;
     private List<Course> courses;
@@ -46,7 +46,7 @@ public class Student {
     public String printCourses(){
         StringBuilder sb = new StringBuilder();
         for(Course c : this.getCourses()){
-            sb.append(c.name()+"\n");
+            sb.append(c.getIndex()+" "+c.name()+"\n");
         }
         return sb.toString();
     }
