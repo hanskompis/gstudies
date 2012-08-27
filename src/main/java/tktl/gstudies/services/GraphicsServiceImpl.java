@@ -10,6 +10,7 @@ import tktl.gstudies.domain.Rectangle;
 @Service
 public class GraphicsServiceImpl implements GraphicsService{
     private List<AbstractGraphicalObject> graphObjs;
+    
     @Override
     public List<AbstractGraphicalObject> getDummyData() {
         this.graphObjs = new ArrayList<AbstractGraphicalObject>();
