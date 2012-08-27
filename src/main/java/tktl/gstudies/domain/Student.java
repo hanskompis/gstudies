@@ -42,4 +42,16 @@ public class Student {
         }
         this.courses.add(course);
     }
+    
+    public String printCourses(){
+        StringBuilder sb = new StringBuilder();
+        for(Course c : this.getCourses()){
+            sb.append(c.name()+"\n");
+        }
+        return sb.toString();
+    }
+    @Override
+    public String toString(){
+        return "nimi: "+this.getNimi()+" kurssit: \n" + this.printCourses();
+    }
 }
