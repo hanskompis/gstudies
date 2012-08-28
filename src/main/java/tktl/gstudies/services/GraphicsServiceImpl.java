@@ -34,10 +34,12 @@ public class GraphicsServiceImpl implements GraphicsService {
     public List<AbstractGraphicalObject> getSumMoreDummyData() {
         this.graphObjs = new ArrayList<AbstractGraphicalObject>();
         List<Student> studs = generateDummyStudents(this.amountStuds, this.amountCourses);
+        this.lineService.setCourses(null);
         for (int i = 0; i < this.getMaxCourses(studs); i++) {
             this.graphObjs.addAll(this.getNthSetOfNodes(studs, i, i));
         }
 //        this.graphObjs.addAll(this.getNthSetOfRectangles(studs, 0));
+//        System.out.println(this.lineService.CoursesToString());
         return this.graphObjs;
     }
 
@@ -47,7 +49,7 @@ public class GraphicsServiceImpl implements GraphicsService {
         for (int i = 0; i < amountStuds; i++) {
             Student student = new Student("Opp" + Integer.toString(generator.nextInt(1000)), this.generateCourseSet(amountCourses));
             studs.add(student);
-            System.out.println(student);
+            //System.out.println(student);
         }
         return studs;
     }
@@ -96,7 +98,6 @@ public class GraphicsServiceImpl implements GraphicsService {
             objs.add(new Rectangle("rect", ((offset + 1) * 100), (i * 50), 50, 20, 5));   
             objs.add(new Text(((offset + 1) * 100)+25, (i * 50)+10, diffCourses.get(i-1)));
         }
-        //objs.add(new Path("M30,30L90,90"));
         return objs; 
     }
 
@@ -107,6 +108,7 @@ public class GraphicsServiceImpl implements GraphicsService {
                 diffCourses.add(s.getCourses().get(n).name());
             }
         }
+        lineService.addCourseSet(diffCourses);
         return diffCourses;
     }
 }
