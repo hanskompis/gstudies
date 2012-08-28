@@ -20,6 +20,7 @@ public class GraphicsServiceImpl implements GraphicsService {
     private int amountStuds = 5;
     private int amountCourses = 5;
     private List<AbstractGraphicalObject> graphObjs;
+//    private List<List<BoxCoordinatesForLines>> coords;
 
     @Override
     public List<AbstractGraphicalObject> getDummyData() {
@@ -33,13 +34,16 @@ public class GraphicsServiceImpl implements GraphicsService {
     @Override
     public List<AbstractGraphicalObject> getSumMoreDummyData() {
         this.graphObjs = new ArrayList<AbstractGraphicalObject>();
+        lineService.setCoords(new ArrayList<List<BoxCoordinatesForLines>>());
         List<Student> studs = generateDummyStudents(this.amountStuds, this.amountCourses);
+        this.lineService.setStuds(studs);
         this.lineService.setCourses(null);
         for (int i = 0; i < this.getMaxCourses(studs); i++) {
             this.graphObjs.addAll(this.getNthSetOfNodes(studs, i, i));
         }
 //        this.graphObjs.addAll(this.getNthSetOfRectangles(studs, 0));
 //        System.out.println(this.lineService.CoursesToString());
+//        System.out.println(lineService.getCoords().toString());
         return this.graphObjs;
     }
 
@@ -94,9 +98,11 @@ public class GraphicsServiceImpl implements GraphicsService {
     private List<AbstractGraphicalObject> getNthSetOfNodes(List<Student> studs, int n, int offset) {
         List<AbstractGraphicalObject> objs = new ArrayList();
         List<String> diffCourses = this.differentCoursesOnNthSet(n, studs);
+        this.lineService.getCoords().add(new ArrayList<BoxCoordinatesForLines>());
         for (int i = 1; i <= diffCourses.size(); i++) {
             objs.add(new Rectangle("rect", ((offset + 1) * 100), (i * 50), 50, 20, 5));   
             objs.add(new Text(((offset + 1) * 100)+25, (i * 50)+10, diffCourses.get(i-1)));
+            this.lineService.getCoords().get(n).add(new BoxCoordinatesForLines(diffCourses.get(i-1), ((offset + 1) * 100), (i * 50)+10 ,((offset + 1) * 150) , (i * 50)+10));
         }
         return objs; 
     }
@@ -111,4 +117,5 @@ public class GraphicsServiceImpl implements GraphicsService {
         lineService.addCourseSet(diffCourses);
         return diffCourses;
     }
+        
 }

@@ -2,6 +2,7 @@
 package tktl.gstudies.services;
 
 import java.util.List;
+import tktl.gstudies.domain.BoxCoordinatesForLines;
 import tktl.gstudies.domain.Student;
 
 public interface LineService {
@@ -14,6 +15,11 @@ public interface LineService {
      public void setCourses(List<List<String>> courses);
      public List<String> getLineStrings();
      public List<List<String>> getCourses();
+     public List<List<BoxCoordinatesForLines>> getCoords();
+     public void setCoords(List<List<BoxCoordinatesForLines>> coords);
+     public List<String> getSumPathData();
+     public List<Student> getStuds();
+     public void setStuds(List<Student> studs);
 
 
 }
