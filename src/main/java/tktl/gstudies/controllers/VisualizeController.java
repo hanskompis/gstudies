@@ -29,7 +29,7 @@ public class VisualizeController {
     @ResponseBody
     public List paths() {
        // System.out.println(this.lineService.getSumPathData());
-        return this.graphicsService.getSumMoreDummyData();
+        return this.lineService.getSumPathData();
     }
 
 }

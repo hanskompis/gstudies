@@ -12,13 +12,12 @@ import tktl.gstudies.domain.*;
 @Service
 @Qualifier("dummy")
 public class GraphicsServiceImpl implements GraphicsService {
-    
+
     @Autowired
     private LineService lineService;
-
     private String[] courseCodes = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
-    private int amountStuds = 5;
-    private int amountCourses = 5;
+    private int amountStuds = 20;
+    private int amountCourses = 10;
     private List<AbstractGraphicalObject> graphObjs;
 //    private List<List<BoxCoordinatesForLines>> coords;
 
@@ -44,6 +43,7 @@ public class GraphicsServiceImpl implements GraphicsService {
 //        this.graphObjs.addAll(this.getNthSetOfRectangles(studs, 0));
 //        System.out.println(this.lineService.CoursesToString());
 //        System.out.println(lineService.getCoords().toString());
+        this.lineService.getSumPathData();
         return this.graphObjs;
     }
 
@@ -100,14 +100,16 @@ public class GraphicsServiceImpl implements GraphicsService {
         List<String> diffCourses = this.differentCoursesOnNthSet(n, studs);
         this.lineService.getCoords().add(new ArrayList<BoxCoordinatesForLines>());
         for (int i = 1; i <= diffCourses.size(); i++) {
-            objs.add(new Rectangle("rect", ((offset + 1) * 100), (i * 50), 50, 20, 5));   
-            objs.add(new Text(((offset + 1) * 100)+25, (i * 50)+10, diffCourses.get(i-1)));
-            this.lineService.getCoords().get(n).add(new BoxCoordinatesForLines(diffCourses.get(i-1), ((offset + 1) * 100), (i * 50)+10 ,((offset + 1) * 150) , (i * 50)+10));
+            objs.add(new Rectangle("rect", ((offset + 1) * 100), (i * 50), 50, 20, 5));
+            objs.add(new Text(((offset + 1) * 100) + 25, (i * 50) + 10, diffCourses.get(i - 1)));
+//            this.lineService.getCoords().get(n).add(new BoxCoordinatesForLines(diffCourses.get(i-1), ((offset + 1) * 100), (i * 50)+10 ,((offset + 1) * 150) , (i * 50)+10));
+            this.lineService.getCoords().get(n).add(new BoxCoordinatesForLines(diffCourses.get(i - 1), ((offset + 1) * 100), (i * 50) + 10, ((offset + 1) * 100)+50, (i * 50) + 10));
+
         }
-        return objs; 
+        return objs;
     }
 
-        private List<String> differentCoursesOnNthSet(int n, List<Student> studs) {
+    private List<String> differentCoursesOnNthSet(int n, List<Student> studs) {
         ArrayList<String> diffCourses = new ArrayList<String>();
         for (Student s : studs) {
             if (!diffCourses.contains(s.getCourses().get(n).name())) {
@@ -117,5 +119,4 @@ public class GraphicsServiceImpl implements GraphicsService {
         lineService.addCourseSet(diffCourses);
         return diffCourses;
     }
-        
 }

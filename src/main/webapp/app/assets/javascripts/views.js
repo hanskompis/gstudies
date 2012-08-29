@@ -1,22 +1,30 @@
 App.Views.mainView = Backbone.View.extend({
-   render : function(contents) {
-       var content = Mustache.to_html($("#buttonPictureTemplate").html(),{});
-       $(this.el).html(content);
-       var paper = Raphael("mainContainer", 1000, 600);
-       paper.rect(1,1,990,590,10);
-       //paper.path("M30,30L90,90");
-       paper.add(contents);
-   },
+    render : function(rects, edges) {
+        var content = Mustache.to_html($("#buttonPictureTemplate").html(),{});
+        $(this.el).html(content);
+        var paper = Raphael("mainContainer", 1500, 600);
+        paper.rect(1,1,1490,590,10);
+        paper.add(rects);
+        if(edges){
+            for(var i = 0; i < edges.length; i++){
+                paper.path('\"' + edges[i] + '\"');
+            }    
+        }
+        
+    },
    
-   events: {
-       "click #visualizeButton" : "visualizeAction"
-   },
-   
-   visualizeAction: function() {
-       var self = this;
-       //alert("vitttuuuu");
-       $.getJSON("../visualize",function(data){
-           self.render(data);
-       })
-   }
+    events: {
+        "click #visualizeButton" : "visualizeAction"
+    },
+
+    visualizeAction: function() {
+        var self = this;
+        $.getJSON("../visualize",function(rects){    
+            $.getJSON("../paths",function(edges){
+                self.render(rects, edges);
+            });
+        });
+
+
+    }
 });

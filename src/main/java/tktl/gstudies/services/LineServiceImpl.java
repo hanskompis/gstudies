@@ -88,17 +88,21 @@ public class LineServiceImpl implements LineService {
 
     @Override
     public List<String> getSumPathData() {
-        this.lineStrings = new ArrayList<String>();
+        if (this.lineStrings != null) {
+            this.lineStrings.clear();
+        } else {
+            this.lineStrings = new ArrayList<String>();
+        }
         for (int i = 0; i < this.studs.size(); i++) {
             List<Course> currentCourseSet = this.studs.get(i).getCourses();
             for (int j = 0; j < currentCourseSet.size(); j++) {
-                if (currentCourseSet.get(j + 1) != null) {
-                    this.lineStrings.add("M"+this.getCoordinatesForCourse(j, currentCourseSet.get(j).name(), false)+
-                            "L"+this.getCoordinatesForCourse((j+1),currentCourseSet.get(j+1).name() , true));
+                if ((j + 1) < currentCourseSet.size()) {
+                    this.lineStrings.add("M" + this.getCoordinatesForCourse(j, currentCourseSet.get(j).name(), false)
+                            + "L" + this.getCoordinatesForCourse((j + 1), currentCourseSet.get(j + 1).name(), true));
                 }
             }
-
         }
+        System.out.println(this.lineStrings);
         return this.lineStrings;
     }
 
