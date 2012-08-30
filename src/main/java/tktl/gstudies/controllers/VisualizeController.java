@@ -25,11 +25,16 @@ public class VisualizeController {
         return this.graphicsService.getSumMoreDummyData();
     }
 
+//    @RequestMapping(method = RequestMethod.GET, value = "paths", produces = "application/json")
+//    @ResponseBody
+//    public List paths() {
+//       // System.out.println(this.lineService.getSumPathData());
+//        return this.lineService.getSumPathData();
+//    }
     @RequestMapping(method = RequestMethod.GET, value = "paths", produces = "application/json")
     @ResponseBody
     public List paths() {
-       // System.out.println(this.lineService.getSumPathData());
+        // System.out.println(this.lineService.getSumPathData());
         return this.lineService.getSumPathData();
     }
-
 }

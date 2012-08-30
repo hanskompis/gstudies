@@ -7,10 +7,14 @@ App.Views.mainView = Backbone.View.extend({
         paper.add(rects);
         if(edges){
             for(var i = 0; i < edges.length; i++){
-                paper.path('\"' + edges[i] + '\"');
+                var path = paper.path('\"' + edges[i].pathString + '\"');
+                path.attr({"stroke-width" : edges[i].weight}); //TODO: isommilla n:llä logaritmisena
+
+
+
+console.log(edges[i].weight);
             }    
-        }
-        
+        }       
     },
    
     events: {

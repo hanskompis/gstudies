@@ -1,32 +1,21 @@
 package tktl.gstudies.services;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import tktl.gstudies.domain.BoxCoordinatesForLines;
 import tktl.gstudies.domain.Course;
+import tktl.gstudies.domain.Line;
 import tktl.gstudies.domain.Student;
 
 @Service
 public class LineServiceImpl implements LineService {
 
-    private List<String> lineStrings;
+    private HashMap<String, Line> lines;
     private List<List<String>> courses;// TODO: Tarvitaanko täällä ollenkaan?
     private List<List<BoxCoordinatesForLines>> coords;
     private List<Student> studs;
-
-    @Override
-    public void addLineString(String line) {
-        if (this.lineStrings == null) {
-            this.lineStrings = new ArrayList<String>();
-        }
-    }
-
-    @Override
-    public List<String> getLines(List<Student> studs) {
-
-        return this.lineStrings;
-    }
 
     @Override
     public void addLineString(int mx, int my, int lx, int ly) {
@@ -57,16 +46,6 @@ public class LineServiceImpl implements LineService {
     }
 
     @Override
-    public List<String> getLineStrings() {
-        return lineStrings;
-    }
-
-    @Override
-    public void setLineStrings(List<String> lineStrings) {
-        this.lineStrings = lineStrings;
-    }
-
-    @Override
     public List<List<BoxCoordinatesForLines>> getCoords() {
         return coords;
     }
@@ -87,46 +66,55 @@ public class LineServiceImpl implements LineService {
     }
 
     @Override
-    public List<String> getSumPathData() {
-        if (this.lineStrings != null) {
-            this.lineStrings.clear();
+    public List<Line> getSumPathData() {
+        if (this.lines != null) {
+            this.lines.clear();
         } else {
-            this.lineStrings = new ArrayList<String>();
+            this.lines = new HashMap<String, Line>();
         }
         for (int i = 0; i < this.studs.size(); i++) {
             List<Course> currentCourseSet = this.studs.get(i).getCourses();
             for (int j = 0; j < currentCourseSet.size(); j++) {
                 if ((j + 1) < currentCourseSet.size()) {
-                    this.lineStrings.add("M" + this.getCoordinatesForCourse(j, currentCourseSet.get(j).name(), false)
-                            + "L" + this.getCoordinatesForCourse((j + 1), currentCourseSet.get(j + 1).name(), true));
+                    int leftX = this.getCoordinatesForCourse(j, currentCourseSet.get(j).name(), false).get(0); //TODO: tee fiksummin while refactoring
+                    int leftY = this.getCoordinatesForCourse(j, currentCourseSet.get(j).name(), false).get(1);
+                    int rightX = this.getCoordinatesForCourse((j + 1), currentCourseSet.get(j + 1).name(), true).get(0);
+                    int rightY = this.getCoordinatesForCourse((j + 1), currentCourseSet.get(j + 1).name(), true).get(1);
+//                    this.lines.add(new Line(leftX, leftY, rightX, rightY));
+                    Line toAdd = new Line(leftX, leftY, rightX, rightY);
+                    if(!this.lines.containsKey(toAdd.getPathString())){
+                        this.lines.put(toAdd.getPathString(), toAdd);
+                    }
+                    else{
+                        Line l = this.lines.get(toAdd.getPathString());
+                        l.setWeight(l.getWeight()+1);
+                    }
+                    
+                    
                 }
             }
         }
-        System.out.println(this.lineStrings);
-        return this.lineStrings;
+        ArrayList<Line> lesReturnables = new ArrayList<Line>();
+        lesReturnables.addAll(this.lines.values());
+        return lesReturnables;
     }
 
-    private String getCoordinatesForCourse(int paragraph, String courseName, boolean left) {
-        StringBuilder sb = new StringBuilder();
+    private List<Integer> getCoordinatesForCourse(int paragraph, String courseName, boolean left) {
         List<BoxCoordinatesForLines> coordsList = this.coords.get(paragraph);
+        List<Integer> coordsToReturn = new ArrayList<Integer>();
         for (int i = 0; i < coordsList.size(); i++) {
             if (coordsList.get(i).getCourseName().equals(courseName)) {
                 if (left) {
-                    String x = Integer.toString(coordsList.get(i).getLeftX());
-                    sb.append(x);
-                    sb.append(",");
-                    String y = Integer.toString(coordsList.get(i).getLeftY());
-                    sb.append(y);
+                    coordsToReturn.add(coordsList.get(i).getLeftX());
+                    coordsToReturn.add(coordsList.get(i).getLeftY());
+
                 } else {
-                    String x = Integer.toString(coordsList.get(i).getRightX());
-                    sb.append(x);
-                    sb.append(",");
-                    String y = Integer.toString(coordsList.get(i).getRightY());
-                    sb.append(y);
+                    coordsToReturn.add(coordsList.get(i).getRightX());
+                    coordsToReturn.add(coordsList.get(i).getRightY());
                 }
             }
         }
-
-        return sb.toString();
+        return coordsToReturn;
     }
+
 }
