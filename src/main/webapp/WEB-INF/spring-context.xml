@@ -33,4 +33,10 @@
 
   <!-- enable configuration with annotations -->
   <context:annotation-config />
+  
+  
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="org.h2.Driver"/>
+        <property name="url" value="jdbc:h2:mem:test"/>
+    </bean>
 </beans>
