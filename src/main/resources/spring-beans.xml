@@ -20,21 +20,7 @@
         http://www.springframework.org/schema/data/jpa
            http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
-  <!-- DispatcherServlet (front-controller) configuration -->
-
-  <!-- Applicaiton's sources are found under root-package named "com"-->
-  <context:component-scan base-package="tktl" />
-
-  <!-- Spring MVC is annotation-driven -->
-  <mvc:annotation-driven /> 
-
-  <!-- all resources are to be found from /app folder-->
-  <mvc:resources mapping="/app/**" location="/app/"/>
-
-  <!-- enable configuration with annotations -->
-  <context:annotation-config />
-  
-  
+ 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
         <property name="driverClassName" value="org.h2.Driver"/>
         <property name="url" value="jdbc:h2:mem:test"/>
