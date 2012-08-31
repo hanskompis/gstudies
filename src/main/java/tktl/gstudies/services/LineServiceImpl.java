@@ -88,6 +88,7 @@ public class LineServiceImpl implements LineService {
                     else{
                         Line l = this.lines.get(toAdd.getPathString());
                         l.setWeight(l.getWeight()+1);
+                        l.getWeightText().setText(Integer.toString(l.getWeight()));
                     }
                     
                     

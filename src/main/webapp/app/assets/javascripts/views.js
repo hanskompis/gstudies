@@ -9,9 +9,11 @@ App.Views.mainView = Backbone.View.extend({
             for(var i = 0; i < edges.length; i++){
                 var path = paper.path('\"' + edges[i].pathString + '\"');
                 path.attr({"stroke-width" : edges[i].weight}); //TODO: isommilla n:llä logaritmisena
-
-
-
+                console.log(JSON.stringify(edges[i].weightText));
+                paper.add([edges[i].weightText]);//add vaatii taulukon
+                path.mouseover(function(){
+                   
+                });
 console.log(edges[i].weight);
             }    
         }       

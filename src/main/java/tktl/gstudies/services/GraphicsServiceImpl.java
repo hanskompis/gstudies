@@ -16,8 +16,8 @@ public class GraphicsServiceImpl implements GraphicsService {
     @Autowired
     private LineService lineService;
     private String[] courseCodes = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
-    private int amountStuds = 20;
-    private int amountCourses = 10;
+    private int amountStuds = 5;
+    private int amountCourses = 3;
     private List<AbstractGraphicalObject> graphObjs;
 //    private List<List<BoxCoordinatesForLines>> coords;
 

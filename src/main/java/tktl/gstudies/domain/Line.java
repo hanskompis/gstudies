@@ -8,6 +8,7 @@ public class Line {
     private int leftY;
     private int rightX;
     private int rightY;
+    private Text weightText;
 
     public Line(int leftX, int leftY, int rightX, int rightY) {
         this.weight = 1;
@@ -16,6 +17,7 @@ public class Line {
         this.rightX = rightX;
         this.rightY = rightY;
         this.generatePathString();
+        this.weightText = new Text(leftX+5, leftY, Integer.toString(weight));
     }
  
     private void generatePathString(){
@@ -78,6 +80,14 @@ public class Line {
 
     public void setRightY(int rightY) {
         this.rightY = rightY;
+    }
+
+    public Text getWeightText() {
+        return weightText;
+    }
+
+    public void setWeightText(Text weightText) {
+        this.weightText = weightText;
     }
     
     
