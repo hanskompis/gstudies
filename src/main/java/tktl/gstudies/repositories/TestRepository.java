@@ -24,6 +24,6 @@ public class TestRepository {
     }
     
     public int count() {
-        return jdbcTemplate.queryForInt("SELECT COUNT (*) FROM PUBLIC.opettaja");
+        return jdbcTemplate.queryForInt("SELECT COUNT (*) FROM opettaja");
     }
 }
