@@ -7,9 +7,9 @@ package tktl.gstudies.config;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -23,11 +23,19 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * @author avihavai
  */
 public class InitServlet extends HttpServlet {
+    
+    private static boolean running = false;
 
     private String dataLocation;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
+        if(this.running){
+            return;
+        }
+        else{
+            this.running = true;
+        }
         super.init(config);
 
         System.out.println("STARTING INIT SERVLET");
@@ -88,20 +96,26 @@ public class InitServlet extends HttpServlet {
                 + "AVAAJA INT NOT NULL, AVAUPVM DATE NOT NULL, MUUTTAJA INT NOT NULL, MUUTPVM DATE NOT NULL, OPISAIKOPIN INT, PAINKERRKA NUMBER(5,2) NOT NULL, "
                 + "ERILPAAT INT, SUUNSUORLK INT, OPISPALHIST INT, LAAJOP NUMBER(5,2) NOT NULL, ALKPERLAAJ INT NOT NULL)");//**opinnot_insert
         createTableQueries.add("CREATE TABLE opiskelija (HLO INT NOT NULL, SUKUPUOLI VARCHAR(255) NOT NULL, SYNTAIK DATE NOT NULL, KIRJOILLETULO DATE NOT NULL)");//**opiskelijat_insert
-        
+
         for (int i = 0; i < createTableQueries.size(); i++) {
             Statement statement = conn.createStatement();
             statement.executeUpdate(createTableQueries.get(i));
             statement.close();
         }
+        
+        conn.close();
     }
 
     private void readFileIntoDb(File file, DataSource dataSource) throws Exception {
         // LUE VIELÄ MUUT KUIN OPETTAJAT, MUISTA MYÖS KONFFATA TIEDOSTON SIJAINTI
-        if ((!file.getName().contains("opintokohteet")) && (!file.getName().contains("opettajat")) 
-                && (!file.getName().contains("opintostatus")) && (!file.getName().contains("suortyyp"))) {
-            return;
-        }
+//        if ((!file.getName().contains("opintokohteet")) && (!file.getName().contains("opettajat"))
+//                && (!file.getName().contains("opintostatus")) && (!file.getName().contains("suortyyp")) && (!file.getName().contains("opiskelijat_test"))) {
+//            return;
+//        }
+
+//        if (!file.getName().contains("opinnot_insert")) {
+//            return;
+//        }
 
         List<String> queries = readQueries(file);
         Connection connection = dataSource.getConnection();
@@ -134,6 +148,11 @@ public class InitServlet extends HttpServlet {
 
             if (query.contains(";")) {
                 query = query.trim();
+                query = query.replace("to_date(", "");
+                query = query.replace(", 'dd-mm-yyyy')", "");
+                query = query.replace(", 'dd-mm-yyyy hh24:mi:ss')", "");
+
+                query = removeTime(reverseQueryDates(query));
                 queries.add(query);
 
                 query = "";
@@ -142,6 +161,34 @@ public class InitServlet extends HttpServlet {
 
         System.out.println("Total " + file.getName() + " queries read: " + queries.size());
         return queries;
+    }
+
+    private String reverseQueryDates(String query) {
+        String re1 = "((?:(?:[0-2]?\\d{1})|(?:[3][01]{1}))[-:\\/.](?:[0]?[1-9]|[1][012])"
+                + "[-:\\/.](?:(?:[1]{1}\\d{1}\\d{1}\\d{1})|(?:[2]{1}\\d{3})))(?![\\d])";	// YYYYMMDD 
+        Pattern p = Pattern.compile(re1, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+        Matcher m = p.matcher(query);
+        StringBuffer sb = new StringBuffer();
+        while (m.find()) {
+            String yyyymmdd1 = m.group(1);
+            m.appendReplacement(sb, reverseDate(yyyymmdd1));
+        }
+        m.appendTail(sb);
+        return sb.toString();
+    }
+
+    private String reverseDate(String date) {
+        String[] ret = date.split("-");
+        Collections.reverse(Arrays.asList(ret));
+        StringBuilder sb = new StringBuilder();
+        sb.append(ret[0]).append("-").append(ret[1]).append("-").append(ret[2]);
+        return sb.toString();
+    }
+
+    private static String removeTime(String query) {
+        String re2 = "((?:(?:[0-1][0-9])|(?:[2][0-3])|(?:[0-9])):(?:[0-5][0-9])(?::[0-5][0-9])?(?:\\s?(?:am|AM|pm|PM))?)";
+        query = query.replaceAll(re2, "");
+        return query;
     }
 
     public static void main(String[] args) throws Exception {
