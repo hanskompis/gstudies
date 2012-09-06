@@ -4,6 +4,7 @@
  */
 package tktl.gstudies.repositories;
 
+import java.util.List;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -24,6 +25,8 @@ public class TestRepository {
     }
     
     public int count() {
-        return jdbcTemplate.queryForInt("SELECT COUNT (*) FROM opinkohd");
+        //return this.jdbcTemplate.queryForList("SELECT nimi FROM opinkohd");
+        return jdbcTemplate.queryForInt("SELECT COUNT (*) FROM opinto, opinstat WHERE opinto.OPINSTAT = opinstat.KOODI AND KOODI = 9");
+        //jdbcTemplate.execute("SELECT (*) FROM opinstat");
     }
 }

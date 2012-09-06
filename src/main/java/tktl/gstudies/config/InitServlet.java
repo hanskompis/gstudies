@@ -81,21 +81,23 @@ public class InitServlet extends HttpServlet {
         conn.setAutoCommit(true);
 
         ArrayList<String> createTableQueries = new ArrayList<String>();
-        createTableQueries.add("CREATE TABLE opettaja ( ID INT NOT NULL, NIMI VARCHAR(255) NOT NULL)");//opettajat_insert
-        createTableQueries.add("CREATE TABLE opinstat ( KOODI INT NOT NULL, SELITE VARCHAR(255) NOT NULL)"); //opintostatus_insert
+        createTableQueries.add("CREATE TABLE opettaja ( OPINTO INT NOT NULL, NIMLYH VARCHAR(255) NOT NULL)");//opettajat_insert
+        createTableQueries.add("CREATE TABLE opinstat ( KOODI INT NOT NULL PRIMARY KEY, SELITE VARCHAR(255) NOT NULL)"); //opintostatus_insert
         createTableQueries.add("CREATE TABLE lkilm ( HLO INT NOT NULL, ALPVM DATE NOT NULL, PAATPVM DATE NOT NULL, TYYPPI VARCHAR(255) NOT NULL)"); //**lasnaolotiedot
-        createTableQueries.add("CREATE TABLE suortyyp ( KOODI INT NOT NULL, SELITE VARCHAR(255) NOT NULL)"); //suortyyp_insert
+        createTableQueries.add("CREATE TABLE suortyyp ( KOODI INT NOT NULL PRIMARY KEY, SELITE VARCHAR(255) NOT NULL)"); //suortyyp_insert
         createTableQueries.add("CREATE TABLE opinoik ( HLO INT NOT NULL, ALKPVM DATE NOT NULL, PAAAINE VARCHAR(255) NOT NULL)");//**opinto-oikeudet_insert
         createTableQueries.add("CREATE TABLE opinkohd ( OPINKOHD INT NOT NULL, TUNNISTE VARCHAR(255) NOT NULL, "
                 + "NIMI VARCHAR(255) NOT NULL, TYYPPI VARCHAR(255) NOT NULL, LAJI VARCHAR(255) NOT NULL)");//opintokohteet_insert
-        createTableQueries.add("CREATE TABLE opinto (OPINTO INT NOT NULL, HLO INT NOT NULL, OPINKOHD INT NOT NULL, OPINOIK INT, "
+         createTableQueries.add("CREATE TABLE opiskelija (HLO INT NOT NULL PRIMARY KEY, SUKUPUOLI VARCHAR(255) NOT NULL, SYNTAIK DATE NOT NULL, KIRJOILLETULO DATE NOT NULL)");//**opiskelijat_insert
+        createTableQueries.add("CREATE TABLE opinto (OPINTO INT NOT NULL PRIMARY KEY, HLO INT NOT NULL, OPINKOHD INT NOT NULL, OPINOIK INT, "
                 + "ENNPAAT INT, ORGANISAATIO INT, OPINSTAT INT NOT NULL, LAAJUUS NUMBER(5,2), GENOPIN INT NOT NULL, KIELI INT NOT NULL, LASKSUOROTT INT NOT NULL, "
                 + "OPINKOHTTYYP INT NOT NULL, KAYTMUUT INT NOT NULL, TAPPVM DATE NOT NULL, SUORTYYP INT NOT NULL, SUORPVM DATE, KORPVM DATE, KIRJPVM DATE, "
                 + "HYVPVM DATE, PISTMAAR INT, LASKPISTMAAR NUMBER(5,2), ECTSLAAJ NUMBER(5,2), ILMTAULPVM DATE, ENNALKPVM DATE, "
                 + "ENNPAATPVM DATE, SUORULKMAA INT, TULSUOROTT INT, VIIMVOIMPVM DATE, SUORMUU INT, PROJEKTI VARCHAR(255), "
                 + "AVAAJA INT NOT NULL, AVAUPVM DATE NOT NULL, MUUTTAJA INT NOT NULL, MUUTPVM DATE NOT NULL, OPISAIKOPIN INT, PAINKERRKA NUMBER(5,2) NOT NULL, "
-                + "ERILPAAT INT, SUUNSUORLK INT, OPISPALHIST INT, LAAJOP NUMBER(5,2) NOT NULL, ALKPERLAAJ INT NOT NULL)");//**opinnot_insert
-        createTableQueries.add("CREATE TABLE opiskelija (HLO INT NOT NULL, SUKUPUOLI VARCHAR(255) NOT NULL, SYNTAIK DATE NOT NULL, KIRJOILLETULO DATE NOT NULL)");//**opiskelijat_insert
+                + "ERILPAAT INT, SUUNSUORLK INT, OPISPALHIST INT, LAAJOP NUMBER(5,2) NOT NULL,"
+                + " ALKPERLAAJ INT NOT NULL, FOREIGN KEY (SUORTYYP) REFERENCES SUORTYYP(KOODI))");//**opinnot_insert
+       
 
         for (int i = 0; i < createTableQueries.size(); i++) {
             Statement statement = conn.createStatement();
