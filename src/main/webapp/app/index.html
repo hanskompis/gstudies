@@ -5,10 +5,19 @@
         <title></title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <script type="text/template" id="buttonPictureTemplate">
-        <form>
-            <input type="button" id="visualizeButton" value="getGraph"/>
-        </form> 
-    </script>
+            <form>
+                <input type="button" id="visualizeButton" value="getGraph"/>
+            </form>
+            <p>            
+                <input type="button" id="toQueryButton" value="toQuery"/>
+            </p>
+        </script>
+        
+        <script type="text/template" id="queryTemplate">
+            <input type="text" autofocus id="queryString" size="200">
+            <input type="button" id="submitQueryButton" value="submit">
+            <div id="resultsContainer">results</div>
+        </script>
 </head>
 <body>
     <div>Seen any teletubbies around?</div>
@@ -20,7 +29,8 @@
     <script src="assets/libs/backbone-min.js"></script>
     <script src="assets/libs/mustache.js"></script>
     <script src="assets/libs/raphael-min.js"></script>
-    <script src="assets/javascripts/application.js"></script>  
+    <script src="assets/javascripts/application.js"></script>
+    <script src="assets/javascripts/models.js"></script>  
     <script src="assets/javascripts/views.js"></script>
     <script src="assets/javascripts/main.js"></script>
 

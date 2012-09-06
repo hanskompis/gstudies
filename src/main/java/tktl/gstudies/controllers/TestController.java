@@ -4,10 +4,14 @@
  */
 package tktl.gstudies.controllers;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import tktl.gstudies.domain.Query;
 import tktl.gstudies.repositories.TestRepository;
 
 /**
@@ -24,5 +28,18 @@ public class TestController {
     @ResponseBody
     public String process() {
         return "" + testRepository.count();
+    }
+
+    @RequestMapping("/test2")
+    @ResponseBody
+    public String process2() {
+        return "" + testRepository.list();
+    }
+    
+    @RequestMapping(method = RequestMethod.POST, value = "query", consumes = "application/json", produces = "application/json")
+    @ResponseBody
+    public List query(@RequestBody Query q){        
+        System.out.println("QQQUUUUUEEEEEERRRRYYYYYY: " + q.getQueryString());
+        return this.testRepository.query(q.getQueryString());
     }
 }

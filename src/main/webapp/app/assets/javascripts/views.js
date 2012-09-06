@@ -20,7 +20,8 @@ console.log(edges[i].weight);
     },
    
     events: {
-        "click #visualizeButton" : "visualizeAction"
+        "click #visualizeButton" : "visualizeAction",
+        "click #toQueryButton"   : "toQueryAction"
     },
 
     visualizeAction: function() {
@@ -32,5 +33,39 @@ console.log(edges[i].weight);
         });
 
 
+    },
+    
+    toQueryAction: function(){
+        Backbone.history.navigate("query", true);
+    }
+}),
+
+App.Views.queryView = Backbone.View.extend({
+    render: function(response){
+        var content = Mustache.to_html($("#queryTemplate").html(),{});
+        $(this.el).html(content);
+        if(response){
+            for(var i = 0; i < response.length; i++){
+                
+                $("#resultsContainer").append("<p>" + response[i].SELITE +"</p>");
+            }
+        }
+    }, 
+    
+    events : {
+        "click #submitQueryButton" : "submitQueryAction"
+    },
+    
+    submitQueryAction : function (){
+        var qs = $("#queryString").val();
+        var query = new App.Models.Query({queryString : $("#queryString").val()});
+        var self = this;
+        query.save({},{
+            success : function (model, response){
+                //alert("responsee:" + JSON.stringify(response));
+                self.render(response);
+            }
+        })
+        
     }
 });
