@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class Student {
     private String nimi;
-    private List<Course> courses;
+    private List<DummyCourse> courses;
 
-    public Student(String nimi, List<Course> courses) {
+    public Student(String nimi, List<DummyCourse> courses) {
         this.nimi = nimi;
         this.courses = courses;
     }
@@ -19,11 +19,11 @@ public class Student {
     public Student() {
     }
 
-    public List<Course> getCourses() {
+    public List<DummyCourse> getCourses() {
         return courses;
     }
 
-    public void setCourses(List<Course> courses) {
+    public void setCourses(List<DummyCourse> courses) {
         this.courses = courses;
     }
 
@@ -35,7 +35,7 @@ public class Student {
         this.nimi = nimi;
     }
     
-    public void addCourse(Course course){
+    public void addCourse(DummyCourse course){
         if(this.courses == null){
             this.courses = new ArrayList();
         }
@@ -44,7 +44,7 @@ public class Student {
     
     public String printCourses(){
         StringBuilder sb = new StringBuilder();
-        for(Course c : this.getCourses()){
+        for(DummyCourse c : this.getCourses()){
             sb.append(c.getIndex()+" "+c.name()+"\n");
         }
         return sb.toString();

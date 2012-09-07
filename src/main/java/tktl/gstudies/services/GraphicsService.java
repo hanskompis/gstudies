@@ -5,5 +5,5 @@ import java.util.List;
 import tktl.gstudies.domain.AbstractGraphicalObject;
 
 public interface GraphicsService {
-    public List<AbstractGraphicalObject> getSumMoreDummyData();
+    public List<AbstractGraphicalObject> getGraphicsData();
 }

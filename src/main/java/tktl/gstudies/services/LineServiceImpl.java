@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import tktl.gstudies.domain.BoxCoordinatesForLines;
-import tktl.gstudies.domain.Course;
+import tktl.gstudies.domain.DummyCourse;
 import tktl.gstudies.domain.Line;
 import tktl.gstudies.domain.Student;
 @Service
@@ -74,7 +74,7 @@ public class LineServiceImpl implements LineService {
             this.lines = new HashMap<String, Line>();
         }
         for (int i = 0; i < this.studs.size(); i++) {
-            List<Course> currentCourseSet = this.studs.get(i).getCourses();
+            List<DummyCourse> currentCourseSet = this.studs.get(i).getCourses();
             for (int j = 0; j < currentCourseSet.size(); j++) {
                 if ((j + 1) < currentCourseSet.size()) {
                     int leftX = this.getCoordinatesForCourse(j, currentCourseSet.get(j).name(), false).get(0); //TODO: tee fiksummin while refactoring

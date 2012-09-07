@@ -23,15 +23,9 @@ public class VisualizeController {
     @RequestMapping(method = RequestMethod.GET, value = "visualize", produces = "application/json")
     @ResponseBody
     public List visualize() {
-        return this.graphicsService.getSumMoreDummyData();
+        return this.graphicsService.getGraphicsData();
     }
 
-//    @RequestMapping(method = RequestMethod.GET, value = "paths", produces = "application/json")
-//    @ResponseBody
-//    public List paths() {
-//       // System.out.println(this.lineService.getSumPathData());
-//        return this.lineService.getSumPathData();
-//    }
     @RequestMapping(method = RequestMethod.GET, value = "paths", produces = "application/json")
     @ResponseBody
     public List paths() {
