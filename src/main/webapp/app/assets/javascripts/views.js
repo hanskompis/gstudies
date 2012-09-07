@@ -8,13 +8,15 @@ App.Views.mainView = Backbone.View.extend({
         if(edges){
             for(var i = 0; i < edges.length; i++){
                 var path = paper.path('\"' + edges[i].pathString + '\"');
-                path.attr({"stroke-width" : edges[i].weight}); //TODO: isommilla n:llä logaritmisena
+                path.attr({
+                    "stroke-width" : edges[i].weight
+                }); //TODO: isommilla n:llä logaritmisena
                 console.log(JSON.stringify(edges[i].weightText));
                 paper.add([edges[i].weightText]);//add vaatii taulukon
                 path.mouseover(function(){
                    
-                });
-console.log(edges[i].weight);
+                    });
+                console.log(edges[i].weight);
             }    
         }       
     },
@@ -41,14 +43,22 @@ console.log(edges[i].weight);
 }),
 
 App.Views.queryView = Backbone.View.extend({
-    render: function(response){
+    render: function(resultSet){
         var content = Mustache.to_html($("#queryTemplate").html(),{});
         $(this.el).html(content);
-        if(response){
-            for(var i = 0; i < response.length; i++){
-                
-                $("#resultsContainer").append("<p>" + response[i].SELITE +"</p>");
-            }
+        if(resultSet){
+            $("#resultsTable").append("<theader><tr>");
+            $("#resultsTable").append("<td>asdasd</td>");
+            $("#resultsTable").append("</tr></theader>");
+
+            resultSet.each(function(result){
+                $("#resultsTable tbody").append("<tr>");
+                for(var key in result.attributes){
+                    console.log(key+ " " +result.get(key));
+                    $("#resultsTable tbody tr:last").append(("<td>"+ result.get(key)) +"</td>");
+                }
+                $("#resultsTable tbody").append("</tr>");
+            });
         }
     }, 
     
@@ -58,12 +68,16 @@ App.Views.queryView = Backbone.View.extend({
     
     submitQueryAction : function (){
         var qs = $("#queryString").val();
-        var query = new App.Models.Query({queryString : $("#queryString").val()});
+        var query = new App.Models.Query({
+            queryString : $("#queryString").val()
+        });
         var self = this;
         query.save({},{
             success : function (model, response){
                 //alert("responsee:" + JSON.stringify(response));
-                self.render(response);
+                var resultSet = new Backbone.Collection(response);
+                //console.log(resultSet);
+                self.render(resultSet);
             }
         })
         

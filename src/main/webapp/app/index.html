@@ -5,19 +5,27 @@
         <title></title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <script type="text/template" id="buttonPictureTemplate">
-            <form>
-                <input type="button" id="visualizeButton" value="getGraph"/>
-            </form>
-            <p>            
-                <input type="button" id="toQueryButton" value="toQuery"/>
-            </p>
-        </script>
-        
-        <script type="text/template" id="queryTemplate">
-            <input type="text" autofocus id="queryString" size="200">
-            <input type="button" id="submitQueryButton" value="submit">
-            <div id="resultsContainer">results</div>
-        </script>
+        <form>
+            <input type="button" id="visualizeButton" value="getGraph"/>
+        </form>
+        <p>            
+            <input type="button" id="toQueryButton" value="toQuery"/>
+        </p>
+    </script>
+
+    <script type="text/template" id="queryTemplate">
+        <input type="text" autofocus id="queryString" size="200">
+        <input type="button" id="submitQueryButton" value="submit"><br />
+        <table id="resultsTable">
+            <tbody>
+            </tbody>    
+        </table>
+    </script>
+    <script type="text/template" id="resultsTableHeaderTemplate">
+        <thead>
+        </thead>
+    </script>
+
 </head>
 <body>
     <div>Seen any teletubbies around?</div>
