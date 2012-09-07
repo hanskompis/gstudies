@@ -1,11 +1,5 @@
 package tktl.gstudies.domain;
 
-//import org.springframework.context.annotation.Scope;
-//import org.springframework.stereotype.Component;
-
-//@Component
-//@Scope("prototype")
-//public class Course {
 
     public enum Course {
 //    TIRA("58131"), OHPE("581325"), OHJA("582103"), 

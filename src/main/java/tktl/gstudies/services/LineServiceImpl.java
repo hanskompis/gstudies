@@ -3,13 +3,14 @@ package tktl.gstudies.services;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import tktl.gstudies.domain.BoxCoordinatesForLines;
 import tktl.gstudies.domain.Course;
 import tktl.gstudies.domain.Line;
 import tktl.gstudies.domain.Student;
-
 @Service
+@Qualifier("dummy")
 public class LineServiceImpl implements LineService {
 
     private HashMap<String, Line> lines;

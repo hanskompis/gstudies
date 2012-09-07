@@ -17,6 +17,7 @@ public class VisualizeController {
     @Qualifier("dummy")
     private GraphicsService graphicsService;
     @Autowired
+    @Qualifier("dummy")
     private LineService lineService;
 
     @RequestMapping(method = RequestMethod.GET, value = "visualize", produces = "application/json")

@@ -14,21 +14,15 @@ import tktl.gstudies.domain.*;
 public class GraphicsServiceImpl implements GraphicsService {
 
     @Autowired
+    @Qualifier("dummy")
     private LineService lineService;
+    
     private String[] courseCodes = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
     private int amountStuds = 5;
     private int amountCourses = 3;
     private List<AbstractGraphicalObject> graphObjs;
 //    private List<List<BoxCoordinatesForLines>> coords;
 
-    @Override
-    public List<AbstractGraphicalObject> getDummyData() {
-        this.graphObjs = new ArrayList<AbstractGraphicalObject>();
-        for (int i = 1; i <= 10; i++) {
-            this.graphObjs.add(new Rectangle("rect", 20, (i * 50), 50, 20, 5));
-        }
-        return graphObjs;
-    }
 
     @Override
     public List<AbstractGraphicalObject> getSumMoreDummyData() {
