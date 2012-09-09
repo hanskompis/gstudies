@@ -43,7 +43,7 @@
         <servlet-class>tktl.gstudies.config.InitServlet</servlet-class>
         <init-param>
             <param-name>gstudies-data-location</param-name>
-            <param-value>/home/hkeijone/Downloads/gkanta</param-value>
+            <param-value>/Users/hansikeijonen/NetBeansProjects</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
