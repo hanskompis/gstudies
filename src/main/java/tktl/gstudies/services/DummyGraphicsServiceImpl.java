@@ -28,7 +28,7 @@ public class DummyGraphicsServiceImpl implements GraphicsService {
     public List<AbstractGraphicalObject> getGraphicsData() {
         this.graphObjs = new ArrayList<AbstractGraphicalObject>();
         lineService.setCoords(new ArrayList<List<BoxCoordinatesForLines>>());
-        List<Student> studs = generateDummyStudents(this.amountStuds, this.amountCourses);
+        List<DummyStudent> studs = generateDummyStudents(this.amountStuds, this.amountCourses);
         this.lineService.setStuds(studs);
         this.lineService.setCourses(null);
         for (int i = 0; i < this.getMaxCourses(studs); i++) {
@@ -38,11 +38,11 @@ public class DummyGraphicsServiceImpl implements GraphicsService {
         return this.graphObjs;
     }
 
-    private List<Student> generateDummyStudents(int amountStuds, int amountCourses) {
-        List<Student> studs = new ArrayList<Student>();
+    private List<DummyStudent> generateDummyStudents(int amountStuds, int amountCourses) {
+        List<DummyStudent> studs = new ArrayList<DummyStudent>();
         Random generator = new Random();
         for (int i = 0; i < amountStuds; i++) {
-            Student student = new Student("Opp" + Integer.toString(generator.nextInt(1000)), this.generateCourseSet(amountCourses));
+            DummyStudent student = new DummyStudent("Opp" + Integer.toString(generator.nextInt(1000)), this.generateCourseSet(amountCourses));
             studs.add(student);
             //System.out.println(student);
         }
@@ -76,7 +76,7 @@ public class DummyGraphicsServiceImpl implements GraphicsService {
         return courses;
     }
 
-    private int getMaxCourses(List<Student> studs) {
+    private int getMaxCourses(List<DummyStudent> studs) {
         int max = 0;
         for (int i = 0; i < studs.size(); i++) {
             if (studs.get(i).getCourses().size() > max) {
@@ -86,7 +86,7 @@ public class DummyGraphicsServiceImpl implements GraphicsService {
         return max;
     }
 
-    private List<AbstractGraphicalObject> getNthSetOfNodes(List<Student> studs, int n, int offset) {
+    private List<AbstractGraphicalObject> getNthSetOfNodes(List<DummyStudent> studs, int n, int offset) {
         List<AbstractGraphicalObject> objs = new ArrayList();
         List<String> diffCourses = this.differentCoursesOnNthSet(n, studs);
         this.lineService.getCoords().add(new ArrayList<BoxCoordinatesForLines>());
@@ -100,9 +100,9 @@ public class DummyGraphicsServiceImpl implements GraphicsService {
         return objs;
     }
 
-    private List<String> differentCoursesOnNthSet(int n, List<Student> studs) {
+    private List<String> differentCoursesOnNthSet(int n, List<DummyStudent> studs) {
         ArrayList<String> diffCourses = new ArrayList<String>();
-        for (Student s : studs) {
+        for (DummyStudent s : studs) {
             if (!diffCourses.contains(s.getCourses().get(n).name())) {
                 diffCourses.add(s.getCourses().get(n).name());
             }

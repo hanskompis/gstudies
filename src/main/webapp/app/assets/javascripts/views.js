@@ -47,9 +47,9 @@ App.Views.queryView = Backbone.View.extend({
         var content = Mustache.to_html($("#queryTemplate").html(),{});
         $(this.el).html(content);
         if(resultSet){
-            $("#resultsTable").append("<theader><tr>");
-            $("#resultsTable").append("<td>asdasd</td>");
-            $("#resultsTable").append("</tr></theader>");
+//            $("#resultsTable").append("<theader><tr>");
+//            $("#resultsTable").append("<td>asdasd</td>");
+//            $("#resultsTable").append("</tr></theader>");
 
             resultSet.each(function(result){
                 $("#resultsTable tbody").append("<tr>");
@@ -67,6 +67,7 @@ App.Views.queryView = Backbone.View.extend({
     },
     
     submitQueryAction : function (){
+        $("#resultsTable tbody").empty();
         var qs = $("#queryString").val();
         var query = new App.Models.Query({
             queryString : $("#queryString").val()

@@ -1,9 +1,11 @@
-{\rtf1\ansi\ansicpg1252\cocoartf1138\cocoasubrtf470
-{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;}
-\paperw11900\paperh16840\margl1440\margr1440\vieww28600\viewh15100\viewkind0
-\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
 
-\f0\fs24 \cf0 SELECT opinkohd.TUNNISTE, opinkohd.NIMI from opinkohd, opinto, opiskelija,opinstat WHERE opinto.HLO = opiskelija.HLO AND opinto.OPINKOHD = opinkohd.OPINKOHD AND opiskelija.HLO = 51279398 AND opinkohd.TUNNISTE IN ('58131','581325','582103','582104', '581305', '581328', '58160','582203','582102','57049','581324') AND opinstat.KOODI = 4\
-\
-SELECT opinkohd.TUNNISTE, opinkohd.NIMI from opinkohd, opinto, opiskelija WHERE opinto.HLO = opiskelija.HLO AND opinto.OPINKOHD = opinkohd.OPINKOHD AND opiskelija.HLO = 51279398}
+
+SELECT DISTINCT opiskelija.nimi, opinkohd.TUNNISTE, opinkohd.NIMI, opinstat.SELITE, opinto.KIRJPVM from opinkohd, opinto, opiskelija,opinstat WHERE opinto.OPINSTAT = opinstat.KOODI AND opinto.HLO = opiskelija.HLO AND opinto.OPINKOHD = opinkohd.OPINKOHD AND opiskelija.HLO = 51279398 AND opinkohd.TUNNISTE IN ('58131','581325','582103','582104', '581305', '581328', '58160','582203','582102','57049','581324','581326','582101','581329') AND opinstat.KOODI IN (4,7,9) GROUP BY opiskelija.NIMI ORDER BY opinto.SUORPVM ASC
+
+SELECT opinkohd.TUNNISTE, opinkohd.NIMI from opinkohd, opinto, opiskelija WHERE opinto.HLO = opiskelija.HLO AND opinto.OPINKOHD = opinkohd.OPINKOHD AND opiskelija.HLO = 51279398
+
+opiskelijat:**********************
+SELECT DISTINCT opiskelija.HLO FROM opiskelija, opinto, opinkohd, opinstat WHERE opinto.OPINSTAT = opinstat.KOODI AND opinto.HLO = opiskelija.HLO AND opinto.OPINKOHD = opinkohd.OPINKOHD AND opinkohd.TUNNISTE IN ('58131','581325','582103','582104', '581305', '581328', '58160','582203','582102','57049','581324','581326','582101','581329') AND opinstat.KOODI IN (4,7,9)
+
+***opiskelijat mukaan listauksiin************
+SELECT opiskelija.HLO, opinkohd.TUNNISTE, opinto.SUORPVM from opinkohd, opinto, opiskelija,opinstat WHERE opinto.OPINSTAT = opinstat.KOODI AND opinto.HLO = opiskelija.HLO AND opinto.OPINKOHD = opinkohd.OPINKOHD AND opiskelija.HLO = 51279398 AND opinkohd.TUNNISTE IN ('58131','581325','582103','582104', '581305', '581328', '58160','582203','582102','57049','581324','581326','582101','581329') AND opinstat.KOODI IN (4,7,9) 

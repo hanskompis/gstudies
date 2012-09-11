@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import tktl.gstudies.domain.BoxCoordinatesForLines;
 import tktl.gstudies.domain.DummyCourse;
 import tktl.gstudies.domain.Line;
-import tktl.gstudies.domain.Student;
+import tktl.gstudies.domain.DummyStudent;
 @Service
 @Qualifier("dummy")
 public class LineServiceImpl implements LineService {
@@ -16,7 +16,7 @@ public class LineServiceImpl implements LineService {
     private HashMap<String, Line> lines;
     private List<List<String>> courses;// TODO: Tarvitaanko täällä ollenkaan?
     private List<List<BoxCoordinatesForLines>> coords;
-    private List<Student> studs;
+    private List<DummyStudent> studs;
 
     @Override
     public void addLineString(int mx, int my, int lx, int ly) {
@@ -57,12 +57,12 @@ public class LineServiceImpl implements LineService {
     }
 
     @Override
-    public List<Student> getStuds() {
+    public List<DummyStudent> getStuds() {
         return studs;
     }
 
     @Override
-    public void setStuds(List<Student> studs) {
+    public void setStuds(List<DummyStudent> studs) {
         this.studs = studs;
     }
 

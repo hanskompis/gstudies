@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import tktl.gstudies.domain.BoxCoordinatesForLines;
 import tktl.gstudies.domain.Line;
-import tktl.gstudies.domain.Student;
+import tktl.gstudies.domain.DummyStudent;
 
 public interface LineService {
   //  public void addLineString(String line);
@@ -20,8 +20,8 @@ public interface LineService {
      public List<List<BoxCoordinatesForLines>> getCoords();
      public void setCoords(List<List<BoxCoordinatesForLines>> coords);
      public List<Line> getSumPathData();
-     public List<Student> getStuds();
-     public void setStuds(List<Student> studs);
+     public List<DummyStudent> getStuds();
+     public void setStuds(List<DummyStudent> studs);
 
 
 }
