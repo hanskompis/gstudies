@@ -36,7 +36,7 @@ public class CourseInstance {
 
     private Course getCourseByCourseCode(String courseCode) {
         for (Course c : Course.values()) {
-            if (c.getIndex().equals(courseCode)) {
+            if (c.sameCourse(courseCode)) {
                 return c;
             }
         }
@@ -48,7 +48,6 @@ public class CourseInstance {
         Date toReturn = new Date();
         try {
             toReturn = df.parse(dateString);
-            //System.out.println(df.format(toReturn));
             return toReturn;
         } catch (ParseException e) {
             System.out.println("KUSI!");
@@ -65,9 +64,13 @@ public class CourseInstance {
             return 0;
         }
     }
-    
+
     @Override
-    public String toString(){
-        return this.getCourse().name()+" "+this.SUORPVM;
+    public String toString() {
+        if (this.course == null) {
+            return "kurssi null";
+        } else {
+            return this.getCourse().name() + " " + this.SUORPVM;
+        }
     }
 }

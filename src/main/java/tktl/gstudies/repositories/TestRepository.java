@@ -69,7 +69,7 @@ public class TestRepository {
                 + "opinkohd, opinto, opiskelija,opinstat WHERE opinto.OPINSTAT = opinstat.KOODI "
                 + "AND opinto.HLO = opiskelija.HLO AND opinto.OPINKOHD = opinkohd.OPINKOHD "
                 + "AND opinkohd.TUNNISTE IN ('58131','581325','582103','582104', '581305', '581328', "
-                + "'58160','582203','582102','57049','581324','581326','582101','581329') AND opinstat.KOODI IN (4,7,9)";
+                + "'58160','582203','582102','57049','581324','581326','582101','581329') AND opinstat.KOODI IN (4,7)";
         return this.jdbcTemplate.queryForList(query);
     }
 }

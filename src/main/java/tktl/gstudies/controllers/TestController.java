@@ -30,7 +30,7 @@ public class TestController {
     @RequestMapping("/test")
     @ResponseBody
     public List process() {
-        return testRepository.fetchData();
+        return this.testRepository.fetchData();
     }
 
     @RequestMapping("/test2")

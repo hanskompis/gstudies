@@ -58,11 +58,12 @@ public class GraphicsServiceImpl implements GraphicsService {
     private List<CourseInstance> getCoursesForStud(Integer HLO, List<Map> rows) {
         List courses = new ArrayList<CourseInstance>();
         for (Map row : rows) {
-            if ((Integer) row.get("HLO") == HLO) {
+            if (((Integer) row.get("HLO")).intValue() == HLO.intValue()) {
                courses.add(new CourseInstance((String)row.get("TUNNISTE"), row.get("SUORPVM").toString()));
             }
         }
         return courses;
     }
     
+
 }
