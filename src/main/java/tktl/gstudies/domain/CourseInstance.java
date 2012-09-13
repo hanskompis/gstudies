@@ -5,7 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class CourseInstance {
+public class CourseInstance implements Comparable<CourseInstance> {
 
     private Course course;
     private Date SUORPVM;
@@ -55,22 +55,23 @@ public class CourseInstance {
         return toReturn;
     }
 
-    public int compareTo(Date toCompare) {
-        if (this.SUORPVM.before(SUORPVM)) {
-            return -1;
-        } else if (this.SUORPVM.after(SUORPVM)) {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
-
     @Override
     public String toString() {
         if (this.course == null) {
             return "kurssi null";
         } else {
             return this.getCourse().name() + " " + this.SUORPVM;
+        }
+    }
+
+    @Override
+    public int compareTo(CourseInstance t) {
+        if (this.SUORPVM.before(t.getSUORPVM())) {
+            return -1;
+        } else if (this.SUORPVM.after(t.getSUORPVM())) {
+            return 1;
+        } else {
+            return 0;
         }
     }
 }

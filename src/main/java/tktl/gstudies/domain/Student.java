@@ -1,5 +1,7 @@
 package tktl.gstudies.domain;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class Student {
@@ -13,6 +15,7 @@ public class Student {
     public Student(Integer HLO, List<CourseInstance> courses) {
         this.HLO = HLO;
         this.courses = courses;
+        Collections.sort(courses);
     }
 
     public List<CourseInstance> getCourses() {

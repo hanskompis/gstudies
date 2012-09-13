@@ -14,22 +14,23 @@ import tktl.gstudies.services.LineService;
 public class VisualizeController {
 
     @Autowired
-    @Qualifier("dummy")
+    @Qualifier("real")
     private GraphicsService graphicsService;
     @Autowired
-    @Qualifier("dummy")
+    @Qualifier("real")
     private LineService lineService;
 
     @RequestMapping(method = RequestMethod.GET, value = "visualize", produces = "application/json")
     @ResponseBody
     public List visualize() {
+        System.out.println(this.graphicsService.getGraphicsData());
         return this.graphicsService.getGraphicsData();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "paths", produces = "application/json")
     @ResponseBody
     public List paths() {
-        // System.out.println(this.lineService.getSumPathData());
+        System.out.println(this.lineService.getSumPathData());
         return this.lineService.getSumPathData();
     }
 }

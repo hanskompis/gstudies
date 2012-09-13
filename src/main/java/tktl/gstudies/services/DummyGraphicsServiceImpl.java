@@ -18,7 +18,7 @@ public class DummyGraphicsServiceImpl implements GraphicsService {
     private LineService lineService;
     
     private String[] courseCodes = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
-    private int amountStuds = 5;
+    private int amountStuds = 2;
     private int amountCourses = 3;
     private List<AbstractGraphicalObject> graphObjs;
 //    private List<List<BoxCoordinatesForLines>> coords;
@@ -30,7 +30,7 @@ public class DummyGraphicsServiceImpl implements GraphicsService {
         lineService.setCoords(new ArrayList<List<BoxCoordinatesForLines>>());
         List<DummyStudent> studs = generateDummyStudents(this.amountStuds, this.amountCourses);
         this.lineService.setStuds(studs);
-        this.lineService.setCourses(null);
+        //this.lineService.setCourses(null);
         for (int i = 0; i < this.getMaxCourses(studs); i++) {
             this.graphObjs.addAll(this.getNthSetOfNodes(studs, i, i));
         }
@@ -107,7 +107,7 @@ public class DummyGraphicsServiceImpl implements GraphicsService {
                 diffCourses.add(s.getCourses().get(n).name());
             }
         }
-        lineService.addCourseSet(diffCourses);
+  //      lineService.addCourseSet(diffCourses);
         return diffCourses;
     }
 }

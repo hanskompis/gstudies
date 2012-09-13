@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package tktl.gstudies.services;
 
 import java.util.ArrayList;
@@ -9,23 +5,45 @@ import java.util.HashMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import tktl.gstudies.domain.*;
-
-/**
- *
- * @author hkeijone
- */
+import tktl.gstudies.domain.BoxCoordinatesForLines;
+import tktl.gstudies.domain.DummyCourse;
+import tktl.gstudies.domain.Line;
+import tktl.gstudies.domain.DummyStudent;
 @Service
-@Qualifier("real")
-public class LineServiceImpl implements LineService {
+@Qualifier("dummy")
+public class DummyLineServiceImpl implements LineService {
 
     private HashMap<String, Line> lines;
+    private List<List<String>> courses;// TODO: Tarvitaanko täällä ollenkaan?
     private List<List<BoxCoordinatesForLines>> coords;
-    private List<Student> studs;
+    private List<DummyStudent> studs;
 
     @Override
     public void addLineString(int mx, int my, int lx, int ly) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void addCourseSet(List<String> courses) {
+        if (this.courses == null) {
+            this.courses = new ArrayList<List<String>>();
+        }
+        this.courses.add(courses);
+    }
+
+    @Override
+    public String CoursesToString() {
+        return "line courses: \n" + this.courses.toString();
+    }
+
+    @Override
+    public List<List<String>> getCourses() {
+        return courses;
+    }
+
+    @Override
+    public void setCourses(List<List<String>> courses) {
+        this.courses = courses;
     }
 
     @Override
@@ -39,47 +57,49 @@ public class LineServiceImpl implements LineService {
     }
 
     @Override
+    public List<DummyStudent> getStuds() {
+        return studs;
+    }
+
+    @Override
+    public void setStuds(List studs) {
+        this.studs = studs;
+    }
+
+    @Override
     public List<Line> getSumPathData() {
         if (this.lines != null) {
             this.lines.clear();
         } else {
             this.lines = new HashMap<String, Line>();
         }
-        for (int i = 0; i < this.studs.size(); i++) { //iteroidaan studentit
-            List<CourseInstance> currentCourseSet = this.studs.get(i).getCourses();
-            for (int j = 0; j < currentCourseSet.size(); j++) {//iteroidaan studentin courset
+        for (int i = 0; i < this.studs.size(); i++) {
+            List<DummyCourse> currentCourseSet = this.studs.get(i).getCourses();
+            for (int j = 0; j < currentCourseSet.size(); j++) {
                 if ((j + 1) < currentCourseSet.size()) {
-                    int leftX = this.getCoordinatesForCourse(j, currentCourseSet.get(j).getCourse().name(), false).get(0); //TODO: tee fiksummin while refactoring
-                    int leftY = this.getCoordinatesForCourse(j, currentCourseSet.get(j).getCourse().name(), false).get(1);
-                    int rightX = this.getCoordinatesForCourse((j + 1), currentCourseSet.get(j + 1).getCourse().name(), true).get(0);
-                    int rightY = this.getCoordinatesForCourse((j + 1), currentCourseSet.get(j + 1).getCourse().name(), true).get(1);
+                    int leftX = this.getCoordinatesForCourse(j, currentCourseSet.get(j).name(), false).get(0); //TODO: tee fiksummin while refactoring
+                    int leftY = this.getCoordinatesForCourse(j, currentCourseSet.get(j).name(), false).get(1);
+                    int rightX = this.getCoordinatesForCourse((j + 1), currentCourseSet.get(j + 1).name(), true).get(0);
+                    int rightY = this.getCoordinatesForCourse((j + 1), currentCourseSet.get(j + 1).name(), true).get(1);
 //                    this.lines.add(new Line(leftX, leftY, rightX, rightY));
                     Line toAdd = new Line(leftX, leftY, rightX, rightY);
-                    if (!this.lines.containsKey(toAdd.getPathString())) {
+                    if(!this.lines.containsKey(toAdd.getPathString())){
                         this.lines.put(toAdd.getPathString(), toAdd);
-                    } else {
+                    }
+                    else{
                         Line l = this.lines.get(toAdd.getPathString());
-                        l.setWeight(l.getWeight() + 1);
+                        l.setWeight(l.getWeight()+1);
                         l.getWeightText().setText(Integer.toString(l.getWeight()));
                     }
-
-
+                    
+                    
                 }
             }
         }
         ArrayList<Line> lesReturnables = new ArrayList<Line>();
         lesReturnables.addAll(this.lines.values());
+        
         return lesReturnables;
-    }
-
-    @Override
-    public List<Student> getStuds() {
-        return studs;       
-    }
-
-    @Override
-    public void setStuds(List studs) {
-        this.studs = studs;
     }
 
     private List<Integer> getCoordinatesForCourse(int paragraph, String courseName, boolean left) {
@@ -99,4 +119,8 @@ public class LineServiceImpl implements LineService {
         }
         return coordsToReturn;
     }
+
+
+  
+
 }

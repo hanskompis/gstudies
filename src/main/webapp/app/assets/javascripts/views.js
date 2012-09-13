@@ -2,16 +2,17 @@ App.Views.mainView = Backbone.View.extend({
     render : function(rects, edges) {
         var content = Mustache.to_html($("#buttonPictureTemplate").html(),{});
         $(this.el).html(content);
-        var paper = Raphael("mainContainer", 1500, 600);
-        paper.rect(1,1,1490,590,10);
+        var paper = Raphael("mainContainer", 2300, 600);
+        paper.rect(1,1,2290,590,10);
         paper.add(rects);
         if(edges){
             for(var i = 0; i < edges.length; i++){
                 var path = paper.path('\"' + edges[i].pathString + '\"');
                 path.attr({
-                    "stroke-width" : edges[i].weight
+     //             "stroke-width" :  edges[i].weight
+                    "stroke-width" : (Math.floor(Math.log(edges[i].weight)))+1
                 }); //TODO: isommilla n:llä logaritmisena
-                console.log(JSON.stringify(edges[i].weightText));
+//                console.log(JSON.stringify(edges[i].weightText));
                 paper.add([edges[i].weightText]);//add vaatii taulukon
                 path.mouseover(function(){
                    

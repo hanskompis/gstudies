@@ -29,7 +29,7 @@
             <param-name>contextConfigLocation</param-name>
             <param-value>/WEB-INF/spring-context.xml</param-value>
         </init-param>
-        <load-on-startup>2</load-on-startup>
+        <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>spring-front-controller</servlet-name>
@@ -43,14 +43,14 @@
         <servlet-class>tktl.gstudies.config.InitServlet</servlet-class>
         <init-param>
             <param-name>gstudies-data-location</param-name>
-            <param-value>/home/hkeijone/Downloads/gkanta</param-value>
+            <param-value>/cs/fs/home/hkeijone/gradukoodi/gkanta</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>InitServlet</servlet-name>
         <url-pattern>/InitServlet</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping> 
     
     <session-config>
         <session-timeout>
