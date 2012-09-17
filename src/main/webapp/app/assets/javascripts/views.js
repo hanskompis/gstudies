@@ -9,11 +9,9 @@ App.Views.mainView = Backbone.View.extend({
             for(var i = 0; i < edges.length; i++){
                 var path = paper.path('\"' + edges[i].pathString + '\"');
                 path.attr({
-     //             "stroke-width" :  edges[i].weight
                     "stroke-width" : (Math.floor(Math.log(edges[i].weight)))+1
                 }); //TODO: isommilla n:llä logaritmisena
-//                console.log(JSON.stringify(edges[i].weightText));
-                paper.add([edges[i].weightText]);//add vaatii taulukon
+                //             paper.add([edges[i].weightText]);//add vaatii taulukon
                 path.mouseover(function(){
                    
                     });
@@ -48,14 +46,14 @@ App.Views.queryView = Backbone.View.extend({
         var content = Mustache.to_html($("#queryTemplate").html(),{});
         $(this.el).html(content);
         if(resultSet){
-//            $("#resultsTable").append("<theader><tr>");
-//            $("#resultsTable").append("<td>asdasd</td>");
-//            $("#resultsTable").append("</tr></theader>");
+            //            $("#resultsTable").append("<theader><tr>");
+            //            $("#resultsTable").append("<td>asdasd</td>");
+            //            $("#resultsTable").append("</tr></theader>");
 
             resultSet.each(function(result){
                 $("#resultsTable tbody").append("<tr>");
                 for(var key in result.attributes){
-                    console.log(key+ " " +result.get(key));
+                    //      console.log(key+ " " +result.get(key));
                     $("#resultsTable tbody tr:last").append(("<td>"+ result.get(key)) +"</td>");
                 }
                 $("#resultsTable tbody").append("</tr>");
@@ -64,7 +62,9 @@ App.Views.queryView = Backbone.View.extend({
     }, 
     
     events : {
-        "click #submitQueryButton" : "submitQueryAction"
+        "click #submitQueryButton" : "submitQueryAction",
+        "click #submitCourseButton" : "submitCourseAction"
+
     },
     
     submitQueryAction : function (){
@@ -83,5 +83,20 @@ App.Views.queryView = Backbone.View.extend({
             }
         })
         
+    },
+    submitCourseAction : function (){
+        $("#resultsTable tbody").empty();
+        var course = new App.Models.Course({
+        //    queryString : $("#courseString").val()
+
+         tunniste : $("#courseString").val(),
+         suorpvm : $("#dateString").val()
+        });
+        //        var self = this;
+        course.save({},{
+            success : function (model, response){
+                alert("responsee:" + JSON.stringify(response));
+            }
+        })
     }
 });

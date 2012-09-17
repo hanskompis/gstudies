@@ -8,22 +8,28 @@ import java.util.Date;
 public class CourseInstance implements Comparable<CourseInstance> {
 
     private Course course;
-    private Date SUORPVM;
+    private Date suorpvm;
 
     public CourseInstance() {
     }
 
-    public CourseInstance(String TUNNISTE, String SUORPVM) {
-        this.course = this.getCourseByCourseCode(TUNNISTE);
-        this.SUORPVM = this.makeDate(SUORPVM);
+    public CourseInstance(String tunniste, String suorpvm) {
+        this.course = this.getCourseByCourseCode(tunniste);
+        this.suorpvm = this.makeDate(suorpvm);
     }
 
-    public Date getSUORPVM() {
-        return SUORPVM;
+    public Date getSuorpvm() {
+        return suorpvm;
     }
 
-    public void setSUORPVM(Date SUORPVM) {
-        this.SUORPVM = SUORPVM;
+    public void setSuorpvm(Date suorpvm) {
+        this.suorpvm = suorpvm;
+    }
+
+    
+    
+    public void setSuorpvm(String suorpvm){
+        this.suorpvm = this.makeDate(suorpvm);
     }
 
     public Course getCourse() {
@@ -32,6 +38,10 @@ public class CourseInstance implements Comparable<CourseInstance> {
 
     public void setCourse(Course course) {
         this.course = course;
+    }
+    
+    public void setCourse(String tunniste){
+        this.course = this.getCourseByCourseCode(tunniste);
     }
 
     private Course getCourseByCourseCode(String courseCode) {
@@ -60,18 +70,26 @@ public class CourseInstance implements Comparable<CourseInstance> {
         if (this.course == null) {
             return "kurssi null";
         } else {
-            return this.getCourse().name() + " " + this.SUORPVM;
+            return this.getCourse().name() + " " + this.suorpvm;
         }
     }
 
     @Override
     public int compareTo(CourseInstance t) {
-        if (this.SUORPVM.before(t.getSUORPVM())) {
+        if (this.suorpvm.before(t.getSuorpvm())) {
             return -1;
-        } else if (this.SUORPVM.after(t.getSUORPVM())) {
+        } else if (this.suorpvm.after(t.getSuorpvm())) {
             return 1;
         } else {
             return 0;
         }
+    }
+    public static void main(String[] args) {
+            CourseInstance ci = new CourseInstance("58131", "10-10-2010");
+            Date d = ci.getSuorpvm();
+            System.out.println(d.toString());
+            Course c = ci.getCourse();
+            System.out.println(c == null);
+            System.out.println(ci.course.name());
     }
 }

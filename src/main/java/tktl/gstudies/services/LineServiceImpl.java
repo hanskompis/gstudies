@@ -62,8 +62,6 @@ public class LineServiceImpl implements LineService {
                         l.setWeight(l.getWeight() + 1);
                         l.getWeightText().setText(Integer.toString(l.getWeight()));
                     }
-
-
                 }
             }
         }

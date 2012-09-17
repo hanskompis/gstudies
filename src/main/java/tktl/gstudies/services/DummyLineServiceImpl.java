@@ -23,7 +23,7 @@ public class DummyLineServiceImpl implements LineService {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
+
     public void addCourseSet(List<String> courses) {
         if (this.courses == null) {
             this.courses = new ArrayList<List<String>>();
@@ -31,17 +31,17 @@ public class DummyLineServiceImpl implements LineService {
         this.courses.add(courses);
     }
 
-    @Override
+
     public String CoursesToString() {
         return "line courses: \n" + this.courses.toString();
     }
 
-    @Override
+
     public List<List<String>> getCourses() {
         return courses;
     }
 
-    @Override
+
     public void setCourses(List<List<String>> courses) {
         this.courses = courses;
     }

@@ -25,6 +25,9 @@ public class GraphicsServiceImpl implements GraphicsService {
     @Autowired
     private TestRepository testRepository;
     private List<AbstractGraphicalObject> graphObjs;
+    private int boxWidth = 50;
+    private int boxHeight = 20;
+    private int shiftBetweenColumns = 150;
   //  private List<Student> studs;
 
     @Override
@@ -33,7 +36,7 @@ public class GraphicsServiceImpl implements GraphicsService {
         this.graphObjs = new ArrayList<AbstractGraphicalObject>();
         lineService.setCoords(new ArrayList<List<BoxCoordinatesForLines>>());
         List<Student> studs = new ArrayList<Student>(this.getStudsAndCoursesFromData().values());
-        System.out.println(studs);
+        //System.out.println(studs);
         this.lineService.setStuds(studs);
         for (int i = 0; i < this.getMaxCourses(studs); i++) {//getMaxCourses hakee suurimman kurssimäärän
             this.graphObjs.addAll(this.getNthSetOfNodes(studs, i, i));
@@ -67,6 +70,9 @@ public class GraphicsServiceImpl implements GraphicsService {
                 courses.add(new CourseInstance((String) row.get("TUNNISTE"), row.get("SUORPVM").toString()));
             }
         }
+        if(courses.size()>11){
+            System.out.println("LIIAN PITKÄ: " + courses);
+        }
         return courses;
     }
 
@@ -80,11 +86,11 @@ public class GraphicsServiceImpl implements GraphicsService {
         List<String> diffCourses = this.differentCoursesOnNthSet(n, studs); //eri kurssit tässä sarakkeessa
         this.lineService.getCoords().add(new ArrayList<BoxCoordinatesForLines>());//lisätään uusi lista boxcoordinateja varten
         for (int i = 1; i <= diffCourses.size(); i++) { 
-            objs.add(new Rectangle("rect", ((offset + 1) * 100), (i * 50), 50, 20, 5));//lisätään suorakulmio
-            objs.add(new Text(((offset + 1) * 100) + 25, (i * 50) + 10, diffCourses.get(i - 1))); //lisätään teksti
+            objs.add(new Rectangle("rect", ((offset + 1) * this.shiftBetweenColumns), (i * 50), this.boxWidth, this.boxHeight, 5));//lisätään suorakulmio
+            objs.add(new Text(((offset + 1) * this.shiftBetweenColumns) + 25, (i * 50) + 10, diffCourses.get(i - 1))); //lisätään teksti
 //            this.lineService.getCoords().get(n).add(new BoxCoordinatesForLines(diffCourses.get(i-1), ((offset + 1) * 100), (i * 50)+10 ,((offset + 1) * 150) , (i * 50)+10));
         //lisätään coordsiin sarakkeeseen n uusi boxcoordinateolio
-            this.lineService.getCoords().get(n).add(new BoxCoordinatesForLines(diffCourses.get(i - 1), ((offset + 1) * 100), (i * 50) + 10, ((offset + 1) * 100) + 50, (i * 50) + 10));
+            this.lineService.getCoords().get(n).add(new BoxCoordinatesForLines(diffCourses.get(i - 1), ((offset + 1) * this.shiftBetweenColumns), (i * 50) + 10, ((offset + 1) * this.shiftBetweenColumns) + 50, (i * 50) + 10));
         }
         return objs;
     }
