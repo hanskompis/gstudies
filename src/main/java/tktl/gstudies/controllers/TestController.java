@@ -17,6 +17,7 @@ import tktl.gstudies.domain.CourseCatcher;
 import tktl.gstudies.domain.Query;
 import tktl.gstudies.repositories.TestRepository;
 import tktl.gstudies.services.GraphicsServiceImpl;
+import tktl.gstudies.services.StatisticService;
 
 /**
  *
@@ -28,7 +29,7 @@ public class TestController {
     @Autowired
     private TestRepository testRepository;
     @Autowired
-    private GraphicsServiceImpl gsi;
+    private StatisticService statisticService;
 
     @RequestMapping("/test")
     @ResponseBody
@@ -47,7 +48,7 @@ public class TestController {
     @ResponseBody
     public void process3() {
 
-        testRepository.studentScoreAverageAfterCourse("58131", "2009-05-19");
+      this.statisticService.studentScoreAverageAfterCourse("58131", "2009-05-19");
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "query", consumes = "application/json", produces = "application/json")

@@ -75,38 +75,6 @@ public class TestRepository {
         return this.jdbcTemplate.queryForList(query);
     }
     
-    public void studentScoreAverageAfterCourse(String tunniste, String kirjpvm){
-        List<Map> studsOnCourse = this.studsOnCourse(tunniste, kirjpvm);
-        int sum = 0;
-        int amountCourses = 0;
-        for(Map row : studsOnCourse){
-           // System.out.println(row.toString());
-            Integer HLO = (Integer) row.get("HLO");
-           // System.out.println(HLO);
-            List<Map<String,Object>> grades = this.jdbcTemplate.queryForList("SELECT DISTINCT ARVSANARV FROM opiskelija, arvosana, opinto, opinkohd "
-                    + "WHERE opinto.HLO = opiskelija.HLO AND opinto.OPINKOHD = opinkohd.OPINKOHD AND "
-                    + "opinto.OPINTO = arvosana.OPINTO AND opinto.HLO = \'"+HLO+"\' AND "
-                    + "opinto.KIRJPVM > \'"+kirjpvm+"\' AND arvosana.SELITE = 'Yleinen asteikko' "
-                    + "AND arvosana.ARVSANARV IN (1,2,3,4,5)");
-          sum += this.castAsIntAndSumGrades(grades);
-            amountCourses += grades.size();
-          //  System.out.println(grades.toString());
-        }
-        System.out.println("LKMCourses: "+amountCourses+" sumCourses: "+sum+"KA: " + ((double)sum/amountCourses));
-        
-        
-    }
-    
-    private int castAsIntAndSumGrades(List<Map<String,Object>> grades){
-        int sum = 0;
-        for(Map m : grades){
-            Integer i = Integer.parseInt((String)m.get("ARVSANARV"));
-            sum += i.intValue();
-        }
-        return sum;
-        
-    }
-    
     public static void main(String[] args) {
         TestRepository tr = new TestRepository();
        // tr.studentScoreAverageAfterCourse("58131", "2009-05-19");
