@@ -32,8 +32,6 @@ App.Views.mainView = Backbone.View.extend({
                 self.render(rects, edges);
             });
         });
-
-
     },
     
     toQueryAction: function(){
@@ -46,10 +44,7 @@ App.Views.queryView = Backbone.View.extend({
         var content = Mustache.to_html($("#queryTemplate").html(),{});
         $(this.el).html(content);
         if(resultSet){
-            //            $("#resultsTable").append("<theader><tr>");
-            //            $("#resultsTable").append("<td>asdasd</td>");
-            //            $("#resultsTable").append("</tr></theader>");
-
+            $("#simpleTextSpan").text(resultSet.length);
             resultSet.each(function(result){
                 $("#resultsTable tbody").append("<tr>");
                 for(var key in result.attributes){
@@ -63,8 +58,7 @@ App.Views.queryView = Backbone.View.extend({
     
     events : {
         "click #submitQueryButton" : "submitQueryAction",
-        "click #submitCourseButton" : "submitCourseAction"
-
+        "click #studsOnCourseButton" : "studsOfCourseAction"
     },
     
     submitQueryAction : function (){
@@ -76,26 +70,24 @@ App.Views.queryView = Backbone.View.extend({
         var self = this;
         query.save({},{
             success : function (model, response){
-                //alert("responsee:" + JSON.stringify(response));
                 var resultSet = new Backbone.Collection(response);
-                //console.log(resultSet);
                 self.render(resultSet);
             }
         })
         
     },
-    submitCourseAction : function (){
+    studsOfCourseAction : function (){
         $("#resultsTable tbody").empty();
         var course = new App.Models.Course({
-        //    queryString : $("#courseString").val()
-
-         tunniste : $("#courseString").val(),
-         suorpvm : $("#dateString").val()
+            tunniste : $("#courseString").val(),
+            suorpvm : $("#dateString").val()
         });
-        //        var self = this;
+
+        var self = this;
         course.save({},{
             success : function (model, response){
-                alert("responsee:" + JSON.stringify(response));
+                var resultSet = new Backbone.Collection(response);
+                self.render(resultSet);
             }
         })
     }

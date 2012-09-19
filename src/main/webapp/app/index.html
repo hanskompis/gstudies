@@ -17,8 +17,9 @@
         <input type="text" id="queryString" size="200"><br />
         <input type="button" id="submitQueryButton" value="submitQuery"><br />
         
-        <input type="text" autofocus id="courseString" size="50"><input type="text" id="dateString" size="20"><br />
-        <input type="button" id="submitCourseButton" value="submitCourse"><br />
+        <input type="text" autofocus id="courseString" value="58131" size="50"><input type="text" id="dateString" value="2009-05-19" size="20"><br />
+        <input type="button" id="studsOnCourseButton" value="StudsOnCourse"><br />
+        Rivejä : <span id="simpleTextSpan"></span>
         <table id="resultsTable">
             <tbody>
             </tbody>    
@@ -44,7 +45,6 @@
     <script src="assets/javascripts/models.js"></script>  
     <script src="assets/javascripts/views.js"></script>
     <script src="assets/javascripts/main.js"></script>
-
     <script type="text/javascript">
         $(document).ready(function() {
             App.init();

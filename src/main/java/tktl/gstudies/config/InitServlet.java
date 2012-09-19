@@ -18,10 +18,6 @@ import org.h2.tools.Server;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-/**
- *
- * @author avihavai
- */
 public class InitServlet extends HttpServlet {
     
     private static boolean running = false;
@@ -97,6 +93,7 @@ public class InitServlet extends HttpServlet {
                 + "AVAAJA INT NOT NULL, AVAUPVM DATE NOT NULL, MUUTTAJA INT NOT NULL, MUUTPVM DATE NOT NULL, OPISAIKOPIN INT, PAINKERRKA NUMBER(5,2) NOT NULL, "
                 + "ERILPAAT INT, SUUNSUORLK INT, OPISPALHIST INT, LAAJOP NUMBER(5,2) NOT NULL,"
                 + " ALKPERLAAJ INT NOT NULL)");//**opinnot_insert
+        createTableQueries.add("CREATE TABLE arvosana (OPINTO INT NOT NULL, ARVSANARV VARCHAR(255) NOT NULL, SELITE VARCHAR(255) NOT NULL)");
        
 
         for (int i = 0; i < createTableQueries.size(); i++) {
@@ -115,7 +112,7 @@ public class InitServlet extends HttpServlet {
 //            return;
 //        }
 
-//        if (!file.getName().contains("opinnot_insert")) {
+//        if (!file.getName().contains("arvosanat_insert")) {
 //            return;
 //        }
 

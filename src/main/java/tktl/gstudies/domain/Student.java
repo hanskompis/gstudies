@@ -38,8 +38,4 @@ public class Student {
     public String toString(){
         return Integer.toString(HLO)+" "+this.courses;
     }
-    
-    
-
-  
 }

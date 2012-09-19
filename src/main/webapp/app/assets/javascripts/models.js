@@ -3,8 +3,9 @@ App.Models.Query = Backbone.Model.extend({
 });
 
 App.Models.Course = Backbone.Model.extend({
-   url : "../cquery" 
+   url : "../studsoncourse" 
 });
+
 
 
 
