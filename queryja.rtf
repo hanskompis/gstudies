@@ -27,6 +27,13 @@ SELECT DISTINCT opiskelija.HLO from opiskelija, opinto, opinkohd WHERE opinto.HL
 
 SELECT DISTINCT opettaja.NIMLYH, opinto.KIRJPVM, opinkohd.NIMI FROM opettaja, opinto, opinkohd WHERE opinto.OPINKOHD = opinkohd.OPINKOHD AND opettaja.OPINTO = opinto.OPINTO AND opinkohd.TUNNISTE = '58131' ORDER BY opinto.KIRJPVM DESC
 
+**************getCoursesForInspection*****************
+SELECT NIMI FROM opinkohd WHERE TUNNISTE IN ('58131','581325','582103','582104', '581305', '581328', '58160','582203','582102','57049','581324','581326','582101','581329')
+
+**********getCourseInstances*************'
+
+SELECT DISTINCT  opettaja.NIMLYH, opinto.SUORPVM FROM opinto, opinkohd, opettaja WHERE opettaja.OPINTO = opinto.OPINTO AND opinto.OPINKOHD = opinkohd.OPINKOHD AND opinkohd.TUNNISTE = '58131' ORDER BY opinto.SUORPVM DESC
+
 
 ******tiran pvm:t********'
 2011-08-25

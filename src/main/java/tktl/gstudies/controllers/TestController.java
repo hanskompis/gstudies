@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import tktl.gstudies.domain.CourseInstance;
 import tktl.gstudies.domain.CourseCatcher;
+import tktl.gstudies.domain.CourseGradeResponse;
 import tktl.gstudies.domain.Query;
 import tktl.gstudies.repositories.TestRepository;
 import tktl.gstudies.services.GraphicsServiceImpl;
@@ -46,9 +47,9 @@ public class TestController {
 
     @RequestMapping("/test3")
     @ResponseBody
-    public void process3() {
+    public List process3() {
 
-      this.statisticService.studentScoreAverageAfterCourse("58131", "2009-05-19");
+        return this.statisticService.getCoursesForInspection();
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "query", consumes = "application/json", produces = "application/json")
@@ -59,10 +60,22 @@ public class TestController {
 //        return this.testRepository.query(q.getQueryString());
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "studsoncourse", consumes = "application/json", produces = "application/json")
+//    @RequestMapping(method = RequestMethod.POST, value = "studsoncourse", consumes = "application/json", produces = "application/json")
+//    @ResponseBody
+//    public List studsoncourse(@RequestBody CourseCatcher c) {
+//        return this.testRepository.studsOnCourse(c.getTunniste(), c.getSuorpvm());
+//    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "coursesforinspection", produces = "application/json")
     @ResponseBody
-    public List studsoncourse(@RequestBody CourseCatcher c) {
-        return this.testRepository.studsOnCourse(c.getTunniste(), c.getSuorpvm());
+    public List coursesForInspection() {
+        return this.statisticService.getCoursesForInspection();
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "courseinstances", 
+            produces = "application/json",  consumes = "application/json")
+    @ResponseBody
+    public List courseinstances(@RequestBody CourseCatcher c) {
+        return this.statisticService.getCourseInstances(c.getTunniste());
+    }
 }

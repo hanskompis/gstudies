@@ -74,10 +74,4 @@ public class TestRepository {
                 + "'58160','582203','582102','57049','581324','581326','582101','581329') AND opinstat.KOODI IN (4)";
         return this.jdbcTemplate.queryForList(query);
     }
-    
-    public static void main(String[] args) {
-        TestRepository tr = new TestRepository();
-       // tr.studentScoreAverageAfterCourse("58131", "2009-05-19");
-        tr.studsOnCourse("58131", "2009-05-19");
-    }
 }

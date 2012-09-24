@@ -2,7 +2,7 @@ App.Views.mainView = Backbone.View.extend({
     render : function(rects, edges) {
         var content = Mustache.to_html($("#buttonPictureTemplate").html(),{});
         $(this.el).html(content);
-        var paper = Raphael("mainContainer", 2300, 600);
+        var paper = Raphael("pictureContainer", 2300, 600);
         paper.rect(1,1,2290,590,10);
         paper.add(rects);
         if(edges){
@@ -10,11 +10,8 @@ App.Views.mainView = Backbone.View.extend({
                 var path = paper.path('\"' + edges[i].pathString + '\"');
                 path.attr({
                     "stroke-width" : (Math.floor(Math.log(edges[i].weight)))+1
-                }); //TODO: isommilla n:llä logaritmisena
+                });
                 //             paper.add([edges[i].weightText]);//add vaatii taulukon
-                path.mouseover(function(){
-                   
-                    });
                 console.log(edges[i].weight);
             }    
         }       
@@ -44,11 +41,10 @@ App.Views.queryView = Backbone.View.extend({
         var content = Mustache.to_html($("#queryTemplate").html(),{});
         $(this.el).html(content);
         if(resultSet){
-            $("#simpleTextSpan").text(resultSet.length);
+            $("#simpleTextSpan").text("rivejä:" +resultSet.length);
             resultSet.each(function(result){
-                $("#resultsTable tbody").append("<tr>");
+                $("#resultsTable tbody").append("<tr>"); //TODO: tee template tästä 
                 for(var key in result.attributes){
-                    //      console.log(key+ " " +result.get(key));
                     $("#resultsTable tbody tr:last").append(("<td>"+ result.get(key)) +"</td>");
                 }
                 $("#resultsTable tbody").append("</tr>");
@@ -57,8 +53,7 @@ App.Views.queryView = Backbone.View.extend({
     }, 
     
     events : {
-        "click #submitQueryButton" : "submitQueryAction",
-        "click #studsOnCourseButton" : "studsOfCourseAction"
+        "click #submitQueryButton" : "submitQueryAction"
     },
     
     submitQueryAction : function (){
@@ -73,21 +68,37 @@ App.Views.queryView = Backbone.View.extend({
                 var resultSet = new Backbone.Collection(response);
                 self.render(resultSet);
             }
-        })
-        
-    },
-    studsOfCourseAction : function (){
-        $("#resultsTable tbody").empty();
-        var course = new App.Models.Course({
-            tunniste : $("#courseString").val(),
-            suorpvm : $("#dateString").val()
+        })       
+    }
+}),
+App.Views.courseStatsView = Backbone.View.extend({
+    render: function (){
+        var content = Mustache.to_html($("#courseStatsTemplate").html(),{});
+        $(this.el).html(content);
+        $.getJSON("../coursesforinspection",function(courses){
+            var resultSet = new Backbone.Collection(courses);
+            resultSet.each(function (course){
+                var selectionRow = Mustache.to_html($("#courseSelectRowTemplate").html(),{
+                    "TUNNISTE" : course.get("TUNNISTE"),
+                    "NIMI":course.get("NIMI")
+                });
+                console.log(selectionRow);
+                $("#courseSelect").append(selectionRow);                
+            })
         });
-
-        var self = this;
+    }, 
+    
+    events : {
+        "click #getCourseInstancesButton" : "getCourseInstanceAction"
+    },
+    
+    getCourseInstanceAction : function (){
+        var course = new App.Models.Course({
+            tunniste: $("#courseSelect").val()
+        });
         course.save({},{
-            success : function (model, response){
-                var resultSet = new Backbone.Collection(response);
-                self.render(resultSet);
+            success : function (response){
+                alert("svidduuhhhh");
             }
         })
     }
