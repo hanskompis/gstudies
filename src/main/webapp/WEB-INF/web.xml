@@ -38,19 +38,19 @@
 
     
     <!-- servlet for loading database content at startup -->
-   <servlet>
+  <!-- <servlet>
         <servlet-name>InitServlet</servlet-name>
         <servlet-class>tktl.gstudies.config.InitServlet</servlet-class>
         <init-param>
             <param-name>gstudies-data-location</param-name>
-            <param-value>/cs/fs/home/hkeijone/gradukoodi/gkanta</param-value>
+            <param-value>/home/hkeijone/kanta/gkanta</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>InitServlet</servlet-name>
         <url-pattern>/InitServlet</url-pattern>
-    </servlet-mapping> 
+    </servlet-mapping> -->
     
     <session-config>
         <session-timeout>

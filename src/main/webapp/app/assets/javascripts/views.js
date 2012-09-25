@@ -73,7 +73,7 @@ App.Views.queryView = Backbone.View.extend({
 }),
 App.Views.courseStatsView = Backbone.View.extend({
     render: function (){
-        var content = Mustache.to_html($("#courseStatsTemplate").html(),{});
+        var content = Mustache.to_html($("#courseSelectionTemplate").html(),{});
         $(this.el).html(content);
         $.getJSON("../coursesforinspection",function(courses){
             var resultSet = new Backbone.Collection(courses);
@@ -98,7 +98,7 @@ App.Views.courseStatsView = Backbone.View.extend({
         });
         course.save({},{
             success : function (response){
-                alert("svidduuhhhh");
+                alert(JSON.stringify(response));
             }
         })
     }

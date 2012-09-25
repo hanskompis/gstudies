@@ -1,15 +1,16 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-package tktl.gstudies.config;
+package tktl.gstudies.services;
 
 import java.io.File;
 import java.sql.Connection;
 import java.sql.Statement;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.annotation.PostConstruct;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,28 +18,25 @@ import javax.sql.DataSource;
 import org.h2.tools.Server;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Service;
 
-public class InitServlet extends HttpServlet {
-    
-   // private static boolean running = false;
+@Service
+public class DBService extends HttpServlet {
 
-    private String dataLocation;
+    private static boolean running = false;
+    private String dataLocation = "/home/hkeijone/kanta/gkanta";
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
-//        if(this.running){
-//            System.out.println("RUUNNIINNGGGG");
-//            return;
-//        }
-//        else{
-//            this.running = true;
-//        }
-       // super.init(config);
+    @PostConstruct
+    public void init() throws ServletException {
+        if (this.running) {
+            System.out.println("RUUNNIINNGGGG");
+            return;
+        } else {
+            this.running = true;
+        }
 
         System.out.println("STARTING INIT SERVLET");
-
-        dataLocation = config.getInitParameter("gstudies-data-location");
-
 
         ApplicationContext context = new ClassPathXmlApplicationContext("spring-beans.xml");
         DataSource dataSource = (DataSource) context.getBean("dataSource");
@@ -59,7 +57,6 @@ public class InitServlet extends HttpServlet {
         }
 
         initTables(dataSource);
-
 
         File dataDir = new File(dataLocation);
         for (File file : dataDir.listFiles()) {
@@ -85,7 +82,7 @@ public class InitServlet extends HttpServlet {
         createTableQueries.add("CREATE TABLE opinoik ( HLO INT NOT NULL, ALKPVM DATE NOT NULL, PAAAINE VARCHAR(255) NOT NULL)");//**opinto-oikeudet_insert
         createTableQueries.add("CREATE TABLE opinkohd ( OPINKOHD INT NOT NULL, TUNNISTE VARCHAR(255) NOT NULL, "
                 + "NIMI VARCHAR(255) NOT NULL, TYYPPI VARCHAR(255) NOT NULL, LAJI VARCHAR(255) NOT NULL)");//opintokohteet_insert
-         createTableQueries.add("CREATE TABLE opiskelija (HLO INT NOT NULL PRIMARY KEY, SUKUPUOLI VARCHAR(255) NOT NULL, SYNTAIK DATE NOT NULL, KIRJOILLETULO DATE NOT NULL)");//**opiskelijat_insert
+        createTableQueries.add("CREATE TABLE opiskelija (HLO INT NOT NULL PRIMARY KEY, SUKUPUOLI VARCHAR(255) NOT NULL, SYNTAIK DATE NOT NULL, KIRJOILLETULO DATE NOT NULL)");//**opiskelijat_insert
         createTableQueries.add("CREATE TABLE opinto (OPINTO INT NOT NULL PRIMARY KEY, HLO INT NOT NULL, OPINKOHD INT NOT NULL, OPINOIK INT, "
                 + "ENNPAAT INT, ORGANISAATIO INT, OPINSTAT INT NOT NULL, LAAJUUS NUMBER(5,2), GENOPIN INT NOT NULL, KIELI INT NOT NULL, LASKSUOROTT INT NOT NULL, "
                 + "OPINKOHTTYYP INT NOT NULL, KAYTMUUT INT NOT NULL, TAPPVM DATE NOT NULL, SUORTYYP INT NOT NULL, SUORPVM DATE, KORPVM DATE, KIRJPVM DATE, "
@@ -95,14 +92,12 @@ public class InitServlet extends HttpServlet {
                 + "ERILPAAT INT, SUUNSUORLK INT, OPISPALHIST INT, LAAJOP NUMBER(5,2) NOT NULL,"
                 + " ALKPERLAAJ INT NOT NULL)");//**opinnot_insert
         createTableQueries.add("CREATE TABLE arvosana (OPINTO INT NOT NULL, ARVSANARV VARCHAR(255) NOT NULL, SELITE VARCHAR(255) NOT NULL)");
-       
 
         for (int i = 0; i < createTableQueries.size(); i++) {
             Statement statement = conn.createStatement();
             statement.executeUpdate(createTableQueries.get(i));
             statement.close();
         }
-        
         conn.close();
     }
 
@@ -158,7 +153,6 @@ public class InitServlet extends HttpServlet {
                 query = "";
             }
         }
-
         System.out.println("Total " + file.getName() + " queries read: " + queries.size());
         return queries;
     }
@@ -196,14 +190,7 @@ public class InitServlet extends HttpServlet {
         final String[] arguments = new String[]{
             "-tcpPort", String.valueOf("12345"),
             "-tcpAllowOthers", ""}; //	need the extra empty string
-
         Server server = Server.createTcpServer(arguments).start();
-
-        // avaa yhteys palvelimeen, luo datasource
-
-        // loadDb datasourcella
-
-        // nyt palvelin on käynnissä
 
     }
 }

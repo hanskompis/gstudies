@@ -31,7 +31,7 @@
         </table>
     </script>
 
-    <script type="text/template" id="courseStatsTemplate">
+    <script type="text/template" id="courseSelectionTemplate">
         <p>choose course</p>
         <select id="courseSelect">
         </select><br />
@@ -42,6 +42,16 @@
         <option value={{TUNNISTE}}>{{NIMI}}</option>
     </script>
 
+    <script type="text/template" id="courseInstanceSelectionTemplate">
+        <p>choose instance</p>
+        <select id="courseInstanceSelect">
+        </select><br />
+        <input type="button" id="selectCourseInstanceButton" value="selectInstance"><br />
+    </script>
+
+    <script type="text/template" id="instanceSelectRowTemplate">
+        <option value={{SUORPVM}}>{{NIMLYH}} suorpvm: {{SUORPVM}}</option>
+    </script>
 
 </head>
 <body>
