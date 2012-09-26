@@ -1,4 +1,7 @@
-
+/**
+ * 
+ * tuhottava???
+ */
 package tktl.gstudies.domain;
 
 public class CourseGradeResponse {

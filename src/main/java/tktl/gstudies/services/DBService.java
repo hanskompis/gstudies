@@ -21,12 +21,11 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DBService extends HttpServlet {
+public class DBService{
 
     private static boolean running = false;
     private String dataLocation = "/home/hkeijone/kanta/gkanta";
 
-    @Override
     @PostConstruct
     public void init() throws ServletException {
         if (this.running) {

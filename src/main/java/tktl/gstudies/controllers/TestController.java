@@ -27,8 +27,8 @@ public class TestController {
 
     @RequestMapping("/test")
     @ResponseBody
-    public List process() {
-        return this.testRepository.fetchData();
+    public Object process() {
+        return this.statisticService.CourseStats("58131", "2009-05-19");
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "query", consumes = "application/json", produces = "application/json")
