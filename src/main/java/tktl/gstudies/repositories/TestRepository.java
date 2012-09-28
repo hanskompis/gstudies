@@ -38,6 +38,7 @@ public class TestRepository {
     }
 
     public List query(String query) {
+        System.out.println(query);
         return jdbcTemplate.queryForList(query);
     }
 

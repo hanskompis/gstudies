@@ -59,6 +59,15 @@ public class CourseStatResponse {
     public void setFailedCourse(int failedCourse) {
         this.failedCourse = failedCourse;
     }
+
+    public int getStudsEnrolled() {
+        return studsEnrolled;
+    }
+
+    public void setStudsEnrolled(int studsEnrolled) {
+        this.studsEnrolled = studsEnrolled;
+    }
+    
     
     
 }

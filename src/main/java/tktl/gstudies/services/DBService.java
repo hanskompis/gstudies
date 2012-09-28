@@ -11,29 +11,22 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.sql.DataSource;
 import org.h2.tools.Server;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DBService{
+public class DBService {
 
-    private static boolean running = false;
-    private String dataLocation = "/home/hkeijone/kanta/gkanta";
+    @Value("${dataLocation}")
+    private String dataLocation;
 
     @PostConstruct
     public void init() throws ServletException {
-        if (this.running) {
-            System.out.println("RUUNNIINNGGGG");
-            return;
-        } else {
-            this.running = true;
-        }
 
         System.out.println("STARTING INIT SERVLET");
 
@@ -58,6 +51,7 @@ public class DBService{
         initTables(dataSource);
 
         File dataDir = new File(dataLocation);
+//        File dataDir = new File(dataLocation);
         for (File file : dataDir.listFiles()) {
             System.out.println("FILE: " + file.getName());
             if (!file.getName().endsWith(".sql")) {

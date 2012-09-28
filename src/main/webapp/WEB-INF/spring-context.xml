@@ -8,35 +8,49 @@
        xmlns:jpa="http://www.springframework.org/schema/data/jpa"
        xsi:schemaLocation="
         http://www.springframework.org/schema/mvc 
-          http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+          http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
         http://www.springframework.org/schema/beans 
-          http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+          http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
         http://www.springframework.org/schema/context 
-          http://www.springframework.org/schema/context/spring-context-3.0.xsd
+          http://www.springframework.org/schema/context/spring-context-3.1.xsd
         http://www.springframework.org/schema/tx 
-          http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+          http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
         http://www.springframework.org/schema/jdbc 
-           http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+           http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd
         http://www.springframework.org/schema/data/jpa
            http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
-  <!-- DispatcherServlet (front-controller) configuration -->
+    <!-- DispatcherServlet (front-controller) configuration -->
 
-  <!-- Applicaiton's sources are found under root-package named "com"-->
-  <context:component-scan base-package="tktl" />
+    <!-- Applicaiton's sources are found under root-package named "com"-->
+    <context:component-scan base-package="tktl" />
 
-  <!-- Spring MVC is annotation-driven -->
-  <mvc:annotation-driven /> 
+    <!-- Spring MVC is annotation-driven -->
+    <mvc:annotation-driven /> 
 
-  <!-- all resources are to be found from /app folder-->
-  <mvc:resources mapping="/app/**" location="/app/"/>
+    <!-- all resources are to be found from /app folder-->
+    <mvc:resources mapping="/app/**" location="/app/"/>
 
-  <!-- enable configuration with annotations -->
-  <context:annotation-config />
+    <!-- enable configuration with annotations -->
+    <context:annotation-config />
   
   
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
         <property name="driverClassName" value="org.h2.Driver"/>
         <property name="url" value="jdbc:h2:mem:test"/>
     </bean>
+    
+    <beans profile="default">
+        <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+            <property name="locations">
+                <list>
+                    <!-- resources defined later override previous ones -->
+                    <value>classpath:properties/dev.properties</value>
+                </list>
+            </property>
+            <property name="ignoreResourceNotFound" value="true" />
+            <property name="ignoreUnresolvablePlaceholders" value="false" />
+        </bean>
+    </beans>
+
 </beans>
