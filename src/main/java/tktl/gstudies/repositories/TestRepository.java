@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import tktl.gstudies.domain.CourseInstance;
-import tktl.gstudies.domain.Student;
+import tktl.gstudies.domainForGraphics.CourseInstance;
+import tktl.gstudies.domainForGraphics.Student;
 
 @Repository
 public class TestRepository {

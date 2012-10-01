@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import tktl.gstudies.domain.CourseCatcher;
-import tktl.gstudies.domain.Query;
+import tktl.gstudies.responseobjs.CourseCatcher;
+import tktl.gstudies.responseobjs.Query;
 import tktl.gstudies.repositories.TestRepository;
 import tktl.gstudies.services.StatisticService;
 

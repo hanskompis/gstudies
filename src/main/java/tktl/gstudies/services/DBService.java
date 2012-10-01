@@ -25,7 +25,7 @@ public class DBService {
     @Value("${dataLocation}")
     private String dataLocation;
 
-    @PostConstruct
+    //@PostConstruct
     public void init() throws ServletException {
 
         System.out.println("STARTING INIT SERVLET");

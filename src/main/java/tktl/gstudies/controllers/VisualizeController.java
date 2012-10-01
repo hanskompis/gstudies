@@ -7,8 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import tktl.gstudies.services.GraphicsService;
-import tktl.gstudies.services.LineService;
+import tktl.gstudies.graphicsServices.GraphicsService;
+import tktl.gstudies.graphicsServices.LineService;
 
 @Controller
 public class VisualizeController {
