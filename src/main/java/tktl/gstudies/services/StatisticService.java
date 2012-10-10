@@ -4,14 +4,14 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tktl.gstudies.repositories.TestRepository;
+import tktl.gstudies.repositories.JDBCRepository;
 import tktl.gstudies.responseobjs.CourseStatResponse;
 
 @Service
 public class StatisticService {
     
     @Autowired
-    private TestRepository testRepository;
+    private JDBCRepository testRepository;
 
     public CourseStatResponse CourseStats(String tunniste, String kirjpvm) {
         List<Map> studsOnCourse = this.testRepository.studsEnrolledOnCourse(tunniste, kirjpvm);

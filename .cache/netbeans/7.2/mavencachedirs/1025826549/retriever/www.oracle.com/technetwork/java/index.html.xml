@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+<SOAP-ENV:Body>
+<SOAP-ENV:Fault>
+<faultcode>Client</faultcode>
+<faultstring>The SOAP request is invalid. The required node 'Envelope' is missing.</faultstring>
+</SOAP-ENV:Fault>
+</SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

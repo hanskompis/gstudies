@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletException;
 import javax.sql.DataSource;
-import org.h2.tools.Server;
+//import org.h2.tools.Server;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -183,7 +183,7 @@ public class DBService {
         final String[] arguments = new String[]{
             "-tcpPort", String.valueOf("12345"),
             "-tcpAllowOthers", ""}; //	need the extra empty string
-        Server server = Server.createTcpServer(arguments).start();
+       // Server server = Server.createTcpServer(arguments).start();
 
     }
 }

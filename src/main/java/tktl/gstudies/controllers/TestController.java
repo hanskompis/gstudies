@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import tktl.gstudies.importClasses.ImportService;
 import tktl.gstudies.responseobjs.CourseCatcher;
 import tktl.gstudies.responseobjs.Query;
-import tktl.gstudies.repositories.TestRepository;
+import tktl.gstudies.repositories.JDBCRepository;
 import tktl.gstudies.services.StatisticService;
 
 /**
@@ -21,14 +23,16 @@ import tktl.gstudies.services.StatisticService;
 public class TestController {
 
     @Autowired
-    private TestRepository testRepository;
+    private JDBCRepository testRepository;
     @Autowired
     private StatisticService statisticService;
+    @Autowired
+    private ImportService importService;
 
     @RequestMapping("/test")
     @ResponseBody
-    public Object process() {
-        return this.statisticService.CourseStats("58131", "2009-05-19");
+    public void process() {
+        this.importService.importStudentObjects();
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "query", consumes = "application/json", produces = "application/json")

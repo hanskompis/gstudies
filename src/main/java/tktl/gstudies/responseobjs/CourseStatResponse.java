@@ -67,7 +67,10 @@ public class CourseStatResponse {
     public void setStudsEnrolled(int studsEnrolled) {
         this.studsEnrolled = studsEnrolled;
     }
-    
-    
-    
+    @Override
+    public String toString(){
+        return this.courseName+" avg6mths: "+this.averageGradeSixMonths+" avg12mths: "+this.averageGradetwelvemonths+" enrolled: "+this.studsEnrolled
+                + "failed: "+this.failedCourse+
+                " passed: "+this.passedCourse;
+    }    
 }

@@ -8,17 +8,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import tktl.gstudies.repositories.TestRepository;
+import tktl.gstudies.repositories.JDBCRepository;
 import tktl.gstudies.services.StatisticService;
 
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring-context-test.xml",
-    "classpath:spring-beans.xml"})
+    "classpath:spring-beans.xml","classpath:spring-database.xml"})
 public class UnitTest {
 
     @Autowired
-    private TestRepository testRepository;
+    private JDBCRepository testRepository;
     @Autowired
     private StatisticService statisticService;
 
@@ -41,7 +41,6 @@ public class UnitTest {
     public void tearDown() {
     }
 
-    //Arveluttava testi, fiksattu kurssi-lkm
     @Test
     public void maxAmountCoursesDoesNotExceed11() {
         assertTrue(true);

@@ -20,7 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-import tktl.gstudies.repositories.TestRepository;
+import tktl.gstudies.repositories.JDBCRepository;
 
 @Service
 @Qualifier("real")
@@ -30,7 +30,7 @@ public class GraphicsServiceImpl implements GraphicsService {
     @Qualifier("real")
     private LineService lineService;
     @Autowired
-    private TestRepository testRepository;
+    private JDBCRepository testRepository;
     private List<AbstractGraphicalObject> graphObjs;
     private int boxWidth = 50;
     private int boxHeight = 20;
