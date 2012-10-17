@@ -15,10 +15,6 @@ import tktl.gstudies.responseobjs.Query;
 import tktl.gstudies.repositories.JDBCRepository;
 import tktl.gstudies.services.StatisticService;
 
-/**
- *
- * @author avihavai
- */
 @Controller
 public class TestController {
 
@@ -32,7 +28,7 @@ public class TestController {
     @RequestMapping("/test")
     @ResponseBody
     public void process() {
-        this.importService.importStudentObjects();
+        this.importService.importDB();
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "query", consumes = "application/json", produces = "application/json")

@@ -5,14 +5,19 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.stereotype.Repository;
+import tktl.gstudies.domain.CourseObject;
+import tktl.gstudies.domain.Grade;
 import tktl.gstudies.domain.StatusOfStudy;
 import tktl.gstudies.domain.Stud;
+import tktl.gstudies.domain.TypeOfStudy;
 import tktl.gstudies.domainForGraphics.Student;
 
 @Repository
@@ -111,11 +116,12 @@ public class JDBCRepository {
     }
 
     /**
-     * 
+     *
      * @param HLO
      * @param dateString
-     * @param amountMonths 
-     * @return List of grades from given time span. See disclaimer on AddMonthsToDateString - comments
+     * @param amountMonths
+     * @return List of grades from given time span. See disclaimer on
+     * AddMonthsToDateString - comments
      */
     public List getGradesForStudentNMonthsSpan(Integer HLO, String dateString, int amountMonths) {
         return this.jdbcTemplate.queryForList("SELECT DISTINCT ARVSANARV FROM opiskelija, arvosana, opinto, opinkohd "
@@ -125,21 +131,57 @@ public class JDBCRepository {
                 + this.AddMonthsToDateString(dateString, amountMonths) + "\' AND arvosana.SELITE = 'Yleinen asteikko' "
                 + "AND arvosana.ARVSANARV IN (1,2,3,4,5)");
     }
-    
-    public List<StatusOfStudy> getStatusOfStudyObjects(){
+
+    public List<StatusOfStudy> getStatusOfStudyObjects() {
         return this.jdbcTemplate.query("SELECT KOODI as code, SELITE as description FROM opinstat",
                 new BeanPropertyRowMapper(StatusOfStudy.class));
     }
-    
-    public List<Stud> getStudentObjects(){
+
+    public List<Stud> getStudentObjects() {
         return this.jdbcTemplate.query("SELECT HLO as studentId, SUKUPUOLI as gender, "
-                + "SYNTAIK AS dateOfBirth, KIRJOILLETULO AS dateOfEnrollment FROM opiskelija", 
+                + "SYNTAIK AS dateOfBirth, KIRJOILLETULO AS dateOfEnrollment FROM opiskelija",
                 new BeanPropertyRowMapper(Stud.class));
     }
 
+    public List<TypeOfStudy> getTypeOfStudyObjects() {
+        return this.jdbcTemplate.query("SELECT KOODI as code, SELITE description FROM suortyyp",
+                new BeanPropertyRowMapper(TypeOfStudy.class));
+    }
+
+    public List<CourseObject> getCourseObjectObjects() {
+        return this.jdbcTemplate.query("SELECT OPINKOHD as objectId, TUNNISTE as courseId, NIMI as name, TYYPPI as type, LAJI as kind FROM opinkohd",
+                new BeanPropertyRowMapper(CourseObject.class));
+    }
+
+    public List getAcademicEnrollmentData() {
+        return this.jdbcTemplate.queryForList("SELECT * from lkilm");
+    }
+
+    public List getRightToStudyData() {
+        return this.jdbcTemplate.queryForList("SELECT * FROM opinoik");
+    }
+
+    public List getStudyData() {
+        return this.jdbcTemplate.queryForList("SELECT * FROM opinto");
+    }
+
+    public void getStudyData(RowCallbackHandler rch) {
+        this.jdbcTemplate.query("SELECT * FROM opinto", rch);
+    }
+    
+    public void getTeacherData(RowCallbackHandler rch){
+        this.jdbcTemplate.query("SELECT * FROM opettaja", rch);
+    }
+    //Riittämätön toteutus
+//    public List getGradeObjects(){
+//        return this.jdbcTemplate.queryForList("SELECT ARVSANARV AS grade, SELITE as description from arvosana ");
+//    }
+
     /**
-     * Fuckiest method ever written in history of JAVA. Actually does the job pretty good
-     * but looks terrible. If length of months need to be taken into account, use this.
+     * Fuckiest method ever written in history of JAVA. Actually does the job
+     * pretty good but looks terrible. If length of months need to be taken into
+     * account, use this.
+     *
      * @param dateString
      * @param increment
      */
@@ -191,10 +233,12 @@ public class JDBCRepository {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         return df.format(toReturn);
     }
+
     /**
      * Pretty obvious little method.
+     *
      * @param dateString
-     * @return Date 
+     * @return Date
      */
     private Date makeDate(String dateString) {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
