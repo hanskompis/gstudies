@@ -25,6 +25,7 @@ public class TeacherService extends GenericRepositoryService<Teacher> {
     
     @Transactional
     public Teacher save(Teacher t, Integer studyNumber){
+        t = teacherRepository.findOne(t.getId());
         Study s = studyRepository.findByStudyNumber(studyNumber);
         if(s == null){
             return null;

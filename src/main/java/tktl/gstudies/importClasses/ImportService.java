@@ -57,12 +57,12 @@ public class ImportService {
     public void importDB() {
 //        this.importStudentObjects();
 //        this.importRightToStudyObjects();
-//        this.importAcademicEnrollmentObjects();
+        //      this.importAcademicEnrollmentObjects();
 //        this.importStatusOfStudyObjects();
 //        this.importTypeOfStudyObjects();
-//        this.importCourseObjectObjects();
-//        this.importStudyObjects2();
-        this.importTeacherObjects();
+ //this.importCourseObjectObjects();
+        this.importStudyObjects2();
+//        this.importTeacherObjects();
     }
     //OK, muuta vaan privateksi
 
@@ -76,6 +76,7 @@ public class ImportService {
 
     public void importStudentObjects() {
         List<Stud> list = this.jdbcrepository.getStudentObjects();
+        // System.out.println("total students: " + list.size());
         for (Stud s : list) {
             studentService.save(s);
         }
@@ -111,6 +112,7 @@ public class ImportService {
             aye.setStartDate((Date) row.get("ALPVM"));
             aye.setEndDate((Date) row.get("PAATPVM"));
             aye.setType((String) row.get("TYYPPI"));
+            aye = academicYearEnrollmentService.save(aye);
             Integer studentId = ((Integer) row.get("HLO"));
 
             AcademicYearEnrollment returned = academicYearEnrollmentService.save(aye, studentId);
@@ -124,6 +126,7 @@ public class ImportService {
             RightToStudy rts = new RightToStudy();
             rts.setStartingDate((Date) row.get("ALKPVM"));
             rts.setMainSubject((String) row.get("PAAAINE"));
+            rts = rightToStudyService.save(rts);
             Integer studentId = ((Integer) row.get("HLO"));
             RightToStudy returned = rightToStudyService.save(rts, studentId);
         }
@@ -153,35 +156,37 @@ public class ImportService {
                     study.setStudyNumber((Integer) rs.getObject("OPINTO"));
                     study.setCredits(((Float) rs.getObject("LAAJOP")).doubleValue());
                     study.setDateOfwrite((Date) rs.getObject("KIRJPVM"));
-                    study = studyService.save(study);
 
-                    Integer studentId = (Integer) rs.getObject("HLO");
-                    Integer courseObjectId = (Integer) rs.getObject("OPINKOHD");
-                    Integer statusOfStudyCode = (Integer) rs.getObject("OPINSTAT");
                     Integer typeOfStudyCode = (Integer) rs.getObject("SUORTYYP");
-
                     Integer[] acceptableTypeOFStudyCodes = {1, 3, 4, 7, 12, 13, 14, 15, 20};
                     List lst = Arrays.asList(acceptableTypeOFStudyCodes);
                     if (!lst.contains(typeOfStudyCode)) {
                         continue;
                     }
+                    study = studyService.save(study);
+
+                    Integer studentId = (Integer) rs.getObject("HLO");
+                    Integer courseObjectId = (Integer) rs.getObject("OPINKOHD");
+                    Integer statusOfStudyCode = (Integer) rs.getObject("OPINSTAT");
+
+
+
                     studyService.save(study, studentId, courseObjectId, statusOfStudyCode, typeOfStudyCode);
                 }
 
             }
         });
     }
-    
-    public void importTeacherObjects(){
-        this.jdbcrepository.getTeacherData(new RowCallbackHandler() {
 
+    public void importTeacherObjects() {
+        this.jdbcrepository.getTeacherData(new RowCallbackHandler() {
             @Override
             public void processRow(ResultSet rs) throws SQLException {
                 Teacher teacher = new Teacher();
                 teacher.setName((String) rs.getObject("NIMLYH"));
                 teacher = teacherService.save(teacher);
                 Integer studyNumber = (Integer) rs.getObject("OPINTO");
-                System.out.println(studyNumber);
+                System.out.println("teacher: " + teacher.getName() + " study: " + studyNumber);
                 teacherService.save(teacher, studyNumber);
             }
         });

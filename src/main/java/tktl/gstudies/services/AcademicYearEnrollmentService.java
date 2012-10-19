@@ -28,16 +28,12 @@ public class AcademicYearEnrollmentService extends GenericRepositoryService<Acad
     
     @Transactional
     public AcademicYearEnrollment save(AcademicYearEnrollment a, Integer studentId){
+        a = academicYearEnrollmentRepository.findOne(a.getId());
         Stud s = studRepository.findByStudentId(studentId);
-        if(s==null){
-            System.out.println("S NULL");
-           
-        }
         a.setStudent(s);
 
         s.addEnrollment(a);
-        studRepository.save(s);
-        academicYearEnrollmentRepository.save(a);
-        return a;
+        //studRepository.save(s);
+        return academicYearEnrollmentRepository.save(a);
     }
 }

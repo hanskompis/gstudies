@@ -44,28 +44,28 @@ public class StudyService extends GenericRepositoryService<Study> {
         s = studyRepository.findOne(s.getId());
 
         Stud stud = studRepository.findByStudentId(studentId);
-        if (stud == null) {
-            fail++;
-            System.out.println("STUD NULL, FAIL: " + fail);
-            return null;
-        } else {
-            succ++;
-            System.out.println("STUD FOUND, SUCC: " + succ);
-        }
+//        if (stud == null) {
+//            fail++;
+//            System.out.println("STUD NULL, FAIL: " + fail + " NO SUCH STUDENT: " + studentId);
+//            return null;
+//        } else {
+//            succ++;
+//            System.out.println("STUD FOUND, SUCC: " + succ);
+//        }
         stud.addStudy(s);
         s.addStudent(stud);
         //      this.studRepository.save(stud);
 
         // System.out.println(courseObjectId);
         List<CourseObject> cos = courseObjectRepository.findByObjectId(courseObjectId);
-        if (cos == null) {
-            fail++;
-            System.out.println("COS NULL, FAIL: " + fail);
-            return null;
-        } else {
-            succ++;
-            System.out.println("COS FOUND, SUCC: " + succ);
-        }
+//        if (cos == null) {
+//            fail++;
+//            System.out.println("COS NULL, FAIL: " + fail);
+//            return null;
+//        } else {
+//            succ++;
+//            System.out.println("COS FOUND, SUCC: " + succ);
+//        }
 
         for(CourseObject co: cos){
             co.addStudy(s);
@@ -77,28 +77,28 @@ public class StudyService extends GenericRepositoryService<Study> {
 
 
         StatusOfStudy sos = statusOfStudyRepository.findByCode(statusOfStudyCode);
-        if (sos == null) {
-            fail++;
-            System.out.println("SOS NULL, FAIL: " + fail);
-            return null;
-        } else {
-            succ++;
-            System.out.println("SOS FOUND, SUCC: " + succ);
-        }
+//        if (sos == null) {
+//            fail++;
+//            System.out.println("SOS NULL, FAIL: " + fail);
+//            return null;
+//        } else {
+//            succ++;
+//            System.out.println("SOS FOUND, SUCC: " + succ);
+//        }
 //        sos.addStudy(s);
         s.setStatusOfStudy(sos);
         //   this.statusOfStudyRepository.save(sos);
 
 
         TypeOfStudy tos = typeOfStudyRepository.findByCode(typeOfStudyCode);
-        if (tos == null) {
-            fail++;
-            System.out.println("TOS NULL, FAIL: " + fail);
-            return null;
-        } else {
-            succ++;
-            System.out.println("TOS FOUND, SUCC: " + succ);
-        }
+//        if (tos == null) {
+//            fail++;
+//            System.out.println("TOS NULL, FAIL: " + fail);
+//            return null;
+//        } else {
+//            succ++;
+//            System.out.println("TOS FOUND, SUCC: " + succ);
+//        }
 //        tos.addStudy(s);
         s.setTypeOfStudy(tos);
         //     this.typeOfStudyRepository.save(tos);

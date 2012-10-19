@@ -26,10 +26,11 @@ public class RightToStudyService extends GenericRepositoryService<RightToStudy> 
 
     @Transactional
     public RightToStudy save(RightToStudy r, Integer studentId) {
+        r = rightToStudyRepository.findOne(r.getId());
         Stud s = studRepository.findByStudentId(studentId);
         r.setStudent(s);
         s.addRightToStudy(r);
-        studRepository.save(s);
+        //studRepository.save(s);
         return rightToStudyRepository.save(r);
     }
 }

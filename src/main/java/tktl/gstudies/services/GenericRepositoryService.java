@@ -2,6 +2,7 @@ package tktl.gstudies.services;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+
 public class GenericRepositoryService<T> {
 
     protected JpaRepository<T, Integer> repository;
@@ -10,6 +11,7 @@ public class GenericRepositoryService<T> {
         this.repository = repository;
     }
     
+   
     public T save(T t){
         return this.repository.save(t);
     }
