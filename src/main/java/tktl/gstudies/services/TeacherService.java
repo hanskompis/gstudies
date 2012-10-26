@@ -30,8 +30,10 @@ public class TeacherService extends GenericRepositoryService<Teacher> {
         if(s == null){
             return null;
         }
+
         s.addTeacher(t);
         t.setStudy(s);
-        return teacherRepository.save(t);
+        return t;
+//        return teacherRepository.save(t);
     }
 }

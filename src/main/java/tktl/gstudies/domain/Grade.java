@@ -34,5 +34,9 @@ public class Grade extends AbstractModel{
     public void setStudy(Study study) {
         this.study = study;
     }
+    @Override
+    public String toString(){
+        return this.getId().toString()+" "+this.description+" "+this.getGrade();
+    }
     
 }

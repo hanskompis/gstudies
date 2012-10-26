@@ -99,7 +99,7 @@ public class Stud extends AbstractModel{
     
    @Override
    public String toString(){
-       return this.studentId.toString()+" "+this.enrollments;
+       return this.studentId.toString();
    }
     
 }

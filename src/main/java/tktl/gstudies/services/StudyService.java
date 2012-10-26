@@ -53,7 +53,7 @@ public class StudyService extends GenericRepositoryService<Study> {
 //            System.out.println("STUD FOUND, SUCC: " + succ);
 //        }
         stud.addStudy(s);
-        s.addStudent(stud);
+        s.setStudent(stud);
         //      this.studRepository.save(stud);
 
         // System.out.println(courseObjectId);
@@ -94,16 +94,16 @@ public class StudyService extends GenericRepositoryService<Study> {
 //        if (tos == null) {
 //            fail++;
 //            System.out.println("TOS NULL, FAIL: " + fail);
-//            return null;
+//
 //        } else {
 //            succ++;
 //            System.out.println("TOS FOUND, SUCC: " + succ);
 //        }
-//        tos.addStudy(s);
+        //tos.addStudy(s);
         s.setTypeOfStudy(tos);
         //     this.typeOfStudyRepository.save(tos);
 
-
-        return studyRepository.save(s);
+        return s;
+       // return studyRepository.save(s);
     }
 }

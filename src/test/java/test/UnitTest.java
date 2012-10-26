@@ -9,7 +9,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import tktl.gstudies.repositories.JDBCRepository;
-import tktl.gstudies.services.StatisticService;
+import tktl.gstudies.services.StatisticServiceImpl;
 
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -20,7 +20,7 @@ public class UnitTest {
     @Autowired
     private JDBCRepository testRepository;
     @Autowired
-    private StatisticService statisticService;
+    private StatisticServiceImpl statisticService;
 
     public UnitTest() {
     }

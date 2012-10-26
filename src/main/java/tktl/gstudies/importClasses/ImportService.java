@@ -4,10 +4,14 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.stereotype.Service;
 import tktl.gstudies.domain.AcademicYearEnrollment;
@@ -53,20 +57,22 @@ public class ImportService {
     private TeacherService teacherService;
     @Autowired
     private JDBCRepository jdbcrepository;
+    static int i = 0;
+    Set<Integer> importedStudyIds = new HashSet();
 
     public void importDB() {
-//        this.importStudentObjects();
-//        this.importRightToStudyObjects();
-        //      this.importAcademicEnrollmentObjects();
-//        this.importStatusOfStudyObjects();
-//        this.importTypeOfStudyObjects();
- //this.importCourseObjectObjects();
+        this.importStudentObjects();
+        this.importRightToStudyObjects();
+        this.importAcademicEnrollmentObjects();
+        this.importStatusOfStudyObjects();
+        this.importTypeOfStudyObjects();
+        this.importCourseObjectObjects();
         this.importStudyObjects2();
-//        this.importTeacherObjects();
+        this.importTeacherObjects();
+        this.importGradeObjects();
     }
-    //OK, muuta vaan privateksi
 
-    public void importStatusOfStudyObjects() {
+    private void importStatusOfStudyObjects() {
         List<StatusOfStudy> list = this.jdbcrepository.getStatusOfStudyObjects();
         for (StatusOfStudy s : list) {
             statusOfStudyService.save(s);
@@ -74,7 +80,7 @@ public class ImportService {
     }
     //OK, muuta vaan privateksi
 
-    public void importStudentObjects() {
+    private void importStudentObjects() {
         List<Stud> list = this.jdbcrepository.getStudentObjects();
         // System.out.println("total students: " + list.size());
         for (Stud s : list) {
@@ -83,14 +89,14 @@ public class ImportService {
     }
     //OK, muuta vaan privateksi
 
-    public void importTypeOfStudyObjects() {
+    private void importTypeOfStudyObjects() {
         List<TypeOfStudy> list = this.jdbcrepository.getTypeOfStudyObjects();
         for (TypeOfStudy t : list) {
             typeOfStudyService.save(t);
         }
     }
 
-    public void importCourseObjectObjects() {
+    private void importCourseObjectObjects() {
         List<CourseObject> list = this.jdbcrepository.getCourseObjectObjects();
         for (CourseObject c : list) {
             courseObjectService.save(c);
@@ -98,14 +104,7 @@ public class ImportService {
     }
     //VAIHEESSA
 
-    public void importGradeObjects() {
-//        List<Grade> list = this.jdbcrepository.getGradeObjects();
-//        for(Grade g : list){
-//            gradeService.save(g);
-//        }
-    }
-
-    public void importAcademicEnrollmentObjects() {
+    private void importAcademicEnrollmentObjects() {
         List<Map> list = this.jdbcrepository.getAcademicEnrollmentData();
         for (Map row : list) {
             AcademicYearEnrollment aye = new AcademicYearEnrollment();
@@ -120,7 +119,7 @@ public class ImportService {
         }
     }
 
-    public void importRightToStudyObjects() {
+    private void importRightToStudyObjects() {
         List<Map> list = this.jdbcrepository.getRightToStudyData();
         for (Map row : list) {
             RightToStudy rts = new RightToStudy();
@@ -132,53 +131,60 @@ public class ImportService {
         }
     }
 
-    public void importStudyObjects() {
-        List<Map> list = this.jdbcrepository.getStudyData();
-        for (Map row : list) {
-            Study study = new Study();
-            study.setStudyNumber((Integer) row.get("OPINTO"));
-            study.setCredits(((Double) row.get("LAAJOP")).doubleValue());
-            study.setDateOfwrite((Date) row.get("KIRJPVM"));
-            Integer studentId = (Integer) row.get("HLO");
-            Integer courseObjectId = (Integer) row.get("OPINKOHD");
-            Integer statusOfStudyCode = (Integer) row.get("OPINSTAT");
-            Integer typeOfStudyCode = (Integer) row.get("SUORTYYP");
-            studyService.save(study, studentId, courseObjectId, statusOfStudyCode, typeOfStudyCode);
-        }
-    }
+    private void importStudyObjects2() {
+        Integer[] acceptableTypeOFStudyCodes = {1, 3, 4, 7, 12, 13, 14, 15, 20};
+        final List lst = Arrays.asList(acceptableTypeOFStudyCodes);
 
-    public void importStudyObjects2() {
         this.jdbcrepository.getStudyData(new RowCallbackHandler() {
             @Override
             public void processRow(ResultSet rs) throws SQLException {
-                while (rs.next()) {
-                    Study study = new Study();
-                    study.setStudyNumber((Integer) rs.getObject("OPINTO"));
-                    study.setCredits(((Float) rs.getObject("LAAJOP")).doubleValue());
-                    study.setDateOfwrite((Date) rs.getObject("KIRJPVM"));
-
-                    Integer typeOfStudyCode = (Integer) rs.getObject("SUORTYYP");
-                    Integer[] acceptableTypeOFStudyCodes = {1, 3, 4, 7, 12, 13, 14, 15, 20};
-                    List lst = Arrays.asList(acceptableTypeOFStudyCodes);
-                    if (!lst.contains(typeOfStudyCode)) {
-                        continue;
-                    }
-                    study = studyService.save(study);
-
-                    Integer studentId = (Integer) rs.getObject("HLO");
-                    Integer courseObjectId = (Integer) rs.getObject("OPINKOHD");
-                    Integer statusOfStudyCode = (Integer) rs.getObject("OPINSTAT");
-
-
-
-                    studyService.save(study, studentId, courseObjectId, statusOfStudyCode, typeOfStudyCode);
+                int studyNumber = (Integer) rs.getObject("OPINTO");
+                if (importedStudyIds.contains(studyNumber)) {
+                    return;
                 }
 
+                Study study = new Study();
+                study.setStudyNumber((Integer) rs.getObject("OPINTO"));
+                study.setCredits(((Float) rs.getObject("LAAJOP")).doubleValue());
+                study.setDateOfwrite((Date) rs.getObject("KIRJPVM"));
+
+                Integer typeOfStudyCode = (Integer) rs.getObject("SUORTYYP");
+                if (!lst.contains(typeOfStudyCode)) {
+                    return;
+                }
+
+                study = studyService.save(study);
+                i++;
+
+                System.out.println(i + " study: " + study);
+
+
+                Integer studentId = (Integer) rs.getObject("HLO");
+                Integer courseObjectId = (Integer) rs.getObject("OPINKOHD");
+                Integer statusOfStudyCode = (Integer) rs.getObject("OPINSTAT");
+                studyService.save(study, studentId, courseObjectId, statusOfStudyCode, typeOfStudyCode);
+
+                importedStudyIds.add(studyNumber);
             }
         });
     }
 
-    public void importTeacherObjects() {
+    private void importGradeObjects() {
+        this.jdbcrepository.getGradeObjects(new RowCallbackHandler() {
+            @Override
+            public void processRow(ResultSet rs) throws SQLException {
+                Grade grade = new Grade();
+                grade.setGrade(rs.getString("ARVSANARV"));
+                grade.setDescription(rs.getString("SELITE"));
+                gradeService.save(grade);
+                Integer studyNumber = rs.getInt("OPINTO");
+                grade = gradeService.save(grade, studyNumber);
+                System.out.println(grade);
+            }
+        });
+    }
+
+    private void importTeacherObjects() {
         this.jdbcrepository.getTeacherData(new RowCallbackHandler() {
             @Override
             public void processRow(ResultSet rs) throws SQLException {
@@ -187,8 +193,17 @@ public class ImportService {
                 teacher = teacherService.save(teacher);
                 Integer studyNumber = (Integer) rs.getObject("OPINTO");
                 System.out.println("teacher: " + teacher.getName() + " study: " + studyNumber);
-                teacherService.save(teacher, studyNumber);
+                teacher = teacherService.save(teacher, studyNumber);
             }
         });
+    }
+
+    public static void main(String[] args) {
+        // /home/hkeijone/gstudies/
+        String prefix = "src/main/webapp/WEB-INF/";
+        ApplicationContext ctx = new FileSystemXmlApplicationContext(new String[]{prefix + "spring-context.xml", prefix + "spring-database.xml"});
+
+        ImportService impo = (ImportService) ctx.getBean("importService");
+        impo.importDB();
     }
 }

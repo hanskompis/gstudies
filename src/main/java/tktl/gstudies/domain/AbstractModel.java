@@ -5,9 +5,25 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+
+//validated
+@NamedQueries({
+@NamedQuery(
+            name = "findCSStudentsFromCourseWhoPassedOnDate",
+            query = "SELECT DISTINCT s FROM Stud s JOIN s.rightsToStudy r, s.studies t JOIN t.courseObjects c, t.statusOfStudy o "
+        + "WHERE c.courseId = :courseId AND t.dateOfwrite = :dateOfwrite AND o.code = 10 AND r.mainSubject ='Tietojenkäsittelytiede'"  ),
+@NamedQuery(
+            name = "findOtherStudentsFromCourseWhoPassedOnDate",
+            query = "SELECT DISTINCT s FROM Stud s JOIN s.rightsToStudy r, s.studies t JOIN t.courseObjects c, t.statusOfStudy o "
+        + "WHERE c.courseId = :courseId AND t.dateOfwrite = :dateOfwrite AND o.code = 10 AND r.mainSubject !='Tietojenkäsittelytiede'" )
+})
+
 
 @MappedSuperclass
-public class AbstractModel implements Serializable{
+public class AbstractModel implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Integer id;
@@ -19,6 +35,4 @@ public class AbstractModel implements Serializable{
     public void setId(Integer id) {
         this.id = id;
     }
-    
-    
 }

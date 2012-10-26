@@ -168,14 +168,14 @@ public class JDBCRepository {
     public void getStudyData(RowCallbackHandler rch) {
         this.jdbcTemplate.query("SELECT * FROM opinto", rch);
     }
-    
-    public void getTeacherData(RowCallbackHandler rch){
+
+    public void getTeacherData(RowCallbackHandler rch) {
         this.jdbcTemplate.query("SELECT * FROM opettaja", rch);
     }
-    //Riittämätön toteutus
-//    public List getGradeObjects(){
-//        return this.jdbcTemplate.queryForList("SELECT ARVSANARV AS grade, SELITE as description from arvosana ");
-//    }
+
+    public void getGradeObjects(RowCallbackHandler rch){
+        this.jdbcTemplate.query("SELECT * FROM arvosana ", rch);
+    }
 
     /**
      * Fuckiest method ever written in history of JAVA. Actually does the job

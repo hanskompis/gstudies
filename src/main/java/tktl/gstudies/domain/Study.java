@@ -36,6 +36,7 @@ public class Study extends AbstractModel {
     private Grade grade;
     private Date dateOfwrite;
 
+    
     public Date getDateOfwrite() {
         return dateOfwrite;
     }
@@ -100,9 +101,9 @@ public class Study extends AbstractModel {
         this.grade = grade;
     }
 
-    public void addStudent(Stud s) {
-        this.student = s;
-    }
+//    public void addStudent(Stud s) {
+//        this.student = s;
+//    }
 
     public void addCourseObject(CourseObject co) {
         if (this.courseObjects == null) {

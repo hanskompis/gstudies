@@ -13,7 +13,7 @@ import tktl.gstudies.importClasses.ImportService;
 import tktl.gstudies.responseobjs.CourseCatcher;
 import tktl.gstudies.responseobjs.Query;
 import tktl.gstudies.repositories.JDBCRepository;
-import tktl.gstudies.services.StatisticService;
+import tktl.gstudies.services.StatisticServiceImpl;
 
 @Controller
 public class TestController {
@@ -21,7 +21,7 @@ public class TestController {
     @Autowired
     private JDBCRepository testRepository;
     @Autowired
-    private StatisticService statisticService;
+    private StatisticServiceImpl statisticService;
     @Autowired
     private ImportService importService;
 

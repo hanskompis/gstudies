@@ -28,4 +28,9 @@ public class TypeOfStudy extends AbstractModel{
         this.description = description;
     }
     
+    @Override
+    public String toString(){
+        return  this.code+" "+this.description;
+    }
+    
 }
