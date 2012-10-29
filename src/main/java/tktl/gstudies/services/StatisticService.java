@@ -1,4 +1,3 @@
-
 package tktl.gstudies.services;
 
 import java.util.Date;
@@ -7,6 +6,14 @@ import tktl.gstudies.domain.Stud;
 import tktl.gstudies.domain.TypeOfStudy;
 
 public interface StatisticService {
+
     public List<Stud> getCSStudentsFromCourseWhoPassedOnDate(String courseId, String dateOfWrite);
+
+    public List<Stud> getOtherStudentsFromCourseWhoPassedOnDate(String courseId, String dateOfWrite);
+
+    public List<Stud> getCSStudentsFromCourseWhoFailedOnDate(String courseId, String dateOfWrite);
+
+    public List<Stud> getOtherStudentsFromCourseWhoFailedOnDate(String courseId, String dateOfWrite);
+
     public List<TypeOfStudy> getTypesOfStudy();
 }
