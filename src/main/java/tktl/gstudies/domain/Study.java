@@ -12,7 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
-public class Study extends AbstractModel {
+public class Study extends AbstractModel implements Comparable {
 
     @ManyToOne
     @JoinColumn
@@ -36,7 +36,6 @@ public class Study extends AbstractModel {
     private Grade grade;
     private Date dateOfwrite;
 
-    
     public Date getDateOfwrite() {
         return dateOfwrite;
     }
@@ -104,16 +103,15 @@ public class Study extends AbstractModel {
 //    public void addStudent(Stud s) {
 //        this.student = s;
 //    }
-
     public void addCourseObject(CourseObject co) {
         if (this.courseObjects == null) {
             this.courseObjects = new ArrayList<CourseObject>();
         }
         this.courseObjects.add(co);
     }
-    
-    public void addTeacher(Teacher teacher){
-        if(this.teachers == null){
+
+    public void addTeacher(Teacher teacher) {
+        if (this.teachers == null) {
             this.teachers = new ArrayList<Teacher>();
         }
         teachers.add(teacher);
@@ -128,9 +126,25 @@ public class Study extends AbstractModel {
         if (this.studyNumber != null) {
             ret = ret + this.studyNumber.toString() + " ";
         }
-
         ret = ret + Double.toString(credits);
-
         return ret;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Study s = (Study) o;
+        if (this.dateOfwrite != null && s.dateOfwrite != null) {
+            if (this.dateOfwrite.before(s.dateOfwrite)) {
+                return -1;
+            } else if (this.dateOfwrite.after(s.dateOfwrite)) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+        else{
+            return 0;
+        }
+
     }
 }
