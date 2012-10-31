@@ -13,6 +13,8 @@ import tktl.gstudies.importClasses.ImportService;
 import tktl.gstudies.responseobjs.CourseCatcher;
 import tktl.gstudies.responseobjs.Query;
 import tktl.gstudies.repositories.JDBCRepository;
+import tktl.gstudies.responseobjs.CourseStatsResponseObj;
+import tktl.gstudies.services.StatisticService;
 import tktl.gstudies.services.StatisticServiceImpl;
 
 @Controller
@@ -21,14 +23,14 @@ public class TestController {
     @Autowired
     private JDBCRepository testRepository;
     @Autowired
-    private StatisticServiceImpl statisticService;
-    @Autowired
     private ImportService importService;
+    @Autowired
+    private StatisticService ss;
 
     @RequestMapping("/test")
     @ResponseBody
-    public void process() {
-        this.importService.importDB();
+    public CourseStatsResponseObj process() {
+        return ss.getData();
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "query", consumes = "application/json", produces = "application/json")

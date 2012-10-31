@@ -20,6 +20,7 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.EntityType;
 import javax.persistence.metamodel.Metamodel;
+import org.apache.commons.math3.stat.descriptive.moment.Variance;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,7 @@ import tktl.gstudies.domain.Study;
 import tktl.gstudies.domain.TypeOfStudy;
 import tktl.gstudies.importClasses.ImportService;
 import tktl.gstudies.responseobjs.CourseStats;
+import tktl.gstudies.responseobjs.CourseStatsResponseObj;
 
 @Service
 public class StatisticServiceImpl implements StatisticService {
@@ -110,9 +112,9 @@ public class StatisticServiceImpl implements StatisticService {
      */
     @Override
     public double getCreditsNMonthsSpan(List<Study> studies, Date startDate, int timeSpan) {
-        if (startDate == null) {
-            return -666.0;
-        }
+//        if (startDate == null) {
+//            return -666.0;
+//        }
         double sumCredits = 0;
         Date endDate = AddMonthsToDate(startDate, timeSpan);
         for (Study s : studies) {
@@ -129,9 +131,9 @@ public class StatisticServiceImpl implements StatisticService {
 
     @Override
     public double getAverageGradeNMonthsSpan(List<Study> studies, Date startDate, int timeSpan) {
-        if (startDate == null) {
-            return -666.0;
-        }
+//        if (startDate == null) {
+//            return -666.0;
+//        }
         double sum = 0.0;
         int amountCourses = 0;
         double avg = 0.0;
@@ -150,25 +152,52 @@ public class StatisticServiceImpl implements StatisticService {
         if (sum == 0.0) {
             return 0.0;
         }
-        
+
         return sum / amountCourses;
     }
 
     @Override
     public double getGroupAverageGradeNMonthsSpan(List<Stud> studs, Date startDate, int timeSpan) {
         double sum = 0.0;
+        double avg = 0.0;
         int amount = 0;
         for (Stud s : studs) {
             sum = sum + this.getAverageGradeNMonthsSpan(s.getStudies(), startDate, timeSpan);
             amount++;
         }
-        if (sum == 0.0) {
+        avg = sum / amount;
+        if (avg == Double.NaN) {
             return 0.0;
+        } else {
+            return avg;
         }
-        return sum / amount;
     }
 
-    private List<Stud> studentGroup(String groupIdentifier, String dateString, String courseId) {
+    @Override
+    public double getStandardDeviationOfgrades(List<Stud> studs, Date startDate, int timeSpan) {
+        ArrayList<Double> values = new ArrayList();
+        Date endDate = AddMonthsToDate(startDate, timeSpan);
+        for (Stud s : studs) {
+            for (Study st : s.getStudies()) {
+                if (st.getTypeOfStudy().getCode() != 1 || st.getStatusOfStudy().getCode() != 4) {
+                    continue;
+                }
+                Date dateOfwrite = st.getDateOfwrite();
+                if (dateOfwrite.after(startDate) && dateOfwrite.before(endDate) && acceptableGrades.contains(st.getGrade().getGrade())) {
+                    values.add(Double.parseDouble(st.getGrade().getGrade()));
+                }
+            }
+
+        }
+        double[] arr = new double[values.size()];
+        for (int i = 0; i < values.size(); i++) {
+            arr[i] = values.get(i);
+        }
+        double variance = org.apache.commons.math3.stat.StatUtils.variance(arr);
+        return Math.sqrt(variance);
+    }
+
+    private List<Stud> getStudentGroup(String groupIdentifier, String dateString, String courseId) {
         if (groupIdentifier.equals("CSPassed")) {
             return this.getCSStudentsFromCourseWhoPassedOnDate(courseId, dateString);
         } else if (groupIdentifier.equals("CSFailed")) {
@@ -182,11 +211,23 @@ public class StatisticServiceImpl implements StatisticService {
         }
     }
 
+    private void setStandardDeviations(CourseStats courseStats, String dateString, List<Stud> students) {
+        courseStats.setStandardDeviationGradesSevenmonths(this.getStandardDeviationOfgrades(students, this.makeDate(dateString), 7));
+        courseStats.setStandardDeviationGradesThirteenmonths(this.getStandardDeviationOfgrades(students, this.makeDate(dateString), 13));
+        courseStats.setStandardDeviationGradesNineteenmonths(this.getStandardDeviationOfgrades(students, this.makeDate(dateString), 19));
+    }
+
+    private void setAverageGrades(CourseStats courseStats, String dateString, List<Stud> students) {
+        courseStats.setAverageGradeSevenMonths(this.getGroupAverageGradeNMonthsSpan(students, this.makeDate(dateString), 7));
+        courseStats.setAverageGradeThirteenMonths(this.getGroupAverageGradeNMonthsSpan(students, this.makeDate(dateString), 13));
+        courseStats.setAverageGradeNineteenMonths(this.getGroupAverageGradeNMonthsSpan(students, this.makeDate(dateString), 19));
+    }
+
     @Override
-    public void doTheMagic(String groupIdentifier, String dateString, String courseId) {
+    public CourseStats doTheMagic(String groupIdentifier, String dateString, String courseId) {
         CourseStats courseStats = new CourseStats(groupIdentifier);
 
-        List<Stud> students = this.studentGroup(groupIdentifier, dateString, courseId);
+        List<Stud> students = this.getStudentGroup(groupIdentifier, dateString, courseId);
         courseStats.setAmountStudents(students.size());
         for (Stud s : students) {
             double credits7 = this.getCreditsNMonthsSpan(s.getStudies(), this.makeDate(dateString), 7);
@@ -196,18 +237,19 @@ public class StatisticServiceImpl implements StatisticService {
             double credits19 = this.getCreditsNMonthsSpan(s.getStudies(), this.makeDate(dateString), 19);
             courseStats.addCreditGainToNineteenMonthsCSPassed(credits19);
         }
-        courseStats.setAverageGradeSevenMonths(this.getGroupAverageGradeNMonthsSpan(students, this.makeDate(dateString), 7));
-        courseStats.setAverageGradeThirteenMonths(this.getGroupAverageGradeNMonthsSpan(students, this.makeDate(dateString), 13));
-        courseStats.setAverageGradeNineteenMonths(this.getGroupAverageGradeNMonthsSpan(students, this.makeDate(dateString), 19));
 
-        System.out.println(courseStats);
+        this.setAverageGrades(courseStats, dateString, students);
+        this.setStandardDeviations(courseStats, dateString, students);
+
+        //System.out.println(courseStats);
+        return courseStats;
         //test
-        List<Stud> testStuds = new ArrayList<Stud>();
-        testStuds.add(students.get(0));
-        testStuds.add(students.get(1));
-        System.out.println(testStuds.get(0).getStudies().toString());
-        System.out.println(testStuds.get(1).getStudies().toString());
-        System.out.println(this.getGroupAverageGradeNMonthsSpan(testStuds, this.makeDate(dateString), 7));
+//        List<Stud> testStuds = new ArrayList<Stud>();
+//        testStuds.add(students.get(0));
+//        testStuds.add(students.get(1));
+//        System.out.println(testStuds.get(0).getStudies().toString());
+//        System.out.println(testStuds.get(1).getStudies().toString());
+//        System.out.println(this.getGroupAverageGradeNMonthsSpan(testStuds, this.makeDate(dateString), 7));
 
         //test
     }
@@ -221,14 +263,29 @@ public class StatisticServiceImpl implements StatisticService {
         Date toReturn = new Date(millis);
         return toReturn;
     }
+    
+    @Override
+    public CourseStatsResponseObj getData(){
+        CourseStatsResponseObj statsResponseObj = new CourseStatsResponseObj();
+        statsResponseObj.addCourseStatsObj(this.doTheMagic("CSPassed", "2006-03-15", "581305"));
+        statsResponseObj.addCourseStatsObj(this.doTheMagic("CSFailed", "2006-03-15", "581305"));
+        statsResponseObj.addCourseStatsObj(this.doTheMagic("OtherPassed", "2006-03-15", "581305"));
+        statsResponseObj.addCourseStatsObj(this.doTheMagic("OtherFailed", "2006-03-15", "581305"));
+        statsResponseObj.countPercentages();
+        return statsResponseObj;
+    }
 
     public static void main(String[] args) {
         String prefix = "src/main/webapp/WEB-INF/";
         ApplicationContext ctx = new FileSystemXmlApplicationContext(new String[]{prefix + "spring-context.xml", prefix + "spring-database.xml"});
         StatisticService ss = (StatisticService) ctx.getBean("statisticServiceImpl");
-        ss.doTheMagic("CSPassed", "2006-03-15", "581305");
-
-
+        CourseStatsResponseObj statsResponseObj = new CourseStatsResponseObj();
+        statsResponseObj.addCourseStatsObj(ss.doTheMagic("CSPassed", "2006-03-15", "581305"));
+        statsResponseObj.addCourseStatsObj(ss.doTheMagic("CSFailed", "2006-03-15", "581305"));
+        statsResponseObj.addCourseStatsObj(ss.doTheMagic("OtherPassed", "2006-03-15", "581305"));
+        statsResponseObj.addCourseStatsObj(ss.doTheMagic("OtherFailed", "2006-03-15", "581305"));
+        statsResponseObj.countPercentages();
+        System.out.println(statsResponseObj);
         //List<Stud> studs = ss.getOtherStudentsFromCourseWhoPassedOnDate("581305", "2006-03-15");
         //List<Stud> studs = ss.getOtherStudentsFromCourseWhoFailedOnDate("581305", "2006-03-15");
 

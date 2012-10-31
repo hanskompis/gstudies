@@ -9,9 +9,36 @@ public class CourseStats {
     private double averageGradeSevenMonths;
     private double averageGradeThirteenMonths;
     private double averageGradeNineteenMonths;
+    private double standardDeviationGradesSevenMonths;
+    private double standardDeviationGradesThirteenMonths;
+    private double standardDeviationGradesNineteenMonths;
     private HashMap<Integer, Integer> creditGainsSevenMonths;
     private HashMap<Integer, Integer> creditGainsThirteenMonths;
     private HashMap<Integer, Integer> creditGainsNineteenMonths;
+
+    public double getStandardDeviationGradesSevenmonths() {
+        return standardDeviationGradesSevenMonths;
+    }
+
+    public void setStandardDeviationGradesSevenmonths(double standardDeviationGradesSevenmonths) {
+        this.standardDeviationGradesSevenMonths = standardDeviationGradesSevenmonths;
+    }
+
+    public double getStandardDeviationGradesThirteenmonths() {
+        return standardDeviationGradesThirteenMonths;
+    }
+
+    public void setStandardDeviationGradesThirteenmonths(double standardDeviationGradesThirteenmonths) {
+        this.standardDeviationGradesThirteenMonths = standardDeviationGradesThirteenmonths;
+    }
+
+    public double getStandardDeviationGradesNineteenmonths() {
+        return standardDeviationGradesNineteenMonths;
+    }
+
+    public void setStandardDeviationGradesNineteenmonths(double standardDeviationGradesNineteenmonths) {
+        this.standardDeviationGradesNineteenMonths = standardDeviationGradesNineteenmonths;
+    }
 
     public CourseStats(String groupIdentifier) {
         this.groupIdentifier = groupIdentifier;
@@ -132,6 +159,9 @@ public class CourseStats {
                 + "average grade 7 mths: " + this.averageGradeSevenMonths + "\n"
                 + "average grade 13 mths: " + this.averageGradeThirteenMonths + "\n"
                 + "average grade 19 mths: " + this.averageGradeNineteenMonths + "\n"
+                + "standard dev 7 mths: " + this.standardDeviationGradesSevenMonths + "\n"
+                + "standard dev 13 mths: " + this.standardDeviationGradesThirteenMonths + "\n"
+                + "standard dev 19 mths: " + this.standardDeviationGradesNineteenMonths + "\n"
                 + "************" + "\n";
     }
 }

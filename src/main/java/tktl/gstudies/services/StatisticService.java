@@ -5,6 +5,8 @@ import java.util.List;
 import tktl.gstudies.domain.Stud;
 import tktl.gstudies.domain.Study;
 import tktl.gstudies.domain.TypeOfStudy;
+import tktl.gstudies.responseobjs.CourseStats;
+import tktl.gstudies.responseobjs.CourseStatsResponseObj;
 
 public interface StatisticService {
 
@@ -18,7 +20,7 @@ public interface StatisticService {
     
     public void sortCourses(Stud s);
     
-    public void doTheMagic(String groupIdentifier, String dateString, String courseId);
+    public CourseStats doTheMagic(String groupIdentifier, String dateString, String courseId);
     
     public double getCreditsNMonthsSpan(List<Study> studies, Date startDate, int timeSpan);
     
@@ -29,6 +31,10 @@ public interface StatisticService {
     public double getAverageGradeNMonthsSpan(List<Study> studies, Date startDate, int timeSpan);
     
     public double getGroupAverageGradeNMonthsSpan(List<Stud> studs, Date startDate, int timeSpan);
+    
+    public double getStandardDeviationOfgrades(List<Stud> studs, Date startDate, int timeSpan);
+    
+    public CourseStatsResponseObj getData();
     
     public List<TypeOfStudy> getTypesOfStudy();
 }
