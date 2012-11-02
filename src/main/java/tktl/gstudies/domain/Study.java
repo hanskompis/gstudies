@@ -36,6 +36,14 @@ public class Study extends AbstractModel implements Comparable {
     private Grade grade;
     private Date dateOfwrite;
 
+    public List<CourseObject> getCourseObjects() {
+        return courseObjects;
+    }
+
+    public void setCourseObjects(List<CourseObject> courseObjects) {
+        this.courseObjects = courseObjects;
+    }
+
     public Date getDateOfwrite() {
         return dateOfwrite;
     }

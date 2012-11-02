@@ -27,11 +27,11 @@ public class TestController {
     @Autowired
     private StatisticService ss;
 
-    @RequestMapping("/test")
-    @ResponseBody
-    public CourseStatsResponseObj process() {
-        return ss.getData();
-    }
+//    @RequestMapping("/test")
+//    @ResponseBody
+//    public CourseStatsResponseObj process() {
+//        return ss.getData();
+//    }
 
     @RequestMapping(method = RequestMethod.POST, value = "query", consumes = "application/json", produces = "application/json")
     @ResponseBody

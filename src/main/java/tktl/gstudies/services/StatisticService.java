@@ -34,7 +34,9 @@ public interface StatisticService {
     
     public double getStandardDeviationOfgrades(List<Stud> studs, Date startDate, int timeSpan);
     
-    public CourseStatsResponseObj getData();
+    public int[] getGradeDistribution(List<Stud> studs, String courseId, String dateSrtring);
+    
+    public CourseStatsResponseObj getData(String dateString, String courseId);
     
     public List<TypeOfStudy> getTypesOfStudy();
 }

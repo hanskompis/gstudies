@@ -2,10 +2,13 @@ package tktl.gstudies.responseobjs;
 
 import java.sql.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class CourseStatsResponseObj {
 
+    private int[] CSCourseGrades;
+    private int[] OtherCourseGrades;
     private List<CourseStats> courseStatsObjs;
     private int CSPassed;
     private int CSFailed;
@@ -29,7 +32,7 @@ public class CourseStatsResponseObj {
     }
 
     private void countStudents() {
-        
+
         for (CourseStats cs : courseStatsObjs) {
             if (cs.getGroupIdentifier().equals("CSPassed")) {
                 this.CSPassed = cs.getAmountStudents();
@@ -42,36 +45,54 @@ public class CourseStatsResponseObj {
             } else {
                 System.out.println("countstuds failed!!!");
             }
-        }       
-        this.amountCSStuds = this.CSFailed+this.CSPassed;
-        this.amountOtherStuds = this.OtherFailed+this.OtherPassed;
+        }
+        this.amountCSStuds = this.CSFailed + this.CSPassed;
+        this.amountOtherStuds = this.OtherFailed + this.OtherPassed;
         this.amountAllStudents = this.amountCSStuds + this.amountOtherStuds;
     }
 
     public void countPercentages() {
         this.countStudents();
-        this.CSPercentagePassed =  (100F*this.CSPassed) / this.amountCSStuds;
-        this.CSPercentageFailed =  (100F*this.CSFailed) / this.amountCSStuds;
-        this.OtherPercentagePassed =  (100F*this.OtherPassed) / this.amountOtherStuds;
-        this.OtherPercentageFailed =  (100F*this.CSFailed) / this.amountOtherStuds;
-        this.allPercentagePassed = (100F*(this.CSPassed+this.OtherPassed)) / this.amountAllStudents;
-        this.allPercentageFailed = (100F*(this.CSFailed+this.OtherFailed)) / this.amountAllStudents;
+        this.CSPercentagePassed = (100F * this.CSPassed) / this.amountCSStuds;
+        this.CSPercentageFailed = (100F * this.CSFailed) / this.amountCSStuds;
+        this.OtherPercentagePassed = (100F * this.OtherPassed) / this.amountOtherStuds;
+        this.OtherPercentageFailed = (100F * this.OtherFailed) / this.amountOtherStuds;
+        this.allPercentagePassed = (100F * (this.CSPassed + this.OtherPassed)) / this.amountAllStudents;
+        this.allPercentageFailed = (100F * (this.CSFailed + this.OtherFailed)) / this.amountAllStudents;
     }
-    
+
     @Override
-    public String toString(){
-        return "studs: "+this.amountAllStudents+"\n"
-                + "All studs passed: "+this.allPercentagePassed+"\n"
-                + "All studs failed: "+this.allPercentageFailed+"\n"
-                +"CS studs passed: "+this.CSPassed+"\n"
-                +"PERSEntage of CS studs: "+this.CSPercentagePassed+"\n"
-                +"CS studs failed: "+this.CSFailed+"\n"
-                +"PERSEntage of CS studs: "+this.CSPercentageFailed+"\n"
-                +"Other studs passed: "+this.OtherPassed+"\n"
-                +"PERSEntage of other studs: "+this.OtherPercentagePassed+"\n"
-                +"Other studs failed: "+this.OtherFailed+"\n"
-                +"PERSEntage of other studs: "+this.OtherPercentageFailed+"\n"
-                +this.courseStatsObjs.get(0)+this.courseStatsObjs.get(1)+this.courseStatsObjs.get(2)+this.courseStatsObjs.get(3);
+    public String toString() {
+        return "studs: " + this.amountAllStudents + "\n"
+                + "All studs passed: " + this.allPercentagePassed + "\n"
+                + "All studs failed: " + this.allPercentageFailed + "\n"
+                + "CS studs passed: " + this.CSPassed + "\n"
+                + "PERSEntage of CS studs: " + this.CSPercentagePassed + "\n"
+                + "CS studs failed: " + this.CSFailed + "\n"
+                + "PERSEntage of CS studs: " + this.CSPercentageFailed + "\n"
+                + "Other studs passed: " + this.OtherPassed + "\n"
+                + "PERSEntage of other studs: " + this.OtherPercentagePassed + "\n"
+                + "Other studs failed: " + this.OtherFailed + "\n"
+                + "PERSEntage of other studs: " + this.OtherPercentageFailed + "\n"
+                + "CS grade distribution: " + this.CSCourseGrades[0] + " " + this.CSCourseGrades[1] + " " + this.CSCourseGrades[2] + " " + this.CSCourseGrades[3] + " " + this.CSCourseGrades[4] + "\n"
+                + "Others grade distribution: " + this.OtherCourseGrades[0] + " " + this.OtherCourseGrades[1] + " " + this.OtherCourseGrades[2] + " " + this.OtherCourseGrades[3] + " " + this.OtherCourseGrades[4] + "\n"
+                + this.courseStatsObjs.get(0) + this.courseStatsObjs.get(1) + this.courseStatsObjs.get(2) + this.courseStatsObjs.get(3);
+    }
+
+    public int[] getCSCourseGrades() {
+        return CSCourseGrades;
+    }
+
+    public void setCSCourseGrades(int[] CSCourseGrades) {
+        this.CSCourseGrades = CSCourseGrades;
+    }
+
+    public int[] getOtherCourseGrades() {
+        return OtherCourseGrades;
+    }
+
+    public void setOtherCourseGrades(int[] OtherCourseGrades) {
+        this.OtherCourseGrades = OtherCourseGrades;
     }
 
     public List<CourseStats> getCourseStatsObjs() {
@@ -185,5 +206,4 @@ public class CourseStatsResponseObj {
     public void setOtherPercentageFailed(double OtherPercentageFailed) {
         this.OtherPercentageFailed = OtherPercentageFailed;
     }
-    
 }

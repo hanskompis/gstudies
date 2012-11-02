@@ -6,30 +6,17 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.NamedQuery;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Root;
-import javax.persistence.metamodel.EntityType;
-import javax.persistence.metamodel.Metamodel;
-import org.apache.commons.math3.stat.descriptive.moment.Variance;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.stereotype.Service;
 import tktl.gstudies.domain.CourseObject;
-import tktl.gstudies.domain.RightToStudy;
 import tktl.gstudies.domain.Stud;
 import tktl.gstudies.domain.Study;
 import tktl.gstudies.domain.TypeOfStudy;
-import tktl.gstudies.importClasses.ImportService;
 import tktl.gstudies.responseobjs.CourseStats;
 import tktl.gstudies.responseobjs.CourseStatsResponseObj;
 
@@ -187,7 +174,6 @@ public class StatisticServiceImpl implements StatisticService {
                     values.add(Double.parseDouble(st.getGrade().getGrade()));
                 }
             }
-
         }
         double[] arr = new double[values.size()];
         for (int i = 0; i < values.size(); i++) {
@@ -238,20 +224,13 @@ public class StatisticServiceImpl implements StatisticService {
             courseStats.addCreditGainToNineteenMonthsCSPassed(credits19);
         }
 
+        courseStats.convertAllHashMaps();
+
         this.setAverageGrades(courseStats, dateString, students);
         this.setStandardDeviations(courseStats, dateString, students);
-
-        //System.out.println(courseStats);
+        courseStats.calculateCreditAverages();
         return courseStats;
-        //test
-//        List<Stud> testStuds = new ArrayList<Stud>();
-//        testStuds.add(students.get(0));
-//        testStuds.add(students.get(1));
-//        System.out.println(testStuds.get(0).getStudies().toString());
-//        System.out.println(testStuds.get(1).getStudies().toString());
-//        System.out.println(this.getGroupAverageGradeNMonthsSpan(testStuds, this.makeDate(dateString), 7));
 
-        //test
     }
 
     //privateksi
@@ -263,15 +242,47 @@ public class StatisticServiceImpl implements StatisticService {
         Date toReturn = new Date(millis);
         return toReturn;
     }
-    
+
     @Override
-    public CourseStatsResponseObj getData(){
+    public int[] getGradeDistribution(List<Stud> studs, String courseId, String dateString) {
+        int[] grades = {0, 0, 0, 0, 0};
+        for (Stud stud : studs) {
+            for (Study study : stud.getStudies()) {
+                if (study == null || study.getDateOfwrite() == null) {
+                    continue;
+                }
+                for (CourseObject co : study.getCourseObjects()) {
+                    if (co == null || co.getCourseId() == null) {
+                        continue;
+                    }
+                    if (co.getCourseId().equals(courseId) && study.getDateOfwrite().equals(makeDate(dateString))) {
+                        String grade = study.getGrade().getGrade();
+                        if (acceptableGrades.contains(grade)) {
+                            int g = Integer.parseInt(grade);
+                            int amount = grades[g - 1];
+                            amount++;
+                            grades[g - 1] = amount;
+                        }
+                    }
+                }
+            }
+        }
+        return grades;
+    }
+
+    @Override
+    public CourseStatsResponseObj getData(String dateString, String courseId) {
         CourseStatsResponseObj statsResponseObj = new CourseStatsResponseObj();
-        statsResponseObj.addCourseStatsObj(this.doTheMagic("CSPassed", "2006-03-15", "581305"));
-        statsResponseObj.addCourseStatsObj(this.doTheMagic("CSFailed", "2006-03-15", "581305"));
-        statsResponseObj.addCourseStatsObj(this.doTheMagic("OtherPassed", "2006-03-15", "581305"));
-        statsResponseObj.addCourseStatsObj(this.doTheMagic("OtherFailed", "2006-03-15", "581305"));
+        statsResponseObj.addCourseStatsObj(this.doTheMagic("CSPassed", dateString, courseId));
+        statsResponseObj.addCourseStatsObj(this.doTheMagic("CSFailed", dateString, courseId));
+        statsResponseObj.addCourseStatsObj(this.doTheMagic("OtherPassed", dateString, courseId));
+        statsResponseObj.addCourseStatsObj(this.doTheMagic("OtherFailed", dateString, courseId));
         statsResponseObj.countPercentages();
+        //refactor this
+        List<Stud> studs = this.getCSStudentsFromCourseWhoPassedOnDate(courseId, dateString);
+        statsResponseObj.setCSCourseGrades(this.getGradeDistribution(studs, courseId, dateString));
+        studs = this.getOtherStudentsFromCourseWhoPassedOnDate(courseId, dateString);
+        statsResponseObj.setOtherCourseGrades(this.getGradeDistribution(studs, courseId, dateString));
         return statsResponseObj;
     }
 
@@ -280,15 +291,8 @@ public class StatisticServiceImpl implements StatisticService {
         ApplicationContext ctx = new FileSystemXmlApplicationContext(new String[]{prefix + "spring-context.xml", prefix + "spring-database.xml"});
         StatisticService ss = (StatisticService) ctx.getBean("statisticServiceImpl");
         CourseStatsResponseObj statsResponseObj = new CourseStatsResponseObj();
-        statsResponseObj.addCourseStatsObj(ss.doTheMagic("CSPassed", "2006-03-15", "581305"));
-        statsResponseObj.addCourseStatsObj(ss.doTheMagic("CSFailed", "2006-03-15", "581305"));
-        statsResponseObj.addCourseStatsObj(ss.doTheMagic("OtherPassed", "2006-03-15", "581305"));
-        statsResponseObj.addCourseStatsObj(ss.doTheMagic("OtherFailed", "2006-03-15", "581305"));
-        statsResponseObj.countPercentages();
+
+        statsResponseObj = ss.getData("2008-05-29","581305"); 
         System.out.println(statsResponseObj);
-        //List<Stud> studs = ss.getOtherStudentsFromCourseWhoPassedOnDate("581305", "2006-03-15");
-        //List<Stud> studs = ss.getOtherStudentsFromCourseWhoFailedOnDate("581305", "2006-03-15");
-
-
     }
 }
