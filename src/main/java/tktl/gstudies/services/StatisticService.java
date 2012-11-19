@@ -39,4 +39,6 @@ public interface StatisticService {
     public CourseStatsResponseObj getData(String dateString, String courseId);
     
     public List<TypeOfStudy> getTypesOfStudy();
+    
+    public List<Stud> getCSStudents();
 }

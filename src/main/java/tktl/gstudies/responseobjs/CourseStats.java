@@ -75,6 +75,7 @@ public class CourseStats {
     }
 
     private int[][] convertHashMapIntoArrays(HashMap toConvert) {
+
         int arrSize = toConvert.size();
         int[][] arr = new int[arrSize][];
         int ind = 0;
@@ -128,8 +129,13 @@ public class CourseStats {
 //        }
 //        return ret;
 //    }
+//       @Override
+//    public String toString() {
+//           return "pröööött";
+//       }
     @Override
     public String toString() {
+        if(this.amountStudents!=0){
         return "amount of " + this.groupIdentifier + ": " + this.amountStudents + "\n"
                 + "distribution of credits 7 mths ave:" + this.averageCreditsSevenMonths + " distr" + this.creditGainsSevenMonths.toString() + "\n"
                 + "categorized: " + this.getCategorizedMap(creditGainsSevenMonths).toString() + "\n"
@@ -144,6 +150,10 @@ public class CourseStats {
                 + "standard dev 13 mths: " + this.standardDeviationGradesThirteenMonths + "\n"
                 + "standard dev 19 mths: " + this.standardDeviationGradesNineteenMonths + "\n"
                 + "************" + "\n";
+        }
+        else{
+            return "pröööttt";
+        }
     }
 
     public int getAmountCreditsSevenMonths() {

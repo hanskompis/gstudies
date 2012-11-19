@@ -223,8 +223,10 @@ public class StatisticServiceImpl implements StatisticService {
             double credits19 = this.getCreditsNMonthsSpan(s.getStudies(), this.makeDate(dateString), 19);
             courseStats.addCreditGainToNineteenMonthsCSPassed(credits19);
         }
+        //test
 
-        courseStats.convertAllHashMaps();
+  //          courseStats.convertAllHashMaps();
+
 
         this.setAverageGrades(courseStats, dateString, students);
         this.setStandardDeviations(courseStats, dateString, students);
@@ -285,14 +287,20 @@ public class StatisticServiceImpl implements StatisticService {
         statsResponseObj.setOtherCourseGrades(this.getGradeDistribution(studs, courseId, dateString));
         return statsResponseObj;
     }
+    
+    @Override
+    public List<Stud> getCSStudents(){
+        return em.createNamedQuery("getAllCSStuds").getResultList();
+    }
 
     public static void main(String[] args) {
         String prefix = "src/main/webapp/WEB-INF/";
         ApplicationContext ctx = new FileSystemXmlApplicationContext(new String[]{prefix + "spring-context.xml", prefix + "spring-database.xml"});
         StatisticService ss = (StatisticService) ctx.getBean("statisticServiceImpl");
-        CourseStatsResponseObj statsResponseObj = new CourseStatsResponseObj();
-
-        statsResponseObj = ss.getData("2008-05-29","581305"); 
-        System.out.println(statsResponseObj);
+//        CourseStatsResponseObj statsResponseObj = new CourseStatsResponseObj();
+//        statsResponseObj = ss.getData("2010-11-04", "581324");
+//        System.out.println(statsResponseObj);
+        System.out.println(ss.getCSStudents().size());
+        
     }
 }
