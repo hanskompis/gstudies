@@ -176,6 +176,7 @@ public class JDBCRepository {
     public void getGradeObjects(RowCallbackHandler rch){
         this.jdbcTemplate.query("SELECT * FROM arvosana ", rch);
     }
+    
 
     /**
      * Fuckiest method ever written in history of JAVA. Actually does the job

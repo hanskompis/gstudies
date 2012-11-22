@@ -1,5 +1,6 @@
 package tktl.gstudies.services;
 
+import java.sql.Date;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -44,66 +45,38 @@ public class StudyService extends GenericRepositoryService<Study> {
         s = studyRepository.findOne(s.getId());
 
         Stud stud = studRepository.findByStudentId(studentId);
-//        if (stud == null) {
-//            fail++;
-//            System.out.println("STUD NULL, FAIL: " + fail + " NO SUCH STUDENT: " + studentId);
-//            return null;
-//        } else {
-//            succ++;
-//            System.out.println("STUD FOUND, SUCC: " + succ);
-//        }
         stud.addStudy(s);
         s.setStudent(stud);
-        //      this.studRepository.save(stud);
-
         // System.out.println(courseObjectId);
         List<CourseObject> cos = courseObjectRepository.findByObjectId(courseObjectId);
-//        if (cos == null) {
-//            fail++;
-//            System.out.println("COS NULL, FAIL: " + fail);
-//            return null;
-//        } else {
-//            succ++;
-//            System.out.println("COS FOUND, SUCC: " + succ);
-//        }
 
         for(CourseObject co: cos){
             co.addStudy(s);
            s.addCourseObject(co);
         }
 
-        //    s.addCourseObject(co);
-        //        this.courseObjectRepository.save(co);
-
-
         StatusOfStudy sos = statusOfStudyRepository.findByCode(statusOfStudyCode);
-//        if (sos == null) {
-//            fail++;
-//            System.out.println("SOS NULL, FAIL: " + fail);
-//            return null;
-//        } else {
-//            succ++;
-//            System.out.println("SOS FOUND, SUCC: " + succ);
-//        }
-//        sos.addStudy(s);
-        s.setStatusOfStudy(sos);
-        //   this.statusOfStudyRepository.save(sos);
 
+        s.setStatusOfStudy(sos);
 
         TypeOfStudy tos = typeOfStudyRepository.findByCode(typeOfStudyCode);
-//        if (tos == null) {
-//            fail++;
-//            System.out.println("TOS NULL, FAIL: " + fail);
-//
-//        } else {
-//            succ++;
-//            System.out.println("TOS FOUND, SUCC: " + succ);
-//        }
-        //tos.addStudy(s);
+
         s.setTypeOfStudy(tos);
-        //     this.typeOfStudyRepository.save(tos);
 
         return s;
-       // return studyRepository.save(s);
+
+    }
+    @Transactional
+    public void addDateOfAccomplishment(Integer studyNumber, Date dateOfAccomplishment){
+        Study s = studyRepository.findByStudyNumber(studyNumber);
+        if(s == null){
+            fail++;
+            System.out.println("fail: "+fail);
+            return;
+        }
+        
+        s.setDateOfAccomplishment(dateOfAccomplishment);
+        succ++;
+        System.out.println("succ: "+succ);
     }
 }

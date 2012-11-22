@@ -12,11 +12,11 @@ public interface StatisticService {
 
     public List<Stud> getCSStudentsFromCourseWhoPassedOnDate(String courseId, String dateOfWrite);
 
-    public List<Stud> getOtherStudentsFromCourseWhoPassedOnDate(String courseId, String dateOfWrite);
+ //   public List<Stud> getOtherStudentsFromCourseWhoPassedOnDate(String courseId, String dateOfWrite);
 
     public List<Stud> getCSStudentsFromCourseWhoFailedOnDate(String courseId, String dateOfWrite);
 
-    public List<Stud> getOtherStudentsFromCourseWhoFailedOnDate(String courseId, String dateOfWrite);
+  //  public List<Stud> getOtherStudentsFromCourseWhoFailedOnDate(String courseId, String dateOfWrite);
     
     public void sortCourses(Stud s);
     

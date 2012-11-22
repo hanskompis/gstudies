@@ -38,10 +38,10 @@ public class CourseStatsResponseObj {
                 this.CSPassed = cs.getAmountStudents();
             } else if (cs.getGroupIdentifier().equals("CSFailed")) {
                 this.CSFailed = cs.getAmountStudents();
-            } else if (cs.getGroupIdentifier().equals("OtherFailed")) {
-                this.OtherFailed = cs.getAmountStudents();
-            } else if (cs.getGroupIdentifier().equals("OtherPassed")) {
-                this.OtherPassed = cs.getAmountStudents();
+//            } else if (cs.getGroupIdentifier().equals("OtherFailed")) {
+//                this.OtherFailed = cs.getAmountStudents();
+//            } else if (cs.getGroupIdentifier().equals("OtherPassed")) {
+//                this.OtherPassed = cs.getAmountStudents();
             } else {
                 System.out.println("countstuds failed!!!");
             }
@@ -55,28 +55,28 @@ public class CourseStatsResponseObj {
         this.countStudents();
         this.CSPercentagePassed = (100F * this.CSPassed) / this.amountCSStuds;
         this.CSPercentageFailed = (100F * this.CSFailed) / this.amountCSStuds;
-        this.OtherPercentagePassed = (100F * this.OtherPassed) / this.amountOtherStuds;
-        this.OtherPercentageFailed = (100F * this.OtherFailed) / this.amountOtherStuds;
-        this.allPercentagePassed = (100F * (this.CSPassed + this.OtherPassed)) / this.amountAllStudents;
-        this.allPercentageFailed = (100F * (this.CSFailed + this.OtherFailed)) / this.amountAllStudents;
+//        this.OtherPercentagePassed = (100F * this.OtherPassed) / this.amountOtherStuds;
+//        this.OtherPercentageFailed = (100F * this.OtherFailed) / this.amountOtherStuds;
+//        this.allPercentagePassed = (100F * (this.CSPassed + this.OtherPassed)) / this.amountAllStudents;
+//        this.allPercentageFailed = (100F * (this.CSFailed + this.OtherFailed)) / this.amountAllStudents;
     }
 
     @Override
     public String toString() {
         return "studs: " + this.amountAllStudents + "\n"
-                + "All studs passed: " + this.allPercentagePassed + "\n"
-                + "All studs failed: " + this.allPercentageFailed + "\n"
+//                + "All studs passed: " + this.allPercentagePassed + "\n"
+//                + "All studs failed: " + this.allPercentageFailed + "\n"
                 + "CS studs passed: " + this.CSPassed + "\n"
                 + "PERSEntage of CS studs: " + this.CSPercentagePassed + "\n"
                 + "CS studs failed: " + this.CSFailed + "\n"
                 + "PERSEntage of CS studs: " + this.CSPercentageFailed + "\n"
-                + "Other studs passed: " + this.OtherPassed + "\n"
-                + "PERSEntage of other studs: " + this.OtherPercentagePassed + "\n"
-                + "Other studs failed: " + this.OtherFailed + "\n"
-                + "PERSEntage of other studs: " + this.OtherPercentageFailed + "\n"
+//                + "Other studs passed: " + this.OtherPassed + "\n"
+//                + "PERSEntage of other studs: " + this.OtherPercentagePassed + "\n"
+//                + "Other studs failed: " + this.OtherFailed + "\n"
+//                + "PERSEntage of other studs: " + this.OtherPercentageFailed + "\n"
                 + "CS grade distribution: " + this.CSCourseGrades[0] + " " + this.CSCourseGrades[1] + " " + this.CSCourseGrades[2] + " " + this.CSCourseGrades[3] + " " + this.CSCourseGrades[4] + "\n"
-                + "Others grade distribution: " + this.OtherCourseGrades[0] + " " + this.OtherCourseGrades[1] + " " + this.OtherCourseGrades[2] + " " + this.OtherCourseGrades[3] + " " + this.OtherCourseGrades[4] + "\n"
-                + this.courseStatsObjs.get(0) + this.courseStatsObjs.get(1) + this.courseStatsObjs.get(2) + this.courseStatsObjs.get(3);
+              //  + "Others grade distribution: " + this.OtherCourseGrades[0] + " " + this.OtherCourseGrades[1] + " " + this.OtherCourseGrades[2] + " " + this.OtherCourseGrades[3] + " " + this.OtherCourseGrades[4] + "\n"
+                + this.courseStatsObjs.get(0) + this.courseStatsObjs.get(1) ;//+ this.courseStatsObjs.get(2) + this.courseStatsObjs.get(3);
     }
 
     public int[] getCSCourseGrades() {

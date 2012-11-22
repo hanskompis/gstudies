@@ -28,41 +28,39 @@ public class StatisticServiceImpl implements StatisticService {
     EntityManager em;
 
     @Override
-    public List<Stud> getCSStudentsFromCourseWhoPassedOnDate(String courseId, String dateOfWrite) {
-        Date paramDate = makeDate(dateOfWrite);
+    public List<Stud> getCSStudentsFromCourseWhoPassedOnDate(String courseId, String dateOfAccomplishment) {
+        Date paramDate = makeDate(dateOfAccomplishment);
         return em.createNamedQuery("findCSStudentsFromCourseWhoPassedOnDate")
                 .setParameter("courseId", courseId)
-                .setParameter("dateOfwrite", paramDate)
+                .setParameter("dateOfAccomplishment", paramDate)
                 .getResultList();
     }
 
+//    @Override
+//    public List<Stud> getOtherStudentsFromCourseWhoPassedOnDate(String courseId, String dateOfAccomplishment) {
+//        Date paramDate = makeDate(dateOfWrite);
+//        return em.createNamedQuery("findOtherStudentsFromCourseWhoPassedOnDate")
+//                .setParameter("courseId", courseId)
+//                .setParameter("dateOfwrite", paramDate)
+//                .getResultList();
+//    }
     @Override
-    public List<Stud> getOtherStudentsFromCourseWhoPassedOnDate(String courseId, String dateOfWrite) {
-        Date paramDate = makeDate(dateOfWrite);
-        return em.createNamedQuery("findOtherStudentsFromCourseWhoPassedOnDate")
-                .setParameter("courseId", courseId)
-                .setParameter("dateOfwrite", paramDate)
-                .getResultList();
-    }
-
-    @Override
-    public List<Stud> getCSStudentsFromCourseWhoFailedOnDate(String courseId, String dateOfWrite) {
-        Date paramDate = makeDate(dateOfWrite);
+    public List<Stud> getCSStudentsFromCourseWhoFailedOnDate(String courseId, String dateOfAccomplishment) {
+        Date paramDate = makeDate(dateOfAccomplishment);
         return em.createNamedQuery("findCSStudentsFromCourseWhoFailedOnDate")
                 .setParameter("courseId", courseId)
-                .setParameter("dateOfwrite", paramDate)
+                .setParameter("dateOfAccomplishment", paramDate)
                 .getResultList();
     }
 
-    @Override
-    public List<Stud> getOtherStudentsFromCourseWhoFailedOnDate(String courseId, String dateOfWrite) {
-        Date paramDate = makeDate(dateOfWrite);
-        return em.createNamedQuery("findOtherStudentsFromCourseWhoFailedOnDate")
-                .setParameter("courseId", courseId)
-                .setParameter("dateOfwrite", paramDate)
-                .getResultList();
-    }
-
+//    @Override
+//    public List<Stud> getOtherStudentsFromCourseWhoFailedOnDate(String courseId, String dateOfWrite) {
+//        Date paramDate = makeDate(dateOfWrite);
+//        return em.createNamedQuery("findOtherStudentsFromCourseWhoFailedOnDate")
+//                .setParameter("courseId", courseId)
+//                .setParameter("dateOfwrite", paramDate)
+//                .getResultList();
+//    }
     @Override
     public List<TypeOfStudy> getTypesOfStudy() {
         return em.createQuery("SELECT t FROM TypeOfStudy t").getResultList();
@@ -108,8 +106,9 @@ public class StatisticServiceImpl implements StatisticService {
             if (s.getTypeOfStudy().getCode() != 1 || s.getStatusOfStudy().getCode() != 4) {
                 continue;
             }
-            Date dateOfwrite = s.getDateOfwrite();
-            if (dateOfwrite.after(startDate) && dateOfwrite.before(endDate)) {
+//            Date dateOfwrite = s.getDateOfwrite();
+                        Date dateOfAccomplishment = s.getDateOfAccomplishment();
+            if (dateOfAccomplishment.after(startDate) && dateOfAccomplishment.before(endDate)) {
                 sumCredits = sumCredits + s.getCredits();
             }
         }
@@ -129,8 +128,9 @@ public class StatisticServiceImpl implements StatisticService {
             if (s.getTypeOfStudy().getCode() != 1 || s.getStatusOfStudy().getCode() != 4) {
                 continue;
             }
-            Date dateOfwrite = s.getDateOfwrite();
-            if (dateOfwrite.after(startDate) && dateOfwrite.before(endDate) && acceptableGrades.contains(s.getGrade().getGrade())) {
+//            Date dateOfwrite = s.getDateOfwrite();
+            Date dateOfAccomplishment = s.getDateOfAccomplishment();
+            if (dateOfAccomplishment.after(startDate) && dateOfAccomplishment.before(endDate) && acceptableGrades.contains(s.getGrade().getGrade())) {
                 int grade = Integer.parseInt(s.getGrade().getGrade());
                 sum = sum + grade;
                 amountCourses++;
@@ -169,8 +169,9 @@ public class StatisticServiceImpl implements StatisticService {
                 if (st.getTypeOfStudy().getCode() != 1 || st.getStatusOfStudy().getCode() != 4) {
                     continue;
                 }
-                Date dateOfwrite = st.getDateOfwrite();
-                if (dateOfwrite.after(startDate) && dateOfwrite.before(endDate) && acceptableGrades.contains(st.getGrade().getGrade())) {
+//                Date dateOfwrite = st.getDateOfwrite();
+                Date dateOfAccomplishment = st.getDateOfAccomplishment();
+                if (dateOfAccomplishment.after(startDate) && dateOfAccomplishment.before(endDate) && acceptableGrades.contains(st.getGrade().getGrade())) {
                     values.add(Double.parseDouble(st.getGrade().getGrade()));
                 }
             }
@@ -188,10 +189,10 @@ public class StatisticServiceImpl implements StatisticService {
             return this.getCSStudentsFromCourseWhoPassedOnDate(courseId, dateString);
         } else if (groupIdentifier.equals("CSFailed")) {
             return this.getCSStudentsFromCourseWhoFailedOnDate(courseId, dateString);
-        } else if (groupIdentifier.equals("OtherPassed")) {
-            return this.getOtherStudentsFromCourseWhoPassedOnDate(courseId, dateString);
-        } else if (groupIdentifier.equals("OtherFailed")) {
-            return this.getOtherStudentsFromCourseWhoFailedOnDate(courseId, dateString);
+//        } else if (groupIdentifier.equals("OtherPassed")) {
+//            return this.getOtherStudentsFromCourseWhoPassedOnDate(courseId, dateString);
+//        } else if (groupIdentifier.equals("OtherFailed")) {
+//            return this.getOtherStudentsFromCourseWhoFailedOnDate(courseId, dateString);
         } else {
             return null;
         }
@@ -214,6 +215,7 @@ public class StatisticServiceImpl implements StatisticService {
         CourseStats courseStats = new CourseStats(groupIdentifier);
 
         List<Stud> students = this.getStudentGroup(groupIdentifier, dateString, courseId);
+        System.out.println("SIIIZEEE:" + students.size());
         courseStats.setAmountStudents(students.size());
         for (Stud s : students) {
             double credits7 = this.getCreditsNMonthsSpan(s.getStudies(), this.makeDate(dateString), 7);
@@ -223,19 +225,15 @@ public class StatisticServiceImpl implements StatisticService {
             double credits19 = this.getCreditsNMonthsSpan(s.getStudies(), this.makeDate(dateString), 19);
             courseStats.addCreditGainToNineteenMonthsCSPassed(credits19);
         }
-        //test
-
-  //          courseStats.convertAllHashMaps();
-
-
+        
+        //          courseStats.convertAllHashMaps();
         this.setAverageGrades(courseStats, dateString, students);
         this.setStandardDeviations(courseStats, dateString, students);
         courseStats.calculateCreditAverages();
         return courseStats;
-
     }
-
     //privateksi
+
     @Override
     public Date AddMonthsToDate(Date date, int incrementInMonths) {
         long millis = date.getTime();
@@ -247,17 +245,20 @@ public class StatisticServiceImpl implements StatisticService {
 
     @Override
     public int[] getGradeDistribution(List<Stud> studs, String courseId, String dateString) {
+        System.out.println("METODISSA STUEJA: "+studs.size());
         int[] grades = {0, 0, 0, 0, 0};
         for (Stud stud : studs) {
             for (Study study : stud.getStudies()) {
-                if (study == null || study.getDateOfwrite() == null) {
+//                if (study == null || study.getDateOfwrite() == null) {
+                if (study == null || study.getDateOfAccomplishment() == null) {
                     continue;
                 }
                 for (CourseObject co : study.getCourseObjects()) {
                     if (co == null || co.getCourseId() == null) {
                         continue;
                     }
-                    if (co.getCourseId().equals(courseId) && study.getDateOfwrite().equals(makeDate(dateString))) {
+//                    if (co.getCourseId().equals(courseId) && study.getDateOfwrite().equals(makeDate(dateString))) {
+                    if (co.getCourseId().equals(courseId) && study.getDateOfAccomplishment().equals(makeDate(dateString))) {
                         String grade = study.getGrade().getGrade();
                         if (acceptableGrades.contains(grade)) {
                             int g = Integer.parseInt(grade);
@@ -277,19 +278,19 @@ public class StatisticServiceImpl implements StatisticService {
         CourseStatsResponseObj statsResponseObj = new CourseStatsResponseObj();
         statsResponseObj.addCourseStatsObj(this.doTheMagic("CSPassed", dateString, courseId));
         statsResponseObj.addCourseStatsObj(this.doTheMagic("CSFailed", dateString, courseId));
-        statsResponseObj.addCourseStatsObj(this.doTheMagic("OtherPassed", dateString, courseId));
-        statsResponseObj.addCourseStatsObj(this.doTheMagic("OtherFailed", dateString, courseId));
+//        statsResponseObj.addCourseStatsObj(this.doTheMagic("OtherPassed", dateString, courseId));
+//        statsResponseObj.addCourseStatsObj(this.doTheMagic("OtherFailed", dateString, courseId));
         statsResponseObj.countPercentages();
         //refactor this
         List<Stud> studs = this.getCSStudentsFromCourseWhoPassedOnDate(courseId, dateString);
         statsResponseObj.setCSCourseGrades(this.getGradeDistribution(studs, courseId, dateString));
-        studs = this.getOtherStudentsFromCourseWhoPassedOnDate(courseId, dateString);
-        statsResponseObj.setOtherCourseGrades(this.getGradeDistribution(studs, courseId, dateString));
+//        studs = this.getOtherStudentsFromCourseWhoPassedOnDate(courseId, dateString);
+//        statsResponseObj.setOtherCourseGrades(this.getGradeDistribution(studs, courseId, dateString));
         return statsResponseObj;
     }
-    
+
     @Override
-    public List<Stud> getCSStudents(){
+    public List<Stud> getCSStudents() {
         return em.createNamedQuery("getAllCSStuds").getResultList();
     }
 
@@ -297,10 +298,10 @@ public class StatisticServiceImpl implements StatisticService {
         String prefix = "src/main/webapp/WEB-INF/";
         ApplicationContext ctx = new FileSystemXmlApplicationContext(new String[]{prefix + "spring-context.xml", prefix + "spring-database.xml"});
         StatisticService ss = (StatisticService) ctx.getBean("statisticServiceImpl");
-//        CourseStatsResponseObj statsResponseObj = new CourseStatsResponseObj();
-//        statsResponseObj = ss.getData("2010-11-04", "581324");
-//        System.out.println(statsResponseObj);
-        System.out.println(ss.getCSStudents().size());
-        
+        CourseStatsResponseObj statsResponseObj = new CourseStatsResponseObj();
+        statsResponseObj = ss.getData("2009-04-29", "58131");
+        System.out.println(statsResponseObj);
+        //      System.out.println(ss.getCSStudents().size());
+
     }
 }

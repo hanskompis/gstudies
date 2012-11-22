@@ -102,7 +102,6 @@ public class ImportService {
             courseObjectService.save(c);
         }
     }
-    //VAIHEESSA
 
     private void importAcademicEnrollmentObjects() {
         List<Map> list = this.jdbcrepository.getAcademicEnrollmentData();
@@ -147,6 +146,7 @@ public class ImportService {
                 study.setStudyNumber((Integer) rs.getObject("OPINTO"));
                 study.setCredits(((Float) rs.getObject("LAAJOP")).doubleValue());
                 study.setDateOfwrite((Date) rs.getObject("KIRJPVM"));
+                study.setDateOfAccomplishment((Date) rs.getObject("SUORPVM"));
 
                 Integer typeOfStudyCode = (Integer) rs.getObject("SUORTYYP");
                 if (!lst.contains(typeOfStudyCode)) {
@@ -198,12 +198,24 @@ public class ImportService {
         });
     }
 
+    private void importDatesOfAccomplishment() {
+        this.jdbcrepository.getStudyData(new RowCallbackHandler() {
+            @Override
+            public void processRow(ResultSet rs) throws SQLException {
+                Integer studyNumber = (Integer) rs.getObject("OPINTO");
+                Date dateOfAccomplishment = (Date) rs.getObject("SUORPVM");
+                studyService.addDateOfAccomplishment(studyNumber, dateOfAccomplishment);
+            }
+        });
+    }
+
     public static void main(String[] args) {
         // /home/hkeijone/gstudies/
         String prefix = "src/main/webapp/WEB-INF/";
         ApplicationContext ctx = new FileSystemXmlApplicationContext(new String[]{prefix + "spring-context.xml", prefix + "spring-database.xml"});
 
         ImportService impo = (ImportService) ctx.getBean("importService");
-        impo.importDB();
+        //impo.importDB();
+        impo.importDatesOfAccomplishment();
     }
 }
