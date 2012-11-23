@@ -40,5 +40,4 @@ public interface StatisticService {
     
     public List<TypeOfStudy> getTypesOfStudy();
     
-    public List<Stud> getCSStudents();
 }

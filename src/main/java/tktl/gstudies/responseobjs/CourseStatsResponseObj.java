@@ -76,8 +76,9 @@ public class CourseStatsResponseObj {
 //                + "PERSEntage of other studs: " + this.OtherPercentageFailed + "\n"
                 + "CS grade distribution: " + this.CSCourseGrades[0] + " " + this.CSCourseGrades[1] + " " + this.CSCourseGrades[2] + " " + this.CSCourseGrades[3] + " " + this.CSCourseGrades[4] + "\n"
               //  + "Others grade distribution: " + this.OtherCourseGrades[0] + " " + this.OtherCourseGrades[1] + " " + this.OtherCourseGrades[2] + " " + this.OtherCourseGrades[3] + " " + this.OtherCourseGrades[4] + "\n"
-                + this.courseStatsObjs.get(0) + this.courseStatsObjs.get(1) ;//+ this.courseStatsObjs.get(2) + this.courseStatsObjs.get(3);
+                + this.courseStatsObjs.get(0) + this.courseStatsObjs.get(1) + this.courseStatsObjs.get(2);// + this.courseStatsObjs.get(3);
     }
+    
 
     public int[] getCSCourseGrades() {
         return CSCourseGrades;
