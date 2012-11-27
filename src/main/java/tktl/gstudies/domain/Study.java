@@ -10,7 +10,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-
+/**
+ * Entity class to map studies. Comparable.
+ * @author hkeijone
+ */
 @Entity
 public class Study extends AbstractModel implements Comparable {
 
@@ -20,9 +23,6 @@ public class Study extends AbstractModel implements Comparable {
     private Integer studyNumber;
     @ManyToMany
     private List<CourseObject> courseObjects;
-//    @ManyToOne
-//    @JoinColumn        
-//    CourseObject courseObject;
     @ManyToOne
     @JoinColumn
     private StatusOfStudy statusOfStudy;
@@ -117,9 +117,6 @@ public class Study extends AbstractModel implements Comparable {
         this.grade = grade;
     }
 
-//    public void addStudent(Stud s) {
-//        this.student = s;
-//    }
     public void addCourseObject(CourseObject co) {
         if (this.courseObjects == null) {
             this.courseObjects = new ArrayList<CourseObject>();
@@ -162,6 +159,5 @@ public class Study extends AbstractModel implements Comparable {
         else{
             return 0;
         }
-
     }
 }

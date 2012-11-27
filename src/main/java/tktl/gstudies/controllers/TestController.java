@@ -1,4 +1,3 @@
-
 package tktl.gstudies.controllers;
 
 import java.util.List;
@@ -16,22 +15,19 @@ import tktl.gstudies.repositories.JDBCRepository;
 import tktl.gstudies.responseobjs.CourseStatsResponseObj;
 import tktl.gstudies.services.StatisticService;
 import tktl.gstudies.services.StatisticServiceImpl;
-
+/**
+ * Controller for getting course information. GUI will maybe not be implemented at all.
+ * @author hkeijone
+ */
 @Controller
 public class TestController {
 
     @Autowired
     private JDBCRepository testRepository;
-    @Autowired
-    private ImportService importService;
+//    @Autowired
+//    private ImportService importService;
     @Autowired
     private StatisticService ss;
-
-//    @RequestMapping("/test")
-//    @ResponseBody
-//    public CourseStatsResponseObj process() {
-//        return ss.getData();
-//    }
 
     @RequestMapping(method = RequestMethod.POST, value = "query", consumes = "application/json", produces = "application/json")
     @ResponseBody

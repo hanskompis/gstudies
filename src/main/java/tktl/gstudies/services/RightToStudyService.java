@@ -10,6 +10,11 @@ import tktl.gstudies.domain.Stud;
 import tktl.gstudies.repositories.RightToStudyRepository;
 import tktl.gstudies.repositories.StudRepository;
 
+/**
+ * Repository-service -class for RighToStudy
+ *
+ * @author hkeijone
+ */
 @Service
 public class RightToStudyService extends GenericRepositoryService<RightToStudy> {
 
@@ -30,7 +35,6 @@ public class RightToStudyService extends GenericRepositoryService<RightToStudy> 
         Stud s = studRepository.findByStudentId(studentId);
         r.setStudent(s);
         s.addRightToStudy(r);
-        //studRepository.save(s);
         return rightToStudyRepository.save(r);
     }
 }

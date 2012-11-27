@@ -1,4 +1,3 @@
-
 package tktl.gstudies.domain;
 
 import java.util.ArrayList;
@@ -6,12 +5,16 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
+/**
+ * Entity class to map types of study.
+ * @author hkeijone
+ */
 @Entity
-public class TypeOfStudy extends AbstractModel{
+public class TypeOfStudy extends AbstractModel {
+
     Integer code;
     String description;
 
-    
     public Integer getCode() {
         return code;
     }
@@ -27,10 +30,9 @@ public class TypeOfStudy extends AbstractModel{
     public void setDescription(String description) {
         this.description = description;
     }
-    
+
     @Override
-    public String toString(){
-        return  this.code+" "+this.description;
+    public String toString() {
+        return this.code + " " + this.description;
     }
-    
 }

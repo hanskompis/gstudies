@@ -19,6 +19,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
+/**
+ * A class for importing a Oracle DB as insert queries to H2 DB
+ *
+ * @author hkeijone
+ */
 @Service
 public class DBService {
 
@@ -42,16 +47,11 @@ public class DBService {
 
     private void loadDb(DataSource dataSource) throws Exception {
         System.out.println("LOAD DB");
-        // creates db and loads data into it
-
         if (dataSource == null) {
             System.out.println("FUU");
         }
-
         initTables(dataSource);
-
         File dataDir = new File(dataLocation);
-//        File dataDir = new File(dataLocation);
         for (File file : dataDir.listFiles()) {
             System.out.println("FILE: " + file.getName());
             if (!file.getName().endsWith(".sql")) {
@@ -95,24 +95,12 @@ public class DBService {
     }
 
     private void readFileIntoDb(File file, DataSource dataSource) throws Exception {
-        // LUE VIELÄ MUUT KUIN OPETTAJAT, MUISTA MYÖS KONFFATA TIEDOSTON SIJAINTI
-//        if ((!file.getName().contains("opintokohteet")) && (!file.getName().contains("opettajat"))
-//                && (!file.getName().contains("opintostatus")) && (!file.getName().contains("suortyyp")) && (!file.getName().contains("opiskelijat_test"))) {
-//            return;
-//        }
-
-//        if (!file.getName().contains("arvosanat_insert")) {
-//            return;
-//        }
-
         List<String> queries = readQueries(file);
         Connection connection = dataSource.getConnection();
         Statement statement = connection.createStatement();
-
         for (String query : queries) {
             statement.addBatch(query);
         }
-
         statement.executeBatch();
         statement.close();
         connection.close();
@@ -120,29 +108,22 @@ public class DBService {
 
     private List<String> readQueries(File file) throws Exception {
         List<String> queries = new ArrayList<String>();
-
         String query = "";
-
         Scanner sc = new Scanner(file, "iso-8859-1");
-
         while (sc.hasNextLine()) {
             String line = sc.nextLine();
             line = line.trim();
             if (line.trim().isEmpty()) {
                 continue;
             }
-
             query += " " + line;
-
             if (query.contains(";")) {
                 query = query.trim();
                 query = query.replace("to_date(", "");
                 query = query.replace(", 'dd-mm-yyyy')", "");
                 query = query.replace(", 'dd-mm-yyyy hh24:mi:ss')", "");
-
                 query = removeTime(reverseQueryDates(query));
                 queries.add(query);
-
                 query = "";
             }
         }
@@ -179,11 +160,9 @@ public class DBService {
     }
 
     public static void main(String[] args) throws Exception {
-        // käynnistä palvelin osoitteeseen x
         final String[] arguments = new String[]{
             "-tcpPort", String.valueOf("12345"),
-            "-tcpAllowOthers", ""}; //	need the extra empty string
-       // Server server = Server.createTcpServer(arguments).start();
+            "-tcpAllowOthers", ""};
 
     }
 }

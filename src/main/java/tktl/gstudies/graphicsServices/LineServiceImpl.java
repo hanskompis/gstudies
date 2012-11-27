@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package tktl.gstudies.graphicsServices;
 
 import tktl.gstudies.domainForGraphics.CourseInstance;
@@ -16,7 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 /**
- *
+ *A service class for creating line objects and calculating coordinates for lines.  
  * @author hkeijone
  */
 @Service
@@ -49,15 +46,14 @@ public class LineServiceImpl implements LineService {
         } else {
             this.lines = new HashMap<String, Line>();
         }
-        for (int i = 0; i < this.studs.size(); i++) { //iteroidaan studentit
+        for (int i = 0; i < this.studs.size(); i++) { 
             List<CourseInstance> currentCourseSet = this.studs.get(i).getCourses();
-            for (int j = 0; j < currentCourseSet.size(); j++) {//iteroidaan studentin courset
+            for (int j = 0; j < currentCourseSet.size(); j++) {
                 if ((j + 1) < currentCourseSet.size()) {
-                    int leftX = this.getCoordinatesForCourse(j, currentCourseSet.get(j).getCourse().name(), false).get(0); //TODO: tee fiksummin while refactoring
+                    int leftX = this.getCoordinatesForCourse(j, currentCourseSet.get(j).getCourse().name(), false).get(0); 
                     int leftY = this.getCoordinatesForCourse(j, currentCourseSet.get(j).getCourse().name(), false).get(1);
                     int rightX = this.getCoordinatesForCourse((j + 1), currentCourseSet.get(j + 1).getCourse().name(), true).get(0);
                     int rightY = this.getCoordinatesForCourse((j + 1), currentCourseSet.get(j + 1).getCourse().name(), true).get(1);
-//                    this.lines.add(new Line(leftX, leftY, rightX, rightY));
                     Line toAdd = new Line(leftX, leftY, rightX, rightY);
                     if (!this.lines.containsKey(toAdd.getPathString())) {
                         this.lines.put(toAdd.getPathString(), toAdd);

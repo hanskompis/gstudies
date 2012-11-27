@@ -1,10 +1,12 @@
-/**
- * 
- * tuhottava???
- */
 package tktl.gstudies.responseobjs;
 
+/**
+ * NOT IN USE ATM! Replaced by CourseStats-object.
+ *
+ * @author hkeijone
+ */
 public class CourseGradeResponse {
+
     private int amountCourses;
     private double averageGrade;
 
@@ -31,6 +33,4 @@ public class CourseGradeResponse {
     public void setAverageGrade(double averageGrade) {
         this.averageGrade = averageGrade;
     }
-    
-    
 }

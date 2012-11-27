@@ -1,9 +1,12 @@
 package tktl.gstudies.domainForGraphics;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ *A class to store student information in order to calculate graph data. 
+ * @author hkeijone
+ */
 public class Student {
 
     private Integer HLO;

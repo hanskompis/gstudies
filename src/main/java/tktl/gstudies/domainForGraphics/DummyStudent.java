@@ -3,10 +3,11 @@ package tktl.gstudies.domainForGraphics;
 
 import java.util.ArrayList;
 import java.util.List;
-//import org.springframework.context.annotation.Scope;
-//import org.springframework.stereotype.Component;
 
-//@Component
+/**
+ * Dummy class for testing purposes. 
+ * @author hkeijone
+ */
 public class DummyStudent {
     private String nimi;
     private List<DummyCourse> courses;

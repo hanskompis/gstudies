@@ -4,8 +4,13 @@ package tktl.gstudies.domain;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
+/**
+ * Entity class to map grades.
+ * @author hkeijone
+ */
 @Entity
 public class Grade extends AbstractModel{
+    
     @OneToOne(mappedBy = "grade")
     private Study study;
     private String grade;

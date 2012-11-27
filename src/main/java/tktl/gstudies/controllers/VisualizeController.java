@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import tktl.gstudies.graphicsServices.GraphicsService;
 import tktl.gstudies.graphicsServices.LineService;
-
+/**
+ * Controller for obtaining data from graphics-calculation service
+ * @author hkeijone
+ */
 @Controller
 public class VisualizeController {
 

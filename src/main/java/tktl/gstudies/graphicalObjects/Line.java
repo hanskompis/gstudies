@@ -3,6 +3,10 @@ package tktl.gstudies.graphicalObjects;
 
 import tktl.gstudies.graphicalObjects.Text;
 
+/**
+ * A class to store and generate information on line object for rendering purposes.
+ * @author hkeijone
+ */
 public class Line {
     private String pathString;
     private int weight;
@@ -34,7 +38,6 @@ public class Line {
         sb.append(this.rightY);
         this.pathString = sb.toString();
     }
-
 
     public int getWeight() {
         return weight;

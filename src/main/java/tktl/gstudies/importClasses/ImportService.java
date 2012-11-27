@@ -34,6 +34,12 @@ import tktl.gstudies.services.RightToStudyService;
 import tktl.gstudies.services.StudyService;
 import tktl.gstudies.services.TeacherService;
 
+/**
+ * A class for importing database from H2-database to ORM-database on top of
+ * MySQL
+ *
+ * @author hkeijone
+ */
 @Service
 public class ImportService {
 
@@ -78,16 +84,13 @@ public class ImportService {
             statusOfStudyService.save(s);
         }
     }
-    //OK, muuta vaan privateksi
 
     private void importStudentObjects() {
         List<Stud> list = this.jdbcrepository.getStudentObjects();
-        // System.out.println("total students: " + list.size());
         for (Stud s : list) {
             studentService.save(s);
         }
     }
-    //OK, muuta vaan privateksi
 
     private void importTypeOfStudyObjects() {
         List<TypeOfStudy> list = this.jdbcrepository.getTypeOfStudyObjects();
@@ -112,9 +115,7 @@ public class ImportService {
             aye.setType((String) row.get("TYYPPI"));
             aye = academicYearEnrollmentService.save(aye);
             Integer studentId = ((Integer) row.get("HLO"));
-
             AcademicYearEnrollment returned = academicYearEnrollmentService.save(aye, studentId);
-            //System.out.println(returned);
         }
     }
 
@@ -133,7 +134,6 @@ public class ImportService {
     private void importStudyObjects2() {
         Integer[] acceptableTypeOFStudyCodes = {1, 3, 4, 7, 12, 13, 14, 15, 20};
         final List lst = Arrays.asList(acceptableTypeOFStudyCodes);
-
         this.jdbcrepository.getStudyData(new RowCallbackHandler() {
             @Override
             public void processRow(ResultSet rs) throws SQLException {
@@ -141,29 +141,22 @@ public class ImportService {
                 if (importedStudyIds.contains(studyNumber)) {
                     return;
                 }
-
                 Study study = new Study();
                 study.setStudyNumber((Integer) rs.getObject("OPINTO"));
                 study.setCredits(((Float) rs.getObject("LAAJOP")).doubleValue());
                 study.setDateOfwrite((Date) rs.getObject("KIRJPVM"));
                 study.setDateOfAccomplishment((Date) rs.getObject("SUORPVM"));
-
                 Integer typeOfStudyCode = (Integer) rs.getObject("SUORTYYP");
                 if (!lst.contains(typeOfStudyCode)) {
                     return;
                 }
-
                 study = studyService.save(study);
                 i++;
-
                 System.out.println(i + " study: " + study);
-
-
                 Integer studentId = (Integer) rs.getObject("HLO");
                 Integer courseObjectId = (Integer) rs.getObject("OPINKOHD");
                 Integer statusOfStudyCode = (Integer) rs.getObject("OPINSTAT");
                 studyService.save(study, studentId, courseObjectId, statusOfStudyCode, typeOfStudyCode);
-
                 importedStudyIds.add(studyNumber);
             }
         });

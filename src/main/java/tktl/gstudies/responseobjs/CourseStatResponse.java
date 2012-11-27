@@ -1,7 +1,12 @@
-
 package tktl.gstudies.responseobjs;
 
+/**
+ * NOT IN USE ATM. Replaced by CourseStatsResponseObj.
+ *
+ * @author hkeijone
+ */
 public class CourseStatResponse {
+
     private String courseName;
     private double averageGradeSixMonths;
     private double averageGradetwelvemonths;
@@ -67,10 +72,11 @@ public class CourseStatResponse {
     public void setStudsEnrolled(int studsEnrolled) {
         this.studsEnrolled = studsEnrolled;
     }
+
     @Override
-    public String toString(){
-        return this.courseName+" avg6mths: "+this.averageGradeSixMonths+" avg12mths: "+this.averageGradetwelvemonths+" enrolled: "+this.studsEnrolled
-                + "failed: "+this.failedCourse+
-                " passed: "+this.passedCourse;
-    }    
+    public String toString() {
+        return this.courseName + " avg6mths: " + this.averageGradeSixMonths + " avg12mths: " + this.averageGradetwelvemonths + " enrolled: " + this.studsEnrolled
+                + "failed: " + this.failedCourse
+                + " passed: " + this.passedCourse;
+    }
 }

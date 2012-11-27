@@ -7,6 +7,11 @@ import org.springframework.stereotype.Service;
 import tktl.gstudies.domain.CourseObject;
 import tktl.gstudies.repositories.CourseObjectRepository;
 
+/**
+ * Repository-service -class for CourseObject
+ *
+ * @author hkeijone
+ */
 @Service
 public class CourseObjectService extends GenericRepositoryService<CourseObject> {
     @Autowired

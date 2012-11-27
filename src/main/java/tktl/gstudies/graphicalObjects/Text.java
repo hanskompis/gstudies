@@ -1,7 +1,12 @@
-
 package tktl.gstudies.graphicalObjects;
 
-public class Text extends AbstractGraphicalObject{
+/**
+ * A class to store text information for rendering purposes.
+ *
+ * @author hkeijone
+ */
+public class Text extends AbstractGraphicalObject {
+
     private int x;
     private int y;
     private String text;
@@ -44,10 +49,9 @@ public class Text extends AbstractGraphicalObject{
     public void setType(String type) {
         this.type = type;
     }
-    
-    
+
     @Override
-    public String toString(){
-        return "x:"+this.getX()+" y:"+this.getY()+" text: "+this.getText()+" type: "+this.getType();
+    public String toString() {
+        return "x:" + this.getX() + " y:" + this.getY() + " text: " + this.getText() + " type: " + this.getType();
     }
 }

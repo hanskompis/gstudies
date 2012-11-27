@@ -11,6 +11,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import tktl.gstudies.repositories.JDBCRepository;
 import tktl.gstudies.services.StatisticServiceImpl;
 
+/**
+ * ONLY SET UP!
+ * @author hkeijone
+ */
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring-context-test.xml",

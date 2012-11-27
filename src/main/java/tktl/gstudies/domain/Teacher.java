@@ -1,11 +1,14 @@
-
 package tktl.gstudies.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
+/**
+ * Entity class to map teachers
+ * @author hkeijone
+ */
 @Entity
-public class Teacher extends AbstractModel{
+public class Teacher extends AbstractModel {
 
     @ManyToOne
     private Study study;
@@ -26,5 +29,4 @@ public class Teacher extends AbstractModel{
     public void setStudy(Study study) {
         this.study = study;
     }
-    
 }

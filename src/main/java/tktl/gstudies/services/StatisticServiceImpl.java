@@ -20,6 +20,11 @@ import tktl.gstudies.domain.TypeOfStudy;
 import tktl.gstudies.responseobjs.CourseStats;
 import tktl.gstudies.responseobjs.CourseStatsResponseObj;
 
+/**
+ * Service class for producing statistical report on course instance.
+ *
+ * @author hkeijone
+ */
 @Service
 public class StatisticServiceImpl implements StatisticService {
 
@@ -36,14 +41,6 @@ public class StatisticServiceImpl implements StatisticService {
                 .getResultList();
     }
 
-//    @Override
-//    public List<Stud> getOtherStudentsFromCourseWhoPassedOnDate(String courseId, String dateOfAccomplishment) {
-//        Date paramDate = makeDate(dateOfWrite);
-//        return em.createNamedQuery("findOtherStudentsFromCourseWhoPassedOnDate")
-//                .setParameter("courseId", courseId)
-//                .setParameter("dateOfwrite", paramDate)
-//                .getResultList();
-//    }
     @Override
     public List<Stud> getCSStudentsFromCourseWhoFailedOnDate(String courseId, String dateOfAccomplishment) {
         Date paramDate = makeDate(dateOfAccomplishment);
@@ -53,14 +50,6 @@ public class StatisticServiceImpl implements StatisticService {
                 .getResultList();
     }
 
-//    @Override
-//    public List<Stud> getOtherStudentsFromCourseWhoFailedOnDate(String courseId, String dateOfWrite) {
-//        Date paramDate = makeDate(dateOfWrite);
-//        return em.createNamedQuery("findOtherStudentsFromCourseWhoFailedOnDate")
-//                .setParameter("courseId", courseId)
-//                .setParameter("dateOfwrite", paramDate)
-//                .getResultList();
-//    }
     @Override
     public List<TypeOfStudy> getTypesOfStudy() {
         return em.createQuery("SELECT t FROM TypeOfStudy t").getResultList();
@@ -86,27 +75,14 @@ public class StatisticServiceImpl implements StatisticService {
         s.setStudies(cos);
     }
 
-    /**
-     * Counts sum of credits of certain time span. Only 'normal' courses Only
-     * passed courses
-     *
-     * @param studies list of Study-objects
-     * @param startDate
-     * @param timeSpan
-     * @return sum of credits as double
-     */
     @Override
     public double getCreditsNMonthsSpan(List<Study> studies, Date startDate, int timeSpan) {
-//        if (startDate == null) {
-//            return -666.0;
-//        }
         double sumCredits = 0;
         Date endDate = AddMonthsToDate(startDate, timeSpan);
         for (Study s : studies) {
             if (s.getTypeOfStudy().getCode() != 1 || s.getStatusOfStudy().getCode() != 4) {
                 continue;
             }
-//            Date dateOfwrite = s.getDateOfwrite();
             Date dateOfAccomplishment = s.getDateOfAccomplishment();
             if (dateOfAccomplishment.after(startDate) && dateOfAccomplishment.before(endDate)) {
                 sumCredits = sumCredits + s.getCredits();
@@ -117,9 +93,6 @@ public class StatisticServiceImpl implements StatisticService {
 
     @Override
     public double getAverageGradeNMonthsSpan(List<Study> studies, Date startDate, int timeSpan) {
-//        if (startDate == null) {
-//            return -666.0;
-//        }
         double sum = 0.0;
         int amountCourses = 0;
         double avg = 0.0;
@@ -128,7 +101,6 @@ public class StatisticServiceImpl implements StatisticService {
             if (s.getTypeOfStudy().getCode() != 1 || s.getStatusOfStudy().getCode() != 4) {
                 continue;
             }
-//            Date dateOfwrite = s.getDateOfwrite();
             Date dateOfAccomplishment = s.getDateOfAccomplishment();
             if (dateOfAccomplishment.after(startDate) && dateOfAccomplishment.before(endDate) && acceptableGrades.contains(s.getGrade().getGrade())) {
                 int grade = Integer.parseInt(s.getGrade().getGrade());
@@ -139,7 +111,6 @@ public class StatisticServiceImpl implements StatisticService {
         if (sum == 0.0) {
             return 0.0;
         }
-
         return sum / amountCourses;
     }
 
@@ -169,7 +140,6 @@ public class StatisticServiceImpl implements StatisticService {
                 if (st.getTypeOfStudy().getCode() != 1 || st.getStatusOfStudy().getCode() != 4) {
                     continue;
                 }
-//                Date dateOfwrite = st.getDateOfwrite();
                 Date dateOfAccomplishment = st.getDateOfAccomplishment();
                 if (dateOfAccomplishment.after(startDate) && dateOfAccomplishment.before(endDate) && acceptableGrades.contains(st.getGrade().getGrade())) {
                     values.add(Double.parseDouble(st.getGrade().getGrade()));
@@ -191,8 +161,6 @@ public class StatisticServiceImpl implements StatisticService {
             return this.getCSStudentsFromCourseWhoFailedOnDate(courseId, dateString);
         } else if (groupIdentifier.equals("CSAll")) {
             return this.getCSStudentsFromCourseOnDate(dateString, courseId);
-//        } else if (groupIdentifier.equals("OtherFailed")) {
-//            return this.getOtherStudentsFromCourseWhoFailedOnDate(courseId, dateString);
         } else {
             return null;
         }
@@ -224,7 +192,6 @@ public class StatisticServiceImpl implements StatisticService {
             double credits19 = this.getCreditsNMonthsSpan(s.getStudies(), this.makeDate(dateString), 19);
             courseStats.addCreditGainToNineteenMonthsCSPassed(credits19);
         }
-
         //          courseStats.convertAllHashMaps();
         this.setAverageGrades(courseStats, dateString, students);
         this.setStandardDeviations(courseStats, dateString, students);
@@ -232,8 +199,6 @@ public class StatisticServiceImpl implements StatisticService {
         return courseStats;
     }
     
-    //privateksi
-
     @Override
     public Date AddMonthsToDate(Date date, int incrementInMonths) {
         long millis = date.getTime();
@@ -249,7 +214,6 @@ public class StatisticServiceImpl implements StatisticService {
         int[] grades = {0, 0, 0, 0, 0};
         for (Stud stud : studs) {
             for (Study study : stud.getStudies()) {
-//                if (study == null || study.getDateOfwrite() == null) {
                 if (study == null || study.getDateOfAccomplishment() == null) {
                     continue;
                 }
@@ -257,7 +221,6 @@ public class StatisticServiceImpl implements StatisticService {
                     if (co == null || co.getCourseId() == null) {
                         continue;
                     }
-//                    if (co.getCourseId().equals(courseId) && study.getDateOfwrite().equals(makeDate(dateString))) {
                     if (co.getCourseId().equals(courseId) && study.getDateOfAccomplishment().equals(makeDate(dateString))) {
                         String grade = study.getGrade().getGrade();
                         if (acceptableGrades.contains(grade)) {
@@ -279,14 +242,9 @@ public class StatisticServiceImpl implements StatisticService {
         statsResponseObj.addCourseStatsObj(this.doTheMagic("CSPassed", dateString, courseId));
         statsResponseObj.addCourseStatsObj(this.doTheMagic("CSFailed", dateString, courseId));
         statsResponseObj.addCourseStatsObj(this.doTheMagic("CSAll", dateString, courseId));
-//        statsResponseObj.addCourseStatsObj(this.doTheMagic("OtherPassed", dateString, courseId));
-//        statsResponseObj.addCourseStatsObj(this.doTheMagic("OtherFailed", dateString, courseId));
         statsResponseObj.countPercentages();
-        //refactor this
         List<Stud> studs = this.getCSStudentsFromCourseWhoPassedOnDate(courseId, dateString);
         statsResponseObj.setCSCourseGrades(this.getGradeDistribution(studs, courseId, dateString));
-//        studs = this.getOtherStudentsFromCourseWhoPassedOnDate(courseId, dateString);
-//        statsResponseObj.setOtherCourseGrades(this.getGradeDistribution(studs, courseId, dateString));
         return statsResponseObj;
     }
     private List<Stud> getCSStudents() {
@@ -305,7 +263,6 @@ public class StatisticServiceImpl implements StatisticService {
         StatisticService ss = (StatisticService) ctx.getBean("statisticServiceImpl");
         CourseStatsResponseObj statsResponseObj = new CourseStatsResponseObj();
         statsResponseObj = ss.getData("2011-10-18", "581325");
-        System.out.println(statsResponseObj);
-              
+        System.out.println(statsResponseObj);             
     }
 }

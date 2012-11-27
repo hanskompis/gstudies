@@ -19,6 +19,11 @@ import tktl.gstudies.repositories.StudRepository;
 import tktl.gstudies.repositories.StudyRepository;
 import tktl.gstudies.repositories.TypeOfStudyRepository;
 
+/**
+ * Repository-service -class for Study
+ *
+ * @author hkeijone
+ */
 @Service
 public class StudyService extends GenericRepositoryService<Study> {
 
@@ -43,26 +48,18 @@ public class StudyService extends GenericRepositoryService<Study> {
     @Transactional
     public Study save(Study s, Integer studentId, Integer courseObjectId, Integer statusOfStudyCode, Integer typeOfStudyCode) {
         s = studyRepository.findOne(s.getId());
-
         Stud stud = studRepository.findByStudentId(studentId);
         stud.addStudy(s);
         s.setStudent(stud);
-        // System.out.println(courseObjectId);
-        List<CourseObject> cos = courseObjectRepository.findByObjectId(courseObjectId);
-
+        List<CourseObject> cos = courseObjectRepository.findByObjectId(courseObjectId);     
         for(CourseObject co: cos){
             co.addStudy(s);
            s.addCourseObject(co);
         }
-
         StatusOfStudy sos = statusOfStudyRepository.findByCode(statusOfStudyCode);
-
         s.setStatusOfStudy(sos);
-
         TypeOfStudy tos = typeOfStudyRepository.findByCode(typeOfStudyCode);
-
         s.setTypeOfStudy(tos);
-
         return s;
 
     }
@@ -73,8 +70,7 @@ public class StudyService extends GenericRepositoryService<Study> {
             fail++;
             System.out.println("fail: "+fail);
             return;
-        }
-        
+        }      
         s.setDateOfAccomplishment(dateOfAccomplishment);
         succ++;
         System.out.println("succ: "+succ);

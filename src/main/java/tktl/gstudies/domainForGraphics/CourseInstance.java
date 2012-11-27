@@ -5,6 +5,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * A class to store course instance data. Used when calculating data for graph. 
+ * @author hkeijone
+ */
 public class CourseInstance implements Comparable<CourseInstance> {
 
     private Course course;
@@ -26,9 +30,7 @@ public class CourseInstance implements Comparable<CourseInstance> {
         this.suorpvm = suorpvm;
     }
 
-    
-    
-    public void setSuorpvm(String suorpvm){
+    public void setSuorpvm(String suorpvm) {
         this.suorpvm = this.makeDate(suorpvm);
     }
 
@@ -39,8 +41,8 @@ public class CourseInstance implements Comparable<CourseInstance> {
     public void setCourse(Course course) {
         this.course = course;
     }
-    
-    public void setCourse(String tunniste){
+
+    public void setCourse(String tunniste) {
         this.course = this.getCourseByCourseCode(tunniste);
     }
 
@@ -84,12 +86,13 @@ public class CourseInstance implements Comparable<CourseInstance> {
             return 0;
         }
     }
+
     public static void main(String[] args) {
-            CourseInstance ci = new CourseInstance("58131", "10-10-2010");
-            Date d = ci.getSuorpvm();
-            System.out.println(d.toString());
-            Course c = ci.getCourse();
-            System.out.println(c == null);
-            System.out.println(ci.course.name());
+        CourseInstance ci = new CourseInstance("58131", "10-10-2010");
+        Date d = ci.getSuorpvm();
+        System.out.println(d.toString());
+        Course c = ci.getCourse();
+        System.out.println(c == null);
+        System.out.println(ci.course.name());
     }
 }

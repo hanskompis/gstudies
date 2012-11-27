@@ -1,10 +1,11 @@
 package tktl.gstudies.domain;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
 
+/**
+ * Entity class to map statuses of study.
+ * @author hkeijone
+ */
 @Entity
 public class StatusOfStudy extends AbstractModel {
 

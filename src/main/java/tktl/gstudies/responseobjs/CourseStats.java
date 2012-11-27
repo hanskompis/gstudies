@@ -5,6 +5,12 @@ import java.util.Iterator;
 import java.util.Map;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
+/**
+ * A class to store information on course depending whether students who failed
+ * or passed are of interest.
+ *
+ * @author hkeijone
+ */
 public class CourseStats {
 
     private String groupIdentifier;
@@ -121,37 +127,24 @@ public class CourseStats {
         return toReturn;
     }
 
-//    
-//    private String testPrint(){
-//        String ret="";
-//        for(int i = 0; i < this.creditGainsSevenMonthsArr.length; i++){
-//            ret = ret + Integer.toString(this.creditGainsSevenMonthsArr[i][0])+""+Integer.toString(this.creditGainsSevenMonthsArr[i][1])+"  \n";
-//        }
-//        return ret;
-//    }
-//       @Override
-//    public String toString() {
-//           return "pröööött";
-//       }
     @Override
     public String toString() {
-        if(this.amountStudents!=0){
-        return "amount of " + this.groupIdentifier + ": " + this.amountStudents + "\n"
-                + "distribution of credits 7 mths ave:" + this.averageCreditsSevenMonths + " distr" + this.creditGainsSevenMonths.toString() + "\n"
-                + "categorized: " + this.getCategorizedMap(creditGainsSevenMonths).toString() + "\n"
-                + "distribution of credits 13 mths ave: " + this.averageCreditsThirteenMonths + " distr" + this.creditGainsThirteenMonths.toString() + "\n"
-                + "categorized: " + this.getCategorizedMap(creditGainsThirteenMonths).toString() + "\n"
-                + "distribution of credits 19 mths ave: " + this.averageCreditsNineteenMonths + " distr" + this.creditGainsNineteenMonths.toString() + "\n"
-                + "categorized: " + this.getCategorizedMap(creditGainsNineteenMonths).toString() + "\n"
-                + "average grade 7 mths: " + this.averageGradeSevenMonths + "\n"
-                + "average grade 13 mths: " + this.averageGradeThirteenMonths + "\n"
-                + "average grade 19 mths: " + this.averageGradeNineteenMonths + "\n"
-                + "standard dev 7 mths: " + this.standardDeviationGradesSevenMonths + "\n"
-                + "standard dev 13 mths: " + this.standardDeviationGradesThirteenMonths + "\n"
-                + "standard dev 19 mths: " + this.standardDeviationGradesNineteenMonths + "\n"
-                + "************" + "\n";
-        }
-        else{
+        if (this.amountStudents != 0) {
+            return "amount of " + this.groupIdentifier + ": " + this.amountStudents + "\n"
+                    + "distribution of credits 7 mths ave:" + this.averageCreditsSevenMonths + " distr" + this.creditGainsSevenMonths.toString() + "\n"
+                    + "categorized: " + this.getCategorizedMap(creditGainsSevenMonths).toString() + "\n"
+                    + "distribution of credits 13 mths ave: " + this.averageCreditsThirteenMonths + " distr" + this.creditGainsThirteenMonths.toString() + "\n"
+                    + "categorized: " + this.getCategorizedMap(creditGainsThirteenMonths).toString() + "\n"
+                    + "distribution of credits 19 mths ave: " + this.averageCreditsNineteenMonths + " distr" + this.creditGainsNineteenMonths.toString() + "\n"
+                    + "categorized: " + this.getCategorizedMap(creditGainsNineteenMonths).toString() + "\n"
+                    + "average grade 7 mths: " + this.averageGradeSevenMonths + "\n"
+                    + "average grade 13 mths: " + this.averageGradeThirteenMonths + "\n"
+                    + "average grade 19 mths: " + this.averageGradeNineteenMonths + "\n"
+                    + "standard dev 7 mths: " + this.standardDeviationGradesSevenMonths + "\n"
+                    + "standard dev 13 mths: " + this.standardDeviationGradesThirteenMonths + "\n"
+                    + "standard dev 19 mths: " + this.standardDeviationGradesNineteenMonths + "\n"
+                    + "************" + "\n";
+        } else {
             return "pröööttt";
         }
     }

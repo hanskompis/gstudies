@@ -7,6 +7,11 @@ import org.springframework.stereotype.Service;
 import tktl.gstudies.domain.StatusOfStudy;
 import tktl.gstudies.repositories.StatusOfStudyRepository;
 
+/**
+ * Repository-service -class for StatusOfStudy
+ *
+ * @author hkeijone
+ */
 @Service
 public class StatusOfStudyService extends GenericRepositoryService<StatusOfStudy> {
     

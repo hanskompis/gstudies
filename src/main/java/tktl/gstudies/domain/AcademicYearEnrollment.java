@@ -6,12 +6,16 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+/**
+ * Entity class to map academic year enrollments.
+ * @author hkeijone
+ */
 @Entity
 public class AcademicYearEnrollment extends AbstractModel {
+    
     @ManyToOne
     @JoinColumn
     private Stud student;
- 
     private Date startDate;
     private Date endDate;
     private String type;
@@ -24,7 +28,6 @@ public class AcademicYearEnrollment extends AbstractModel {
         this.student = student;
     }
     
-
     public Date getStartDate() {
         return startDate;
     }

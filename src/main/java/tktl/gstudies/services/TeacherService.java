@@ -10,6 +10,11 @@ import tktl.gstudies.domain.Teacher;
 import tktl.gstudies.repositories.StudyRepository;
 import tktl.gstudies.repositories.TeacherRepository;
 
+/**
+ * Repository-service -class for Teacher
+ *
+ * @author hkeijone
+ */
 @Service
 public class TeacherService extends GenericRepositoryService<Teacher> {
     
@@ -30,10 +35,8 @@ public class TeacherService extends GenericRepositoryService<Teacher> {
         if(s == null){
             return null;
         }
-
         s.addTeacher(t);
         t.setStudy(s);
         return t;
-//        return teacherRepository.save(t);
     }
 }

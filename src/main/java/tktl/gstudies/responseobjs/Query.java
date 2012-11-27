@@ -1,7 +1,12 @@
-
 package tktl.gstudies.responseobjs;
 
+/**
+ * A class to map a SQL-query in controller received from browser.
+ *
+ * @author hkeijone
+ */
 public class Query {
+
     private String queryString;
 
     public Query(String queryString) {
@@ -18,6 +23,4 @@ public class Query {
     public void setQueryString(String queryString) {
         this.queryString = queryString;
     }
-    
-    
 }

@@ -1,5 +1,10 @@
 package tktl.gstudies.graphicalObjects;
 
+/**
+ * A class to store information on (corner)coordinates of a box to be rendered.
+ *
+ * @author hkeijone
+ */
 public class BoxCoordinatesForLines {
 
     private String courseName;
@@ -58,10 +63,10 @@ public class BoxCoordinatesForLines {
     public void setRightY(int rightY) {
         this.rightY = rightY;
     }
-    
+
     @Override
-    public String toString(){
-        return "name: "+this.getCourseName()+" left x: "+this.getLeftX()+" left y: "
-                +this.getLeftY()+ "rite x: "+this.rightX+" rite y: "+this.getRightY()+"\n";
+    public String toString() {
+        return "name: " + this.getCourseName() + " left x: " + this.getLeftX() + " left y: "
+                + this.getLeftY() + "rite x: " + this.rightX + " rite y: " + this.getRightY() + "\n";
     }
 }

@@ -6,6 +6,10 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+/**
+ * Entity class to map rights to study.
+ * @author hkeijone
+ */
 @Entity
 public class RightToStudy extends AbstractModel{
     @ManyToOne

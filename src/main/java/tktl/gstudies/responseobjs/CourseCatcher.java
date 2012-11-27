@@ -1,7 +1,13 @@
-
 package tktl.gstudies.responseobjs;
 
+/**
+ * A class to be mapped in controller wit course-instance-data received from
+ * browser.
+ *
+ * @author hkeijone
+ */
 public class CourseCatcher {
+
     private String tunniste;
     private String suorpvm;
 
@@ -12,6 +18,7 @@ public class CourseCatcher {
         this.tunniste = tunniste;
         this.suorpvm = suorpvm;
     }
+
     public String getTunniste() {
         return tunniste;
     }
@@ -27,7 +34,4 @@ public class CourseCatcher {
     public void setSuorpvm(String suorpvm) {
         this.suorpvm = suorpvm;
     }
-    
-    
-    
 }

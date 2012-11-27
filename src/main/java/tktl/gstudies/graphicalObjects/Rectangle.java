@@ -1,8 +1,10 @@
 
 package tktl.gstudies.graphicalObjects;
 
-import tktl.gstudies.graphicalObjects.AbstractGraphicalObject;
-
+/**
+ * A class to store information on rectangle object for rendering purposes.
+ * @author hkeijone
+ */
 public class Rectangle extends AbstractGraphicalObject{
     private int x;
     private int y;

@@ -14,6 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+/**
+ * Dummy service class for obtaining graphical objects for rendering. Generates
+ * also dummy data.
+ *
+ * @author hkeijone
+ */
 @Service
 @Qualifier("dummy")
 public class DummyGraphicsServiceImpl implements GraphicsService {
@@ -21,13 +27,10 @@ public class DummyGraphicsServiceImpl implements GraphicsService {
     @Autowired
     @Qualifier("dummy")
     private LineService lineService;
-    
     private String[] courseCodes = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
     private int amountStuds = 2;
     private int amountCourses = 3;
     private List<AbstractGraphicalObject> graphObjs;
-//    private List<List<BoxCoordinatesForLines>> coords;
-
 
     @Override
     public List<AbstractGraphicalObject> getGraphicsData() {
@@ -35,7 +38,6 @@ public class DummyGraphicsServiceImpl implements GraphicsService {
         lineService.setCoords(new ArrayList<List<BoxCoordinatesForLines>>());
         List<DummyStudent> studs = generateDummyStudents(this.amountStuds, this.amountCourses);
         this.lineService.setStuds(studs);
-        //this.lineService.setCourses(null);
         for (int i = 0; i < this.getMaxCourses(studs); i++) {
             this.graphObjs.addAll(this.getNthSetOfNodes(studs, i, i));
         }
@@ -98,9 +100,7 @@ public class DummyGraphicsServiceImpl implements GraphicsService {
         for (int i = 1; i <= diffCourses.size(); i++) {
             objs.add(new Rectangle("rect", ((offset + 1) * 100), (i * 50), 50, 20, 5));
             objs.add(new Text(((offset + 1) * 100) + 25, (i * 50) + 10, diffCourses.get(i - 1)));
-//            this.lineService.getCoords().get(n).add(new BoxCoordinatesForLines(diffCourses.get(i-1), ((offset + 1) * 100), (i * 50)+10 ,((offset + 1) * 150) , (i * 50)+10));
-            this.lineService.getCoords().get(n).add(new BoxCoordinatesForLines(diffCourses.get(i - 1), ((offset + 1) * 100), (i * 50) + 10, ((offset + 1) * 100)+50, (i * 50) + 10));
-
+            this.lineService.getCoords().get(n).add(new BoxCoordinatesForLines(diffCourses.get(i - 1), ((offset + 1) * 100), (i * 50) + 10, ((offset + 1) * 100) + 50, (i * 50) + 10));
         }
         return objs;
     }
@@ -112,7 +112,6 @@ public class DummyGraphicsServiceImpl implements GraphicsService {
                 diffCourses.add(s.getCourses().get(n).name());
             }
         }
-  //      lineService.addCourseSet(diffCourses);
         return diffCourses;
     }
 }

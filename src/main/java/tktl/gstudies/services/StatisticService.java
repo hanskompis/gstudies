@@ -8,16 +8,16 @@ import tktl.gstudies.domain.TypeOfStudy;
 import tktl.gstudies.responseobjs.CourseStats;
 import tktl.gstudies.responseobjs.CourseStatsResponseObj;
 
+/**
+ * Interface for statistic service
+ * @author hkeijone
+ */
 public interface StatisticService {
 
     public List<Stud> getCSStudentsFromCourseWhoPassedOnDate(String courseId, String dateOfWrite);
 
- //   public List<Stud> getOtherStudentsFromCourseWhoPassedOnDate(String courseId, String dateOfWrite);
-
     public List<Stud> getCSStudentsFromCourseWhoFailedOnDate(String courseId, String dateOfWrite);
-
-  //  public List<Stud> getOtherStudentsFromCourseWhoFailedOnDate(String courseId, String dateOfWrite);
-    
+  
     public void sortCourses(Stud s);
     
     public CourseStats doTheMagic(String groupIdentifier, String dateString, String courseId);

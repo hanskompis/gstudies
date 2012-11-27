@@ -8,6 +8,11 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
+/**
+ * Entity class to map students. Named queries for obtaining sets of students with different parameters. Queries are used 
+ * in StatisticServiceClass.
+ * @author hkeijone
+ */
 @Entity
 @NamedQueries({
     @NamedQuery(

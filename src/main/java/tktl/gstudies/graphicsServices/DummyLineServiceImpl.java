@@ -9,20 +9,21 @@ import tktl.gstudies.graphicalObjects.BoxCoordinatesForLines;
 import tktl.gstudies.domainForGraphics.DummyCourse;
 import tktl.gstudies.graphicalObjects.Line;
 import tktl.gstudies.domainForGraphics.DummyStudent;
+
+/**
+ * Dummy service class for creating line objects and calculating coordinates for
+ * lines. For testing purposes without real data.
+ *
+ * @author hkeijone
+ */
 @Service
 @Qualifier("dummy")
 public class DummyLineServiceImpl implements LineService {
 
     private HashMap<String, Line> lines;
-    private List<List<String>> courses;// TODO: Tarvitaanko täällä ollenkaan?
+    private List<List<String>> courses;
     private List<List<BoxCoordinatesForLines>> coords;
     private List<DummyStudent> studs;
-
-    @Override
-    public void addLineString(int mx, int my, int lx, int ly) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
 
     public void addCourseSet(List<String> courses) {
         if (this.courses == null) {
@@ -31,16 +32,13 @@ public class DummyLineServiceImpl implements LineService {
         this.courses.add(courses);
     }
 
-
     public String CoursesToString() {
         return "line courses: \n" + this.courses.toString();
     }
 
-
     public List<List<String>> getCourses() {
         return courses;
     }
-
 
     public void setCourses(List<List<String>> courses) {
         this.courses = courses;
@@ -67,6 +65,11 @@ public class DummyLineServiceImpl implements LineService {
     }
 
     @Override
+    public void addLineString(int mx, int my, int lx, int ly) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
     public List<Line> getSumPathData() {
         if (this.lines != null) {
             this.lines.clear();
@@ -77,28 +80,23 @@ public class DummyLineServiceImpl implements LineService {
             List<DummyCourse> currentCourseSet = this.studs.get(i).getCourses();
             for (int j = 0; j < currentCourseSet.size(); j++) {
                 if ((j + 1) < currentCourseSet.size()) {
-                    int leftX = this.getCoordinatesForCourse(j, currentCourseSet.get(j).name(), false).get(0); //TODO: tee fiksummin while refactoring
+                    int leftX = this.getCoordinatesForCourse(j, currentCourseSet.get(j).name(), false).get(0);
                     int leftY = this.getCoordinatesForCourse(j, currentCourseSet.get(j).name(), false).get(1);
                     int rightX = this.getCoordinatesForCourse((j + 1), currentCourseSet.get(j + 1).name(), true).get(0);
                     int rightY = this.getCoordinatesForCourse((j + 1), currentCourseSet.get(j + 1).name(), true).get(1);
-//                    this.lines.add(new Line(leftX, leftY, rightX, rightY));
                     Line toAdd = new Line(leftX, leftY, rightX, rightY);
-                    if(!this.lines.containsKey(toAdd.getPathString())){
+                    if (!this.lines.containsKey(toAdd.getPathString())) {
                         this.lines.put(toAdd.getPathString(), toAdd);
-                    }
-                    else{
+                    } else {
                         Line l = this.lines.get(toAdd.getPathString());
-                        l.setWeight(l.getWeight()+1);
+                        l.setWeight(l.getWeight() + 1);
                         l.getWeightText().setText(Integer.toString(l.getWeight()));
                     }
-                    
-                    
                 }
             }
         }
         ArrayList<Line> lesReturnables = new ArrayList<Line>();
         lesReturnables.addAll(this.lines.values());
-        
         return lesReturnables;
     }
 
@@ -119,8 +117,4 @@ public class DummyLineServiceImpl implements LineService {
         }
         return coordsToReturn;
     }
-
-
-  
-
 }

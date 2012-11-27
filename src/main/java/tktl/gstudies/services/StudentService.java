@@ -7,6 +7,11 @@ import org.springframework.stereotype.Service;
 import tktl.gstudies.domain.Stud;
 import tktl.gstudies.repositories.StudRepository;
 
+/**
+ * Repository-service -class for Student
+ *
+ * @author hkeijone
+ */
 @Service
 public class StudentService extends GenericRepositoryService<Stud> {
     
@@ -16,11 +21,5 @@ public class StudentService extends GenericRepositoryService<Stud> {
     @PostConstruct
     private void Init(){
         setRepository(studentRepository);
-    }
-    
-//    @Override //TODO:misses alot 
-//    public Stud save(Stud s){
-//        return this.studentRepository.save(s);
-//    }
-    
+    }    
 }
