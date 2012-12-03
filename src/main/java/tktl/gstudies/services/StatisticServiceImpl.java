@@ -262,7 +262,7 @@ public class StatisticServiceImpl implements StatisticService {
         ApplicationContext ctx = new FileSystemXmlApplicationContext(new String[]{prefix + "spring-context.xml", prefix + "spring-database.xml"});
         StatisticService ss = (StatisticService) ctx.getBean("statisticServiceImpl");
         CourseStatsResponseObj statsResponseObj = new CourseStatsResponseObj();
-        statsResponseObj = ss.getData("2011-10-18", "581325");
+        statsResponseObj = ss.getData("2010-10-19", "581325");
         System.out.println(statsResponseObj);             
     }
 }
