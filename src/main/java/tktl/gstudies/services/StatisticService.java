@@ -28,9 +28,9 @@ public interface StatisticService {
     
     public Date AddMonthsToDate(Date date, int incrementInMonths);
     
-    public double getAverageGradeNMonthsSpan(List<Study> studies, Date startDate, int timeSpan);
-    
-    public double getGroupAverageGradeNMonthsSpan(List<Stud> studs, Date startDate, int timeSpan);
+//    public double getAverageGradeNMonthsSpan(List<Study> studies, Date startDate, int timeSpan);
+//    
+//    public double getGroupAverageGradeNMonthsSpan(List<Stud> studs, Date startDate, int timeSpan);
     
     public double getStandardDeviationOfgrades(List<Stud> studs, Date startDate, int timeSpan);
     
