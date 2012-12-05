@@ -1,8 +1,6 @@
 package tktl.gstudies.responseobjs;
 
-import java.sql.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -69,7 +67,7 @@ public class CourseStatsResponseObj {
                 + "CS grade distribution: " + this.CSCourseGrades[0] + " " + this.CSCourseGrades[1] + " " + this.CSCourseGrades[2] + " " + this.CSCourseGrades[3] + " " + this.CSCourseGrades[4] + "\n"
                 + this.courseStatsObjs.get(0) + this.courseStatsObjs.get(1) + this.courseStatsObjs.get(2);
     }
-
+       
     public int[] getCSCourseGrades() {
         return CSCourseGrades;
     }

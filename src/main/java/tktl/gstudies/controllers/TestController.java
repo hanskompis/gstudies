@@ -24,10 +24,9 @@ public class TestController {
 
     @Autowired
     private JDBCRepository testRepository;
-//    @Autowired
-//    private ImportService importService;
     @Autowired
-    private StatisticService ss;
+    private StatisticService statisticService;
+
 
     @RequestMapping(method = RequestMethod.POST, value = "query", consumes = "application/json", produces = "application/json")
     @ResponseBody
@@ -46,5 +45,11 @@ public class TestController {
     @ResponseBody
     public List courseinstances(@RequestBody CourseCatcher c) {
         return this.testRepository.getCourseInstances(c.getTunniste());
+    }
+    
+    @RequestMapping(method = RequestMethod.GET, value = "test", produces = "application/json")
+    @ResponseBody
+    public CourseStatsResponseObj test() {
+        return statisticService.getData("2010-12-16", "582206");
     }
 }

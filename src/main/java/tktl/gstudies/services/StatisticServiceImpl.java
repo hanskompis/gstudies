@@ -29,6 +29,7 @@ import tktl.gstudies.responseobjs.CourseStatsResponseObj;
 public class StatisticServiceImpl implements StatisticService {
 
     public List<String> acceptableGrades = Arrays.asList(new String[]{"1", "2", "3", "4", "5"});
+    
     @PersistenceContext
     EntityManager em;
 
@@ -234,7 +235,7 @@ public class StatisticServiceImpl implements StatisticService {
             double credits19 = this.getCreditsNMonthsSpan(s.getStudies(), this.makeDate(dateString), 19);
             courseStats.addCreditGainToNineteenMonthsCSPassed(credits19);
         }
-        //          courseStats.convertAllHashMaps();
+                  courseStats.convertAllHashMaps();
         this.setAverageGrades(courseStats, dateString, students);
         this.setStandardDeviations(courseStats, dateString, students);
         courseStats.calculateCreditAverages();
@@ -309,7 +310,7 @@ public class StatisticServiceImpl implements StatisticService {
         ApplicationContext ctx = new FileSystemXmlApplicationContext(new String[]{prefix + "spring-context.xml", prefix + "spring-database.xml"});
         StatisticService ss = (StatisticService) ctx.getBean("statisticServiceImpl");
         CourseStatsResponseObj statsResponseObj = new CourseStatsResponseObj();
-        statsResponseObj = ss.getData("2011-10-18", "581325");
+        statsResponseObj = ss.getData("2010-12-16", "582206");
         System.out.println(statsResponseObj);
     }
 }
