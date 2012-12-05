@@ -15,8 +15,11 @@ import tktl.gstudies.repositories.JDBCRepository;
 import tktl.gstudies.responseobjs.CourseStatsResponseObj;
 import tktl.gstudies.services.StatisticService;
 import tktl.gstudies.services.StatisticServiceImpl;
+
 /**
- * Controller for getting course information. GUI will maybe not be implemented at all.
+ * Controller for getting course information. GUI will maybe not be implemented
+ * at all.
+ *
  * @author hkeijone
  */
 @Controller
@@ -26,7 +29,6 @@ public class TestController {
     private JDBCRepository testRepository;
     @Autowired
     private StatisticService statisticService;
-
 
     @RequestMapping(method = RequestMethod.POST, value = "query", consumes = "application/json", produces = "application/json")
     @ResponseBody
@@ -40,16 +42,20 @@ public class TestController {
         return this.testRepository.getSelectedCoursesForInspection();
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "courseinstances",
+    @RequestMapping(method = RequestMethod.POST, value = "course",
     produces = "application/json", consumes = "application/json")
     @ResponseBody
-    public List courseinstances(@RequestBody CourseCatcher c) {
-        return this.testRepository.getCourseInstances(c.getTunniste());
+    public CourseStatsResponseObj courseinstances(@RequestBody CourseCatcher c) {
+        System.out.println("KUTUTTIIN");
+        CourseStatsResponseObj csro = statisticService.getData(c.getSuorpvm(), c.getTunniste());
+        return csro;
     }
-    
-    @RequestMapping(method = RequestMethod.GET, value = "test", produces = "application/json")
-    @ResponseBody
-    public CourseStatsResponseObj test() {
-        return statisticService.getData("2010-12-16", "582206");
-    }
+
+//    @RequestMapping(method = RequestMethod.GET, value = "test", produces = "application/json")
+//    @ResponseBody
+//    public CourseStatsResponseObj test() {
+//        CourseStatsResponseObj csro = statisticService.getData("2010-12-16", "582206");
+//        System.out.println(csro.toString());
+//        return csro;
+//    }
 }

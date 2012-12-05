@@ -5,8 +5,13 @@
         <title></title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link href="assets/bootstrap/css/bootstrap.css" rel="stylesheet">
-        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-responsive.css" type="text/css"/>
+        <link href="assets/bootstrap/css/bootstrap-responsive.css" rel="stylesheet"/> 
 
+        <style>
+            body {
+                padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+            }
+        </style>
 
         <script type="text/template" id="buttonPictureTemplate" class="span12">
         <form>
@@ -31,45 +36,59 @@
         </table>
     </script>
 
-    <script type="text/template" id="courseSelectionTemplate">
-        <p>choose course</p>
-        <select id="courseSelect">
-        </select><br />
-        <input type="button" id="getCourseInstancesButton" value="getInstances"><br />
+    <script type="text/template" id="courseStatsBaseTemplate">
+        <p>Booyakasha!</p>
+        tunniste : <input type="text" id="courseId" class="input-large" value="582206">
+        pvm muotoa yyyy-mm-dd : <input type="text" id="courseDate" class="input-large" value="2010-12-16"><br />
+        <input type="button" id="submitCourseButton" value="submitCourse"><br/>
+        <div id="statsContainer"></div>
     </script>
 
-    <script type="text/template" id="courseSelectRowTemplate">
-        <option value={{TUNNISTE}}>{{NIMI}}</option>
+    <script type="text/template" id="courseBasicStatsTemplate">
+        <p>Course ID: {{courseId}}</p>
+        <p>Date of accomplishment: {{dateOfAccomplishment}}</p>
+        <p> # of students who passed : {{studentsPassed}}</p>
+        <p> # of students who failed : {{studentsFailed}}</p>
     </script>
 
-    <script type="text/template" id="courseInstanceSelectionTemplate">
-        <p>choose instance</p>
-        <select id="courseInstanceSelect">
-        </select><br />
-        <input type="button" id="selectCourseInstanceButton" value="selectInstance"><br />
-    </script>
-
-    <script type="text/template" id="instanceSelectRowTemplate">
-        <option value={{SUORPVM}}>{{NIMLYH}} suorpvm: {{SUORPVM}}</option>
-    </script>
+    <!-- <script type="text/template" id="courseSelectionTemplate">
+         <p>choose course</p>
+         <select id="courseSelect">
+         </select><br />
+         <input type="button" id="getCourseInstancesButton" value="getInstances"><br />
+     </script>
+ 
+     <script type="text/template" id="courseSelectRowTemplate">
+         <option value={{TUNNISTE}}>{{NIMI}}</option>
+     </script>
+ 
+     <script type="text/template" id="courseInstanceSelectionTemplate">
+         <p>choose instance</p>
+         <select id="courseInstanceSelect">
+         </select><br />
+         <input type="button" id="selectCourseInstanceButton" value="selectInstance"><br />
+     </script>
+ 
+     <script type="text/template" id="instanceSelectRowTemplate">
+         <option value={{SUORPVM}}>{{NIMLYH}} suorpvm: {{SUORPVM}}</option>
+     </script> -->
 
 </head>
 <body>
-    <div class="navbar ">
+    <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="navbar-inner">
-            <div class="container-fluid">
+            <div class="container">
                 <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-
-                    <span class="i-bar"></span>
-                    <span class="i-bar"></span>
-                    <span class="i-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
                 </a>
                 <a class="brand" href="#">GStudies</a>
-                <div class="nav-collapse">
-                    <ul id="navigation" class="nav">
-                        <li id="tasksNavItem"><a href="">Graph</a></li>
-                        <li id="projectsNavItem"><a href="#query">SQL-query</a></li>
-                        <li id="projectsNaItem"><a href="#courseStats">CourseStats</a></li>
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+                        <li><a href="">graph</a></li>
+                        <li><a href="#query">query</a></li>
+                        <li><a href="#courseStats">course stats</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>

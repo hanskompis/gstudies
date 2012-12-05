@@ -72,33 +72,46 @@ App.Views.queryView = Backbone.View.extend({
     }
 }),
 App.Views.courseStatsView = Backbone.View.extend({
-    render: function (){
-        var content = Mustache.to_html($("#courseSelectionTemplate").html(),{});
+    render: function (response){
+        var content = Mustache.to_html($("#courseStatsBaseTemplate").html(),{});
         $(this.el).html(content);
-        $.getJSON("../coursesforinspection",function(courses){
-            var resultSet = new Backbone.Collection(courses);
-            resultSet.each(function (course){
-                var selectionRow = Mustache.to_html($("#courseSelectRowTemplate").html(),{
-                    "TUNNISTE" : course.get("TUNNISTE"),
-                    "NIMI":course.get("NIMI")
-                });
-                console.log(selectionRow);
-                $("#courseSelect").append(selectionRow);                
-            })
-        });
+        if(response){
+            var courseId = Mustache.to_html($("#courseBasicStatsTemplate").html(),
+            {
+                courseId : response.courseId,
+                dateOfAccomplishment : response.dateOfAccomplishment,
+                            studentsPassed : response.cspassed, 
+                            studentsFailed : response.csfailed
+            });  
+            $("#statsContainer").append(courseId);
+        }
+        
+    //        $.getJSON("../coursesforinspection",function(courses){
+    //            var resultSet = new Backbone.Collection(courses);
+    //            resultSet.each(function (course){
+    //                var selectionRow = Mustache.to_html($("#courseSelectRowTemplate").html(),{
+    //                    "TUNNISTE" : course.get("TUNNISTE"),
+    //                    "NIMI":course.get("NIMI")
+    //                });
+    //                console.log(selectionRow);
+    //                $("#courseSelect").append(selectionRow);                
+    //            })
+    //        });
     }, 
     
     events : {
-        "click #getCourseInstancesButton" : "getCourseInstanceAction"
+        "click #submitCourseButton" : "submitCourseAction"
     },
     
-    getCourseInstanceAction : function (){
+    submitCourseAction : function (){
         var course = new App.Models.Course({
-            tunniste: $("#courseSelect").val()
+            tunniste: $("#courseId").val(),
+            suorpvm : $("#courseDate").val()
         });
+        var self = this;
         course.save({},{
-            success : function (response){
-                alert(JSON.stringify(response));
+            success : function (model,response){
+                self.render(response);  
             }
         })
     }

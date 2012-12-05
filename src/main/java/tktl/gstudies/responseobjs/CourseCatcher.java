@@ -34,4 +34,9 @@ public class CourseCatcher {
     public void setSuorpvm(String suorpvm) {
         this.suorpvm = suorpvm;
     }
+    
+    @Override
+    public String toString(){
+        return "tunniste: "+this.tunniste+" suorpvm: "+this.suorpvm;
+    }
 }

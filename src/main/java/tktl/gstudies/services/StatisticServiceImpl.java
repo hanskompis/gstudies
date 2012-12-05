@@ -286,12 +286,15 @@ public class StatisticServiceImpl implements StatisticService {
     @Override
     public CourseStatsResponseObj getData(String dateString, String courseId) {
         CourseStatsResponseObj statsResponseObj = new CourseStatsResponseObj();
+        statsResponseObj.setDateOfAccomplishment(dateString);
+        statsResponseObj.setCourseId(courseId);
         statsResponseObj.addCourseStatsObj(this.doTheMagic("CSPassed", dateString, courseId));
         statsResponseObj.addCourseStatsObj(this.doTheMagic("CSFailed", dateString, courseId));
         statsResponseObj.addCourseStatsObj(this.doTheMagic("CSAll", dateString, courseId));
         statsResponseObj.countPercentages();
         List<Stud> studs = this.getCSStudentsFromCourseWhoPassedOnDate(courseId, dateString);
         statsResponseObj.setCSCourseGrades(this.getGradeDistribution(studs, courseId, dateString));
+        System.out.println(statsResponseObj);
         return statsResponseObj;
     }
 
