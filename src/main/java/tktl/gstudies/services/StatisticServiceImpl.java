@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.springframework.context.ApplicationContext;
@@ -29,7 +30,6 @@ import tktl.gstudies.responseobjs.CourseStatsResponseObj;
 public class StatisticServiceImpl implements StatisticService {
 
     public List<String> acceptableGrades = Arrays.asList(new String[]{"1", "2", "3", "4", "5"});
-    
     @PersistenceContext
     EntityManager em;
 
@@ -54,6 +54,35 @@ public class StatisticServiceImpl implements StatisticService {
     @Override
     public List<TypeOfStudy> getTypesOfStudy() {
         return em.createQuery("SELECT t FROM TypeOfStudy t").getResultList();
+    }
+
+
+   private Date findMostPopulatedCourseInstance(String courseId, String year) {
+        int mostStudents = 0;
+        Date dateOfMostStudents = null;
+        List<Date> dates = this.findDatesOfCourse(year);
+        //System.out.println(dates);
+        for (Date d : dates) {
+            int amountStudents = this.getCSStudentsFromCourseOnDate(d.toString(), "582206").size();
+            if(amountStudents > mostStudents){
+                mostStudents = amountStudents;
+                dateOfMostStudents = d;
+            }
+        }
+        return dateOfMostStudents;
+    }
+    
+    @Override
+    public List<Date> findMostPopulatedCourseInstancesBetweenYears(String courseId, int startYear, int endYear){
+        List<Date> toReturn = new ArrayList<Date>();
+        for(int i = startYear; i <=endYear ; i++){
+            toReturn.add(this.findMostPopulatedCourseInstance(courseId, String.valueOf(i)));
+        }
+        return toReturn;
+    }
+
+   private List<Date> findDatesOfCourse(String year) {
+        return em.createNamedQuery("findDatesOfCourse").setParameter("startDate", year+"-01-01").setParameter("endDate", year+"-12-31").getResultList();
     }
 
     @Override
@@ -235,7 +264,7 @@ public class StatisticServiceImpl implements StatisticService {
             double credits19 = this.getCreditsNMonthsSpan(s.getStudies(), this.makeDate(dateString), 19);
             courseStats.addCreditGainToNineteenMonthsCSPassed(credits19);
         }
-                  courseStats.convertAllHashMaps();
+        courseStats.convertAllHashMaps();
         this.setAverageGrades(courseStats, dateString, students);
         this.setStandardDeviations(courseStats, dateString, students);
         courseStats.calculateCreditAverages();
@@ -265,7 +294,7 @@ public class StatisticServiceImpl implements StatisticService {
                     if (co == null || co.getCourseId() == null) {
                         continue;
                     }
-                    if (co.getCourseId().equals(courseId) && study.getDateOfAccomplishment().equals(makeDate(dateString)) ){
+                    if (co.getCourseId().equals(courseId) && study.getDateOfAccomplishment().equals(makeDate(dateString))) {
                         String grade = study.getGrade().getGrade();
                         if (acceptableGrades.contains(grade)) {
                             int g = Integer.parseInt(grade);
@@ -273,7 +302,7 @@ public class StatisticServiceImpl implements StatisticService {
                             amount++;
                             grades[g - 1] = amount;
                             kurssisuoritukset++;
-      //                      System.out.println(stud.getStudentId() + ": " +grade);
+                            //                      System.out.println(stud.getStudentId() + ": " +grade);
                         }
                     }
                 }
@@ -294,8 +323,18 @@ public class StatisticServiceImpl implements StatisticService {
         statsResponseObj.countPercentages();
         List<Stud> studs = this.getCSStudentsFromCourseWhoPassedOnDate(courseId, dateString);
         statsResponseObj.setCSCourseGrades(this.getGradeDistribution(studs, courseId, dateString));
-        System.out.println(statsResponseObj);
+       // System.out.println(statsResponseObj);
         return statsResponseObj;
+    }
+    
+    @Override
+    public List<CourseStatsResponseObj> getAllDataFromCourseBetweenYears(String courseId, int startYear, int endYear){
+        List<Date> dates = this.findMostPopulatedCourseInstancesBetweenYears(courseId, startYear, endYear);
+        List<CourseStatsResponseObj> toReturn = new ArrayList<CourseStatsResponseObj>();
+        for(Date d : dates){
+            toReturn.add(this.getData(d.toString(), courseId));
+        }
+        return toReturn;
     }
 
     private List<Stud> getCSStudents() {
@@ -312,8 +351,12 @@ public class StatisticServiceImpl implements StatisticService {
         String prefix = "src/main/webapp/WEB-INF/";
         ApplicationContext ctx = new FileSystemXmlApplicationContext(new String[]{prefix + "spring-context.xml", prefix + "spring-database.xml"});
         StatisticService ss = (StatisticService) ctx.getBean("statisticServiceImpl");
-        CourseStatsResponseObj statsResponseObj = new CourseStatsResponseObj();
-        statsResponseObj = ss.getData("2010-12-16", "582206");
-        System.out.println(statsResponseObj);
+        
+        System.out.println("KOKOHOITO!!!!!!!!!!!!!!!!!!! \n" + ss.getAllDataFromCourseBetweenYears("582206", 2006, 2010).toString());
+
+
+//        CourseStatsResponseObj statsResponseObj = new CourseStatsResponseObj();
+//        statsResponseObj = ss.getData("2010-12-16", "582206");
+//        System.out.println(statsResponseObj);
     }
 }

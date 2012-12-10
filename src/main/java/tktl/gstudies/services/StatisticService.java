@@ -40,4 +40,8 @@ public interface StatisticService {
     
     public List<TypeOfStudy> getTypesOfStudy();
     
+    public List<Date> findMostPopulatedCourseInstancesBetweenYears(String courseId, int startYear, int endYear);
+    
+    public List<CourseStatsResponseObj> getAllDataFromCourseBetweenYears(String courseId, int startYear, int endYear);
+    
 }

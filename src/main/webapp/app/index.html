@@ -11,6 +11,9 @@
             body {
                 padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
             }
+            .table-nonfluid {
+                width: auto;
+            }
         </style>
 
         <script type="text/template" id="buttonPictureTemplate" class="span12">
@@ -37,41 +40,71 @@
     </script>
 
     <script type="text/template" id="courseStatsBaseTemplate">
-        <p>Booyakasha!</p>
-        tunniste : <input type="text" id="courseId" class="input-large" value="582206">
-        pvm muotoa yyyy-mm-dd : <input type="text" id="courseDate" class="input-large" value="2010-12-16"><br />
-        <input type="button" id="submitCourseButton" value="submitCourse"><br/>
+        <div class="well">
+            <p>Booyakasha!</p>
+            tunniste : <input type="text" id="courseId" class="input-large" value="582206">
+            pvm muotoa yyyy-mm-dd : <input type="text" id="courseDate" class="input-large" value="2010-12-16"><br />
+            <input type="button" id="submitCourseButton" value="submitCourse"><br/>
+        </div>
         <div id="statsContainer"></div>
+        <div id="graphsContainer"></div>
     </script>
 
     <script type="text/template" id="courseBasicStatsTemplate">
-        <p>Course ID: {{courseId}}</p>
-        <p>Date of accomplishment: {{dateOfAccomplishment}}</p>
-        <p> # of students who passed : {{studentsPassed}}</p>
-        <p> # of students who failed : {{studentsFailed}}</p>
-    </script>
+        <br />
+        <div class="well">
+            <p><strong>Course ID: {{courseId}}</strong></p>
+            <p><strong>Date of accomplishment: {{dateOfAccomplishment}}</strong></p>
+            <p> # of students on course iteration : {{studentsOnCourse}}</p>
+            <p> # of students who passed : {{studentsPassed}}   ({{passedPers}}%)</p>
+            <p> # of students who failed : {{studentsFailed}}   ({{failedPers}}%)</p>
+            <p>
+            <table class="table table-bordered table-nonfluid">
+                <tr>
+                <td>Grade</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td>
+                </tr>
+                <tr>
+                    <td>#</td><td>{{ones}}</td><td>{{twos}}</td><td>{{threes}}</td><td>{{fours}}</td><td>{{fives}}</td>    
+                </tr>
+            </table>
+        </p><br/>
+        <p>
+            <a class="btn btn-primary btn-large" id="passedGraphButton">Passed &raquo;</a>
+            <a class="btn btn-primary btn-large" id="failedGraphButton">Failed &raquo;</a>
+            <a class="btn btn-primary btn-large" id="combinedGraphButton">Combined &raquo;</a>
+        </p>
+    </div>
+</script>
 
-    <!-- <script type="text/template" id="courseSelectionTemplate">
-         <p>choose course</p>
-         <select id="courseSelect">
-         </select><br />
-         <input type="button" id="getCourseInstancesButton" value="getInstances"><br />
-     </script>
- 
-     <script type="text/template" id="courseSelectRowTemplate">
-         <option value={{TUNNISTE}}>{{NIMI}}</option>
-     </script>
- 
-     <script type="text/template" id="courseInstanceSelectionTemplate">
-         <p>choose instance</p>
-         <select id="courseInstanceSelect">
-         </select><br />
-         <input type="button" id="selectCourseInstanceButton" value="selectInstance"><br />
-     </script>
- 
-     <script type="text/template" id="instanceSelectRowTemplate">
-         <option value={{SUORPVM}}>{{NIMLYH}} suorpvm: {{SUORPVM}}</option>
-     </script> -->
+<script type="text/template" id="graphStatsTemplate">
+    <br />
+    <div class="well">
+        <h1>{{studentGroup}}</h1>
+    </div>
+</script>
+
+
+<!-- <script type="text/template" id="courseSelectionTemplate">
+     <p>choose course</p>
+     <select id="courseSelect">
+     </select><br />
+     <input type="button" id="getCourseInstancesButton" value="getInstances"><br />
+ </script>
+
+ <script type="text/template" id="courseSelectRowTemplate">
+     <option value={{TUNNISTE}}>{{NIMI}}</option>
+ </script>
+
+ <script type="text/template" id="courseInstanceSelectionTemplate">
+     <p>choose instance</p>
+     <select id="courseInstanceSelect">
+     </select><br />
+     <input type="button" id="selectCourseInstanceButton" value="selectInstance"><br />
+ </script>
+
+ <script type="text/template" id="instanceSelectRowTemplate">
+     <option value={{SUORPVM}}>{{NIMLYH}} suorpvm: {{SUORPVM}}</option>
+ </script> -->
 
 </head>
 <body>

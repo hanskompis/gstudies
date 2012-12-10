@@ -8,13 +8,26 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
 /**
  * Entity class to map studies. Comparable.
+ *
  * @author hkeijone
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(
+        name = "findDatesOfCourse",
+    query = "SELECT DISTINCT s.dateOfAccomplishment FROM Study s JOIN s.courseObjects co WHERE co.courseId = '582206' AND s.dateOfAccomplishment BETWEEN :startDate AND :endDate"),
+    @NamedQuery(
+        name = "findMostPopulatedCourseInstance",
+    query = "SELECT COUNT(s.dateOfAccomplishment), s.dateOfAccomplishment from Study s JOIN s.courseObjects co "
+    + "WHERE co.courseId = '582206' AND s.dateOfAccomplishment BETWEEN '2010-01-01' AND '2010-12-31' GROUP BY s.dateOfAccomplishment")
+})
 public class Study extends AbstractModel implements Comparable {
 
     @ManyToOne
@@ -155,8 +168,7 @@ public class Study extends AbstractModel implements Comparable {
             } else {
                 return 0;
             }
-        }
-        else{
+        } else {
             return 0;
         }
     }

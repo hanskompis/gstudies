@@ -72,6 +72,8 @@ App.Views.queryView = Backbone.View.extend({
     }
 }),
 App.Views.courseStatsView = Backbone.View.extend({
+    response :null,
+    
     render: function (response){
         var content = Mustache.to_html($("#courseStatsBaseTemplate").html(),{});
         $(this.el).html(content);
@@ -80,8 +82,16 @@ App.Views.courseStatsView = Backbone.View.extend({
             {
                 courseId : response.courseId,
                 dateOfAccomplishment : response.dateOfAccomplishment,
-                            studentsPassed : response.cspassed, 
-                            studentsFailed : response.csfailed
+                studentsPassed : response.cspassed, 
+                studentsFailed : response.csfailed,
+                studentsOnCourse : response.amountAllStudents,
+                passedPers : response.cspercentagePassed.toFixed(1), 
+                failedPers : response.cspercentageFailed.toFixed(1), 
+                ones : response.cscourseGrades[0],
+                twos : response.cscourseGrades[1],
+                threes : response.cscourseGrades[2],
+                fours : response.cscourseGrades[3],
+                fives : response.cscourseGrades[4]
             });  
             $("#statsContainer").append(courseId);
         }
@@ -100,7 +110,11 @@ App.Views.courseStatsView = Backbone.View.extend({
     }, 
     
     events : {
-        "click #submitCourseButton" : "submitCourseAction"
+        "click #submitCourseButton" : "submitCourseAction",
+        "click #passedGraphButton" : "passedGraphAction",
+        "click #failedGraphButton" : "failedGraphAction",
+        "click #combinedGraphButton" : "combinedGraphAction"
+
     },
     
     submitCourseAction : function (){
@@ -111,8 +125,32 @@ App.Views.courseStatsView = Backbone.View.extend({
         var self = this;
         course.save({},{
             success : function (model,response){
+                self.response = response;
+        //        console.log(self.response);
                 self.render(response);  
             }
         })
+    },
+    
+    passedGraphAction : function (){
+        console.log(this.response.courseStatsObjs[0]);
+        var content = Mustache.to_html($("#graphStatsTemplate").html(),{
+            studentGroup : "Passed"
+        });
+        $("#graphsContainer").html(content);
+    },
+    
+    failedGraphAction : function (){
+        var content = Mustache.to_html($("#graphStatsTemplate").html(),{
+            studentGroup : "Failed"
+        });
+        $("#graphsContainer").html(content);
+    },
+    
+    combinedGraphAction : function (){
+        var content = Mustache.to_html($("#graphStatsTemplate").html(),{
+            studentGroup : "Combined"
+        });
+        $("#graphsContainer").html(content);
     }
 });

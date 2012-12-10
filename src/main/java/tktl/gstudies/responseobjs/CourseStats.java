@@ -149,6 +149,30 @@ public class CourseStats {
         }
     }
 
+    public double getAverageCreditsSevenMonths() {
+        return averageCreditsSevenMonths;
+    }
+
+    public void setAverageCreditsSevenMonths(double averageCreditsSevenMonths) {
+        this.averageCreditsSevenMonths = averageCreditsSevenMonths;
+    }
+
+    public double getAverageCreditsThirteenMonths() {
+        return averageCreditsThirteenMonths;
+    }
+
+    public void setAverageCreditsThirteenMonths(double averageCreditsThirteenMonths) {
+        this.averageCreditsThirteenMonths = averageCreditsThirteenMonths;
+    }
+
+    public double getAverageCreditsNineteenMonths() {
+        return averageCreditsNineteenMonths;
+    }
+
+    public void setAverageCreditsNineteenMonths(double averageCreditsNineteenMonths) {
+        this.averageCreditsNineteenMonths = averageCreditsNineteenMonths;
+    }
+    
     public int getAmountCreditsSevenMonths() {
         return amountCreditsSevenMonths;
     }
