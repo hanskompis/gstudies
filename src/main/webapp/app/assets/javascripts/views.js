@@ -72,41 +72,21 @@ App.Views.queryView = Backbone.View.extend({
     }
 }),
 App.Views.courseStatsView = Backbone.View.extend({
-    response :null,
-    
+    response :null,    
     render: function (response){
         var content = Mustache.to_html($("#courseStatsBaseTemplate").html(),{});
         $(this.el).html(content);
         if(response){
-            var courseId = Mustache.to_html($("#courseBasicStatsTemplate").html(),
+            console.log(response);
+            var courseBasicStats = Mustache.to_html($("#courseBasicStatsTemplate").html(),
             {
-                courseId : response.courseId,
-                dateOfAccomplishment : response.dateOfAccomplishment,
-                studentsPassed : response.cspassed, 
-                studentsFailed : response.csfailed,
-                studentsOnCourse : response.amountAllStudents,
-                passedPers : response.cspercentagePassed.toFixed(1), 
-                failedPers : response.cspercentageFailed.toFixed(1), 
-                ones : response.cscourseGrades[0],
-                twos : response.cscourseGrades[1],
-                threes : response.cscourseGrades[2],
-                fours : response.cscourseGrades[3],
-                fives : response.cscourseGrades[4]
+                courseId : response.models[0].get("courseId")
             });  
-            $("#statsContainer").append(courseId);
+            $("#statsContainer").append(courseBasicStats);
+            this.renderRowsToCourseBasicStatsTable(response);
+            this.renderRowsToGradesTable(response);
         }
-        
-    //        $.getJSON("../coursesforinspection",function(courses){
-    //            var resultSet = new Backbone.Collection(courses);
-    //            resultSet.each(function (course){
-    //                var selectionRow = Mustache.to_html($("#courseSelectRowTemplate").html(),{
-    //                    "TUNNISTE" : course.get("TUNNISTE"),
-    //                    "NIMI":course.get("NIMI")
-    //                });
-    //                console.log(selectionRow);
-    //                $("#courseSelect").append(selectionRow);                
-    //            })
-    //        });
+
     }, 
     
     events : {
@@ -119,21 +99,26 @@ App.Views.courseStatsView = Backbone.View.extend({
     
     submitCourseAction : function (){
         var course = new App.Models.Course({
-            tunniste: $("#courseId").val(),
-            suorpvm : $("#courseDate").val()
+            courseId: $("#courseId").val(),
+            startYear : $("#startYear").val(),
+            endYear : $("#endYear").val()
         });
-        var self = this;
-        course.save({},{
-            success : function (model,response){
-                self.response = response;
-        //        console.log(self.response);
-                self.render(response);  
-            }
-        })
+        
+        var courseResponse = new Backbone.Collection(testResponse);
+        this.render(courseResponse);
+    //kommentti veke, kun rendaus valmis
+    //        var self = this;
+    //        course.save({},{
+    //            success : function (model,response){
+    //                var courseResponse = new Backbone.Collection(response);
+    //                self.response = courseResponse;
+    //                //        console.log(self.response);
+    //                self.render(courseResponse);  
+    //            }
+    //        })
     },
     
     passedGraphAction : function (){
-        console.log(this.response.courseStatsObjs[0]);
         var content = Mustache.to_html($("#graphStatsTemplate").html(),{
             studentGroup : "Passed"
         });
@@ -152,5 +137,36 @@ App.Views.courseStatsView = Backbone.View.extend({
             studentGroup : "Combined"
         });
         $("#graphsContainer").html(content);
+    },
+    
+    renderRowsToCourseBasicStatsTable : function(response){
+        var amountYears = response.models.length;
+        for(var i = 0; i < amountYears; i++){
+            var rowContent = Mustache.to_html($("#courseBasicStatsRowTemplate").html(),{
+                dateOfAccomplishment : response.models[i].get("dateOfAccomplishment"),
+                amountStudents : response.models[i].get("amountCSStuds"),
+                amountPassedStudents : response.models[i].get("cspassed"),
+                amountFailedStudents : response.models[i].get("csfailed"),
+                percentageFailedStudents : response.models[i].get("cspercentageFailed").toFixed(1)
+            });
+            $("#courseBasicStatsTable").append(rowContent);
+        }
+
+    },
+    
+    renderRowsToGradesTable : function(response){
+        var amountYears = response.models.length;
+        for(var i = 0; i < amountYears; i++){
+            var rowContent = Mustache.to_html($("#courseGradesRowTemplate").html(),{
+                dateOfAccomplishment : response.models[i].get("dateOfAccomplishment"),
+                ones : response.models[i].get("cscourseGrades")[0],
+                twos : response.models[i].get("cscourseGrades")[1],
+                threes : response.models[i].get("cscourseGrades")[2],
+                fours : response.models[i].get("cscourseGrades")[3],
+                fives : response.models[i].get("cscourseGrades")[4]
+            });
+            $("#courseGradesTable").append(rowContent);
+        }
+        
     }
 });

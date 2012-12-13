@@ -42,9 +42,10 @@
     <script type="text/template" id="courseStatsBaseTemplate">
         <div class="well">
             <p>Booyakasha!</p>
-            tunniste : <input type="text" id="courseId" class="input-large" value="582206">
-            pvm muotoa yyyy-mm-dd : <input type="text" id="courseDate" class="input-large" value="2010-12-16"><br />
-            <input type="button" id="submitCourseButton" value="submitCourse"><br/>
+            tunniste : <input type="text" id="courseId" class="input-small" value="582206">
+            aloitusvuosi : <input type="text" id="startYear" class="input-small" value="2007">
+            päättymisvuosivuosi : <input type="text" id="endYear" class="input-small" value="2010"<br />
+            <input type="button" id="submitCourseButton" value="lähetä"><br/>
         </div>
         <div id="statsContainer"></div>
         <div id="graphsContainer"></div>
@@ -53,58 +54,67 @@
     <script type="text/template" id="courseBasicStatsTemplate">
         <br />
         <div class="well">
-            <p><strong>Course ID: {{courseId}}</strong></p>
-            <p><strong>Date of accomplishment: {{dateOfAccomplishment}}</strong></p>
-            <p> # of students on course iteration : {{studentsOnCourse}}</p>
-            <p> # of students who passed : {{studentsPassed}}   ({{passedPers}}%)</p>
-            <p> # of students who failed : {{studentsFailed}}   ({{failedPers}}%)</p>
-            <p>
-            <table class="table table-bordered table-nonfluid">
+            <p><strong>Kurssin tunnus: {{courseId}}</strong></p>
+            <table id="courseBasicStatsTable" class="table table-bordered table-nonfluid">
                 <tr>
-                <td>Grade</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td>
+                    <td></td><td># opiskelijoita</td><td># läpäisijöitä</td><td># hylättyjä</td><td>% hylättyjä</td>
                 </tr>
+
+            </table>
+            <table id="courseGradesTable" class="table table-bordered table-nonfluid">
                 <tr>
-                    <td>#</td><td>{{ones}}</td><td>{{twos}}</td><td>{{threes}}</td><td>{{fours}}</td><td>{{fives}}</td>    
+                    <td></td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td>
                 </tr>
             </table>
-        </p><br/>
-        <p>
-            <a class="btn btn-primary btn-large" id="passedGraphButton">Passed &raquo;</a>
-            <a class="btn btn-primary btn-large" id="failedGraphButton">Failed &raquo;</a>
-            <a class="btn btn-primary btn-large" id="combinedGraphButton">Combined &raquo;</a>
-        </p>
-    </div>
-</script>
+            <p>
+                <a class="btn btn-primary btn-large" id="passedGraphButton">Passed &raquo;</a>
+                <a class="btn btn-primary btn-large" id="failedGraphButton">Failed &raquo;</a>
+                <a class="btn btn-primary btn-large" id="combinedGraphButton">Combined &raquo;</a>
+            </p>
+        </div>
+    </script>
 
-<script type="text/template" id="graphStatsTemplate">
-    <br />
-    <div class="well">
-        <h1>{{studentGroup}}</h1>
-    </div>
-</script>
+    <script type="text/template" id="courseBasicStatsRowTemplate">
+        <tr>
+            <td>{{dateOfAccomplishment}}</td><td>{{amountStudents}}</td><td>{{amountPassedStudents}}</td><td>{{amountFailedStudents}}</td><td>{{percentageFailedStudents}}</td>
+        </tr>
+    </script>
+
+    <script type="text/template" id="courseGradesRowTemplate">
+        <tr>
+            <td>{{dateOfAccomplishment}}</td><td>{{ones}}</td><td>{{twos}}</td><td>{{threes}}</td><td>{{fours}}</td><td>{{fives}}</td>
+        </tr>
+    </script>F
+
+    <script type="text/template" id="graphStatsTemplate">
+        <br />
+        <div class="well">
+            <h1>{{studentGroup}}</h1>
+        </div>
+    </script>
 
 
-<!-- <script type="text/template" id="courseSelectionTemplate">
-     <p>choose course</p>
-     <select id="courseSelect">
-     </select><br />
-     <input type="button" id="getCourseInstancesButton" value="getInstances"><br />
- </script>
-
- <script type="text/template" id="courseSelectRowTemplate">
-     <option value={{TUNNISTE}}>{{NIMI}}</option>
- </script>
-
- <script type="text/template" id="courseInstanceSelectionTemplate">
-     <p>choose instance</p>
-     <select id="courseInstanceSelect">
-     </select><br />
-     <input type="button" id="selectCourseInstanceButton" value="selectInstance"><br />
- </script>
-
- <script type="text/template" id="instanceSelectRowTemplate">
-     <option value={{SUORPVM}}>{{NIMLYH}} suorpvm: {{SUORPVM}}</option>
- </script> -->
+    <!-- <script type="text/template" id="courseSelectionTemplate">
+         <p>choose course</p>
+         <select id="courseSelect">
+         </select><br />
+         <input type="button" id="getCourseInstancesButton" value="getInstances"><br />
+     </script>
+    
+     <script type="text/template" id="courseSelectRowTemplate">
+         <option value={{TUNNISTE}}>{{NIMI}}</option>
+     </script>
+    
+     <script type="text/template" id="courseInstanceSelectionTemplate">
+         <p>choose instance</p>
+         <select id="courseInstanceSelect">
+         </select><br />
+         <input type="button" id="selectCourseInstanceButton" value="selectInstance"><br />
+     </script>
+    
+     <script type="text/template" id="instanceSelectRowTemplate">
+         <option value={{SUORPVM}}>{{NIMLYH}} suorpvm: {{SUORPVM}}</option>
+     </script> -->
 
 </head>
 <body>
@@ -136,6 +146,7 @@
     <script src="assets/libs/backbone-min.js"></script>
     <script src="assets/libs/mustache.js"></script>
     <script src="assets/libs/raphael-min.js"></script>
+    <script src="assets/javascripts/testresponse.js"></script>  
     <script src="assets/javascripts/application.js"></script>
     <script src="assets/javascripts/models.js"></script>  
     <script src="assets/javascripts/views.js"></script>

@@ -12,6 +12,7 @@ import tktl.gstudies.importClasses.ImportService;
 import tktl.gstudies.responseobjs.CourseCatcher;
 import tktl.gstudies.responseobjs.Query;
 import tktl.gstudies.repositories.JDBCRepository;
+import tktl.gstudies.responseobjs.CourseAndTimeSpanCatcher;
 import tktl.gstudies.responseobjs.CourseStatsResponseObj;
 import tktl.gstudies.services.StatisticService;
 import tktl.gstudies.services.StatisticServiceImpl;
@@ -45,17 +46,14 @@ public class TestController {
     @RequestMapping(method = RequestMethod.POST, value = "course",
     produces = "application/json", consumes = "application/json")
     @ResponseBody
-    public CourseStatsResponseObj courseinstances(@RequestBody CourseCatcher c) {
-        System.out.println("KUTUTTIIN");
-        CourseStatsResponseObj csro = statisticService.getData(c.getSuorpvm(), c.getTunniste());
-        return csro;
+    public List<CourseStatsResponseObj> courseinstances(@RequestBody CourseAndTimeSpanCatcher catsc) {
+        return statisticService.getAllDataFromCourseBetweenYears(catsc.getCourseId(), catsc.getStartYear(), catsc.getEndYear());        
     }
 
-//    @RequestMapping(method = RequestMethod.GET, value = "test", produces = "application/json")
-//    @ResponseBody
-//    public CourseStatsResponseObj test() {
-//        CourseStatsResponseObj csro = statisticService.getData("2010-12-16", "582206");
-//        System.out.println(csro.toString());
-//        return csro;
-//    }
+    @RequestMapping(method = RequestMethod.GET, value = "test", produces = "application/json")
+    @ResponseBody
+    public List<CourseStatsResponseObj> test() {
+        
+        return statisticService.getAllDataFromCourseBetweenYears("582206", 2007, 2010);
+    }
 }
