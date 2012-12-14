@@ -85,6 +85,8 @@ App.Views.courseStatsView = Backbone.View.extend({
             $("#statsContainer").append(courseBasicStats);
             this.renderRowsToCourseBasicStatsTable(response);
             this.renderRowsToGradesTable(response);
+            this.renderRowsToCreditsGainTable(response);
+            this.renderRowsToGradeSDTable(response);
         }
 
     }, 
@@ -122,7 +124,36 @@ App.Views.courseStatsView = Backbone.View.extend({
         var content = Mustache.to_html($("#graphStatsTemplate").html(),{
             studentGroup : "Passed"
         });
+        
         $("#graphsContainer").html(content);
+        
+        //var options = { series: { curvedLines: { active: true }}}; 
+        var data = [graphdata, graphdata2, graphdata3];
+        
+        var d2 = [[20, 20], [42, 60], [54, 20], [80, 80]];
+        var options = {
+            series: {
+                //              lines: {
+                //                  show : true
+                //              }  
+                curvedLines: {
+                    active: true,
+                    show: true,
+                    fit: true,
+                    lineWidth: 3
+                }
+            },
+ 
+            xaxis: {
+                min: 0, 
+                max: 75
+            },
+            yaxis: {
+                min: 0, 
+                max: 4
+            }
+        }
+        $.plot($("#placeholderForCreditGains"), [graphdata], options);
     },
     
     failedGraphAction : function (){
@@ -166,7 +197,43 @@ App.Views.courseStatsView = Backbone.View.extend({
                 fives : response.models[i].get("cscourseGrades")[4]
             });
             $("#courseGradesTable").append(rowContent);
+        }    
+    },
+    
+    renderRowsToCreditsGainTable : function(response){
+        var amountYears = response.models.length;
+        for(var i = 0; i < amountYears; i++){
+            var rowContent = Mustache.to_html($("#creditGainsRowTemplate").html(),{
+                dateOfAccomplishment : response.models[i].get("dateOfAccomplishment"),
+                passedCredits7 : response.models[i].get("courseStatsObjs")[0].averageCreditsSevenMonths.toFixed(1),
+                passedCredits13 : response.models[i].get("courseStatsObjs")[0].averageCreditsThirteenMonths.toFixed(1),
+                passedCredits19 : response.models[i].get("courseStatsObjs")[0].averageCreditsNineteenMonths.toFixed(1),
+                failedCredits7 : response.models[i].get("courseStatsObjs")[1].averageCreditsSevenMonths.toFixed(1),
+                failedCredits13 : response.models[i].get("courseStatsObjs")[1].averageCreditsThirteenMonths.toFixed(1),
+                failedCredits19 : response.models[i].get("courseStatsObjs")[1].averageCreditsNineteenMonths.toFixed(1),
+                allCredits7 : response.models[i].get("courseStatsObjs")[2].averageCreditsSevenMonths.toFixed(1),
+                allCredits13 : response.models[i].get("courseStatsObjs")[2].averageCreditsThirteenMonths.toFixed(1),
+                allCredits19 : response.models[i].get("courseStatsObjs")[2].averageCreditsNineteenMonths.toFixed(1)
+            });
+            $("#creditGainsTable").append(rowContent);
         }
-        
+    },
+    renderRowsToGradeSDTable : function(response){
+        var amountYears = response.models.length;
+        for(var i = 0; i < amountYears; i++){
+            var rowContent = Mustache.to_html($("#gradesSDRowTemplate").html(),{
+                dateOfAccomplishment : response.models[i].get("dateOfAccomplishment"),
+                passedSD7 : response.models[i].get("courseStatsObjs")[0].standardDeviationGradesSevenMonths.toFixed(2),
+                passedSD13 : response.models[i].get("courseStatsObjs")[0].standardDeviationGradesThirteenMonths.toFixed(2),
+                passedSD19 : response.models[i].get("courseStatsObjs")[0].standardDeviationGradesNineteenMonths.toFixed(2),
+                failedSD7 : response.models[i].get("courseStatsObjs")[1].standardDeviationGradesSevenMonths.toFixed(2),
+                failedSD13 : response.models[i].get("courseStatsObjs")[1].standardDeviationGradesThirteenMonths.toFixed(2),
+                failedSD19 : response.models[i].get("courseStatsObjs")[1].standardDeviationGradesNineteenMonths.toFixed(2),
+                allSD7 : response.models[i].get("courseStatsObjs")[2].standardDeviationGradesSevenMonths.toFixed(2),
+                allSD13 : response.models[i].get("courseStatsObjs")[2].standardDeviationGradesThirteenMonths.toFixed(2),
+                allSD19 : response.models[i].get("courseStatsObjs")[2].standardDeviationGradesNineteenMonths.toFixed(2)
+            });
+            $("#gradesSDTable").append(rowContent);
+        }
     }
 });

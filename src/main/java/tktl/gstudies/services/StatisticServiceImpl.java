@@ -60,10 +60,10 @@ public class StatisticServiceImpl implements StatisticService {
    private Date findMostPopulatedCourseInstance(String courseId, String year) {
         int mostStudents = 0;
         Date dateOfMostStudents = null;
-        List<Date> dates = this.findDatesOfCourse(year);
+        List<Date> dates = this.findDatesOfCourse(courseId, year);
         //System.out.println(dates);
         for (Date d : dates) {
-            int amountStudents = this.getCSStudentsFromCourseOnDate(d.toString(), "582206").size();
+            int amountStudents = this.getCSStudentsFromCourseOnDate(d.toString(), courseId).size();
             if(amountStudents > mostStudents){
                 mostStudents = amountStudents;
                 dateOfMostStudents = d;
@@ -81,8 +81,8 @@ public class StatisticServiceImpl implements StatisticService {
         return toReturn;
     }
 
-   private List<Date> findDatesOfCourse(String year) {
-        return em.createNamedQuery("findDatesOfCourse").setParameter("startDate", year+"-01-01").setParameter("endDate", year+"-12-31").getResultList();
+   private List<Date> findDatesOfCourse(String courseId, String year) {
+        return em.createNamedQuery("findDatesOfCourse").setParameter("courseId", courseId).setParameter("startDate", year+"-01-01").setParameter("endDate", year+"-12-31").getResultList();
     }
 
     @Override
@@ -352,11 +352,11 @@ public class StatisticServiceImpl implements StatisticService {
         ApplicationContext ctx = new FileSystemXmlApplicationContext(new String[]{prefix + "spring-context.xml", prefix + "spring-database.xml"});
         StatisticService ss = (StatisticService) ctx.getBean("statisticServiceImpl");
         
-        System.out.println("KOKOHOITO!!!!!!!!!!!!!!!!!!! \n" + ss.getAllDataFromCourseBetweenYears("582206", 2006, 2010).toString());
+      //  System.out.println("KOKOHOITO!!!!!!!!!!!!!!!!!!! \n" + ss.getAllDataFromCourseBetweenYears("582206", 2006, 2010).toString());
 
 
-//        CourseStatsResponseObj statsResponseObj = new CourseStatsResponseObj();
-//        statsResponseObj = ss.getData("2010-12-16", "582206");
-//        System.out.println(statsResponseObj);
+        CourseStatsResponseObj statsResponseObj = new CourseStatsResponseObj();
+        statsResponseObj = ss.getData("2010-12-16", "582206");
+        System.out.println(statsResponseObj);
     }
 }

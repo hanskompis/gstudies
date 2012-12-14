@@ -22,7 +22,7 @@ import javax.persistence.OneToOne;
 @NamedQueries({
     @NamedQuery(
         name = "findDatesOfCourse",
-    query = "SELECT DISTINCT s.dateOfAccomplishment FROM Study s JOIN s.courseObjects co WHERE co.courseId = '582206' AND s.dateOfAccomplishment BETWEEN :startDate AND :endDate"),
+    query = "SELECT DISTINCT s.dateOfAccomplishment FROM Study s JOIN s.courseObjects co WHERE co.courseId = :courseId AND s.dateOfAccomplishment BETWEEN :startDate AND :endDate"),
     @NamedQuery(
         name = "findMostPopulatedCourseInstance",
     query = "SELECT COUNT(s.dateOfAccomplishment), s.dateOfAccomplishment from Study s JOIN s.courseObjects co "

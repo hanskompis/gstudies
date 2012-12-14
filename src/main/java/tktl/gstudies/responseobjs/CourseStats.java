@@ -80,19 +80,65 @@ public class CourseStats {
         }
     }
 
-    private int[][] convertHashMapIntoArrays(HashMap toConvert) {
+//    private int[][] convertHashMapIntoArrays(HashMap toConvert) {
+//
+//        int arrSize = toConvert.size();
+//        int[][] arr = new int[arrSize][];
+//        int ind = 0;
+//        Iterator i = toConvert.entrySet().iterator();
+//        while (i.hasNext()) {
+//            int[] toAdd = new int[2];
+//            Map.Entry<Integer, Integer> entry = (Map.Entry<Integer, Integer>) i.next();
+//            toAdd[0] = entry.getKey();
+//            toAdd[1] = entry.getValue();
+//            arr[ind] = toAdd;
+//            ind++;
+//        }
+//        return arr;
+//    }
+    private int findLargestKey(HashMap<Integer, Integer> hmap) {
+        int largest = 0;
+        for (Map.Entry<Integer, Integer> entry : hmap.entrySet()) {
+            Integer key = entry.getKey();
+            if (key > largest) {
+                largest = key;
+            }
+        }
+        return largest;
+    }
 
+    private int findLargestValue(HashMap<Integer, Integer> hmap) {
+        int largest = 0;
+        for (Map.Entry<Integer, Integer> entry : hmap.entrySet()) {
+            Integer value = entry.getValue();
+            if (value > largest) {
+                largest = value;
+            }
+        }
+        return largest;
+    }
+
+    private int[][] convertHashMapIntoArrays(HashMap toConvert) {
         int arrSize = toConvert.size();
-        int[][] arr = new int[arrSize][];
+
+        int[][] arr = new int[arrSize][2];
+//        for(int i = 0; i < arrSize; i++){
+//            for(int j = 0; j < arr[i].length; j++){
+//                arr[i][j] = 0;
+//            }
+//        }
         int ind = 0;
-        Iterator i = toConvert.entrySet().iterator();
-        while (i.hasNext()) {
-            int[] toAdd = new int[2];
-            Map.Entry<Integer, Integer> entry = (Map.Entry<Integer, Integer>) i.next();
-            toAdd[0] = entry.getKey();
-            toAdd[1] = entry.getValue();
-            arr[ind] = toAdd;
-            ind++;
+        int currentNum = 0;
+        while (ind <= arrSize - 1) {
+            if (toConvert.containsKey(currentNum)) {
+                int[] toAdd = new int[2];
+                toAdd[0] = currentNum;
+                toAdd[1] = (Integer) toConvert.remove(currentNum);
+                arr[ind] = toAdd;
+                ind++;
+            }
+
+            currentNum++;
         }
         return arr;
     }
@@ -172,7 +218,7 @@ public class CourseStats {
     public void setAverageCreditsNineteenMonths(double averageCreditsNineteenMonths) {
         this.averageCreditsNineteenMonths = averageCreditsNineteenMonths;
     }
-    
+
     public int getAmountCreditsSevenMonths() {
         return amountCreditsSevenMonths;
     }

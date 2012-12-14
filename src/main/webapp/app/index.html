@@ -56,65 +56,103 @@
         <div class="well">
             <p><strong>Kurssin tunnus: {{courseId}}</strong></p>
             <table id="courseBasicStatsTable" class="table table-bordered table-nonfluid">
+                <caption>Kurssin luennointikerran perustietoja</caption>
                 <tr>
                     <td></td><td># opiskelijoita</td><td># läpäisijöitä</td><td># hylättyjä</td><td>% hylättyjä</td>
                 </tr>
-
             </table>
             <table id="courseGradesTable" class="table table-bordered table-nonfluid">
+                <caption>Arvosanat</caption>
                 <tr>
                     <td></td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td>
                 </tr>
             </table>
-            <p>
-                <a class="btn btn-primary btn-large" id="passedGraphButton">Passed &raquo;</a>
-                <a class="btn btn-primary btn-large" id="failedGraphButton">Failed &raquo;</a>
-                <a class="btn btn-primary btn-large" id="combinedGraphButton">Combined &raquo;</a>
-            </p>
-        </div>
-    </script>
+        </table>
+        <table id="creditGainsTable" class="table table-bordered table-nonfluid">
+            <caption>Arvosanasaannot</caption>
+            <tr>
+                <td></td><td colspan="3">läpäisseet</td><td colspan="3">hylätyt</td><td colspan="3">yhdistetty</td>
+            </tr>
+            <tr>
+                <td></td><td>7kk</td><td>13kk</td><td>19kk</td><td>7kk</td><td>13kk</td><td>19kk</td><td>7kk</td><td>13kk</td><td>19kk</td>
+            </tr>
+        </table>
+        <table id="gradesSDTable" class="table table-bordered table-nonfluid">
+            <caption>Arvosanojen keskihajonta</caption>
+            <tr>
+                <td></td><td colspan="3">läpäisseet</td><td colspan="3">hylätyt</td><td colspan="3">yhdistetty</td>
+            </tr>
+            <tr>
+                <td></td><td>7kk</td><td>13kk</td><td>19kk</td><td>7kk</td><td>13kk</td><td>19kk</td><td>7kk</td><td>13kk</td><td>19kk</td>
+            </tr>
+        </table>
+        <p>
+            <a class="btn btn-primary btn-large" id="passedGraphButton">Passed &raquo;</a>
+            <a class="btn btn-primary btn-large" id="failedGraphButton">Failed &raquo;</a>
+            <a class="btn btn-primary btn-large" id="combinedGraphButton">Combined &raquo;</a>
+        </p>
+    </div>
+</script>
 
-    <script type="text/template" id="courseBasicStatsRowTemplate">
-        <tr>
-            <td>{{dateOfAccomplishment}}</td><td>{{amountStudents}}</td><td>{{amountPassedStudents}}</td><td>{{amountFailedStudents}}</td><td>{{percentageFailedStudents}}</td>
-        </tr>
-    </script>
+<script type="text/template" id="courseBasicStatsRowTemplate">
+    <tr>
+        <td>{{dateOfAccomplishment}}</td><td>{{amountStudents}}</td><td>{{amountPassedStudents}}</td><td>{{amountFailedStudents}}</td><td>{{percentageFailedStudents}}</td>
+    </tr>
+</script>
 
-    <script type="text/template" id="courseGradesRowTemplate">
-        <tr>
-            <td>{{dateOfAccomplishment}}</td><td>{{ones}}</td><td>{{twos}}</td><td>{{threes}}</td><td>{{fours}}</td><td>{{fives}}</td>
-        </tr>
-    </script>F
+<script type="text/template" id="courseGradesRowTemplate">
+    <tr>
+        <td>{{dateOfAccomplishment}}</td><td>{{ones}}</td><td>{{twos}}</td><td>{{threes}}</td><td>{{fours}}</td><td>{{fives}}</td>
+    </tr>
+</script>
 
-    <script type="text/template" id="graphStatsTemplate">
-        <br />
-        <div class="well">
-            <h1>{{studentGroup}}</h1>
-        </div>
-    </script>
+<script type="text/template" id="creditGainsRowTemplate">
+    <tr>
+        <td>{{dateOfAccomplishment}}</td><td>{{passedCredits7}}</td><td>{{passedCredits13}}</td><td>{{passedCredits19}}</td>
+        <td>{{failedCredits7}}</td><td>{{failedCredits13}}</td><td>{{failedCredits19}}</td>
+        <td>{{allCredits7}}</td><td>{{allCredits13}}</td><td>{{allCredits19}}</td>
+    </tr>
+</script>
 
+<script type="text/template" id="gradesSDRowTemplate">
+    <tr>
+        <td>{{dateOfAccomplishment}}</td><td>{{passedSD7}}</td><td>{{passedSD13}}</td><td>{{passedSD19}}</td>
+        <td>{{failedSD7}}</td><td>{{failedSD13}}</td><td>{{failedSD19}}</td>
+        <td>{{allSD7}}</td><td>{{allSD13}}</td><td>{{allSD19}}</td>
+    </tr>
+</script>
 
-    <!-- <script type="text/template" id="courseSelectionTemplate">
-         <p>choose course</p>
-         <select id="courseSelect">
-         </select><br />
-         <input type="button" id="getCourseInstancesButton" value="getInstances"><br />
-     </script>
+<script type="text/template" id="graphStatsTemplate">
+    <br />
+    <div class="well">
+        <h1>{{studentGroup}}</h1>
+        <div id="placeholderForCreditGains" style="width: 450px; height: 250px;"></div>
+    </div>
     
-     <script type="text/template" id="courseSelectRowTemplate">
-         <option value={{TUNNISTE}}>{{NIMI}}</option>
-     </script>
-    
-     <script type="text/template" id="courseInstanceSelectionTemplate">
-         <p>choose instance</p>
-         <select id="courseInstanceSelect">
-         </select><br />
-         <input type="button" id="selectCourseInstanceButton" value="selectInstance"><br />
-     </script>
-    
-     <script type="text/template" id="instanceSelectRowTemplate">
-         <option value={{SUORPVM}}>{{NIMLYH}} suorpvm: {{SUORPVM}}</option>
-     </script> -->
+</script>
+
+
+<!-- <script type="text/template" id="courseSelectionTemplate">
+     <p>choose course</p>
+     <select id="courseSelect">
+     </select><br />
+     <input type="button" id="getCourseInstancesButton" value="getInstances"><br />
+ </script>
+
+ <script type="text/template" id="courseSelectRowTemplate">
+     <option value={{TUNNISTE}}>{{NIMI}}</option>
+ </script>
+
+ <script type="text/template" id="courseInstanceSelectionTemplate">
+     <p>choose instance</p>
+     <select id="courseInstanceSelect">
+     </select><br />
+     <input type="button" id="selectCourseInstanceButton" value="selectInstance"><br />
+ </script>
+
+ <script type="text/template" id="instanceSelectRowTemplate">
+     <option value={{SUORPVM}}>{{NIMLYH}} suorpvm: {{SUORPVM}}</option>
+ </script> -->
 
 </head>
 <body>
@@ -142,6 +180,8 @@
     <div id="mainContainer" class="container"></div>
 
     <script src="assets/libs/jquery-1.8.0.min.js"></script>
+    <script src="assets/libs/jquery.flot.js"></script>
+    <script src="assets/libs/jquery.curvedlines-0.2.3.min.js"></script>
     <script src="assets/libs/underscore-min.js"></script>
     <script src="assets/libs/backbone-min.js"></script>
     <script src="assets/libs/mustache.js"></script>
