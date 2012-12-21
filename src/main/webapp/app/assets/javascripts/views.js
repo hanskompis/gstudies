@@ -128,7 +128,7 @@ App.Views.courseStatsView = Backbone.View.extend({
         $("#graphsContainer").html(content);
         
         //var options = { series: { curvedLines: { active: true }}}; 
-        var data = [graphdata, graphdata2, graphdata3];
+       // var data = [graphdata, graphdata2, graphdata3];
         
         var d2 = [[20, 20], [42, 60], [54, 20], [80, 80]];
         var options = {
@@ -146,14 +146,14 @@ App.Views.courseStatsView = Backbone.View.extend({
  
             xaxis: {
                 min: 0, 
-                max: 75
+                max: 82
             },
             yaxis: {
                 min: 0, 
-                max: 4
+                max: 80 
             }
         }
-        $.plot($("#placeholderForCreditGains"), [graphdata], options);
+        $.plot($("#placeholderForCreditGains"), [d2], options);
     },
     
     failedGraphAction : function (){

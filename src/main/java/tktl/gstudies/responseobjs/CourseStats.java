@@ -30,9 +30,15 @@ public class CourseStats {
     private HashMap<Integer, Integer> creditGainsSevenMonths;
     private HashMap<Integer, Integer> creditGainsThirteenMonths;
     private HashMap<Integer, Integer> creditGainsNineteenMonths;
+    private HashMap<Integer, Integer> creditGainsSevenMonthsCategorized;
+    private HashMap<Integer, Integer> creditGainsThirteenMonthsCategorized;
+    private HashMap<Integer, Integer> creditGainsNineteenMonthsCategorized;
     private int[][] creditGainsSevenMonthsArr;
     private int[][] creditGainsThirteenMonthsArr;
     private int[][] creditGainsNineteenMonthsArr;
+    private int[][] creditGainsSevenMonthsCategorizedArr;
+    private int[][] creditGainsThirteenMonthsCategorizedArr;
+    private int[][] creditGainsNineteenMonthsCategorizedArr;
 
     public void addCreditGainToSevenMonthsCSPassed(double gain) {
         double floored = Math.floor(gain);
@@ -118,26 +124,25 @@ public class CourseStats {
         return largest;
     }
 
-    private int[][] convertHashMapIntoArrays(HashMap toConvert) {
-        int arrSize = toConvert.size();
+    private int[][] convertHashMapIntoArrayWithNulls(HashMap toConvert) {
+        int arrSize = this.findLargestKey(toConvert) + 1;
 
         int[][] arr = new int[arrSize][2];
-//        for(int i = 0; i < arrSize; i++){
-//            for(int j = 0; j < arr[i].length; j++){
-//                arr[i][j] = 0;
-//            }
-//        }
-        int ind = 0;
+        for (int i = 0; i < arrSize; i++) {
+            for (int j = 0; j < arr[i].length; j++) {
+                arr[i][j] = 0;
+            }
+        }
+
         int currentNum = 0;
-        while (ind <= arrSize - 1) {
+        int howLong = arr.length;
+        while (currentNum <= howLong) {
             if (toConvert.containsKey(currentNum)) {
                 int[] toAdd = new int[2];
                 toAdd[0] = currentNum;
-                toAdd[1] = (Integer) toConvert.remove(currentNum);
-                arr[ind] = toAdd;
-                ind++;
+                toAdd[1] = (Integer) toConvert.get(currentNum);
+                arr[currentNum] = toAdd;
             }
-
             currentNum++;
         }
         return arr;
@@ -150,9 +155,11 @@ public class CourseStats {
     }
 
     public void convertAllHashMaps() {
-        this.creditGainsSevenMonthsArr = this.convertHashMapIntoArrays(creditGainsSevenMonths);
-        this.creditGainsThirteenMonthsArr = this.convertHashMapIntoArrays(creditGainsThirteenMonths);
-        this.creditGainsNineteenMonthsArr = this.convertHashMapIntoArrays(creditGainsNineteenMonths);
+    //    System.out.println("convertissa: "+creditGainsSevenMonths.toString());
+        this.creditGainsSevenMonthsArr = this.convertHashMapIntoArrayWithNulls(creditGainsSevenMonths);
+        this.creditGainsThirteenMonthsArr = this.convertHashMapIntoArrayWithNulls(creditGainsThirteenMonths);
+        this.creditGainsNineteenMonthsArr = this.convertHashMapIntoArrayWithNulls(creditGainsNineteenMonths);
+        this.creditGainsSevenMonthsCategorized = this.getCategorizedMap(creditGainsSevenMonths);
     }
 
     private HashMap<Integer, Integer> getCategorizedMap(HashMap<Integer, Integer> hm) {
@@ -178,11 +185,11 @@ public class CourseStats {
         if (this.amountStudents != 0) {
             return "amount of " + this.groupIdentifier + ": " + this.amountStudents + "\n"
                     + "distribution of credits 7 mths ave:" + this.averageCreditsSevenMonths + " distr" + this.creditGainsSevenMonths.toString() + "\n"
-                    + "categorized: " + this.getCategorizedMap(creditGainsSevenMonths).toString() + "\n"
+                    + "categorized: " + this.creditGainsSevenMonthsCategorized.toString() + "\n"
                     + "distribution of credits 13 mths ave: " + this.averageCreditsThirteenMonths + " distr" + this.creditGainsThirteenMonths.toString() + "\n"
-                    + "categorized: " + this.getCategorizedMap(creditGainsThirteenMonths).toString() + "\n"
+      //              + "categorized: " + this.creditGainsThirteenMonthsCategorized.toString()+ "\n"
                     + "distribution of credits 19 mths ave: " + this.averageCreditsNineteenMonths + " distr" + this.creditGainsNineteenMonths.toString() + "\n"
-                    + "categorized: " + this.getCategorizedMap(creditGainsNineteenMonths).toString() + "\n"
+        //            + "categorized: " + this.creditGainsNineteenMonthsCategorized.toString() + "\n"
                     + "average grade 7 mths: " + this.averageGradeSevenMonths + "\n"
                     + "average grade 13 mths: " + this.averageGradeThirteenMonths + "\n"
                     + "average grade 19 mths: " + this.averageGradeNineteenMonths + "\n"
@@ -193,6 +200,54 @@ public class CourseStats {
         } else {
             return "pröööttt";
         }
+    }
+
+    public HashMap<Integer, Integer> getCreditGainsSevenMonthsCategorized() {
+        return creditGainsSevenMonthsCategorized;
+    }
+
+    public void setCreditGainsSevenMonthsCategorized(HashMap<Integer, Integer> creditGainsSevenMonthsCategorized) {
+        this.creditGainsSevenMonthsCategorized = creditGainsSevenMonthsCategorized;
+    }
+
+    public HashMap<Integer, Integer> getCreditGainsThirteenMonthsCategorized() {
+        return creditGainsThirteenMonthsCategorized;
+    }
+
+    public void setCreditGainsThirteenMonthsCategorized(HashMap<Integer, Integer> creditGainsThirteenMonthsCategorized) {
+        this.creditGainsThirteenMonthsCategorized = creditGainsThirteenMonthsCategorized;
+    }
+
+    public HashMap<Integer, Integer> getCreditGainsNineteenMonthsCategorized() {
+        return creditGainsNineteenMonthsCategorized;
+    }
+
+    public void setCreditGainsNineteenMonthsCategorized(HashMap<Integer, Integer> creditGainsNineteenMonthsCategorized) {
+        this.creditGainsNineteenMonthsCategorized = creditGainsNineteenMonthsCategorized;
+    }
+
+    public int[][] getCreditGainsSevenMonthsCategorizedArr() {
+        return creditGainsSevenMonthsCategorizedArr;
+    }
+
+    public void setCreditGainsSevenMonthsCategorizedArr(int[][] creditGainsSevenMonthsCategorizedArr) {
+        this.creditGainsSevenMonthsCategorizedArr = creditGainsSevenMonthsCategorizedArr;
+    }
+
+    public int[][] getCreditGainsThirteenMonthsCategorizedArr() {
+        return creditGainsThirteenMonthsCategorizedArr;
+    }
+
+    public void setCreditGainsThirteenMonthsCategorizedArr(int[][] creditGainsThirteenMonthsCategorizedArr) {
+        this.creditGainsThirteenMonthsCategorizedArr = creditGainsThirteenMonthsCategorizedArr;
+    }
+
+    public int[][] getCreditGainsNineteenMonthsCategorizedArr() {
+        return creditGainsNineteenMonthsCategorizedArr;
+    }
+
+    public void setCreditGainsNineteenMonthsCategorizedArr(int[][] creditGainsNineteenMonthsCategorizedArr) {
+        this.creditGainsNineteenMonthsCategorizedArr = creditGainsNineteenMonthsCategorizedArr;
     }
 
     public double getAverageCreditsSevenMonths() {

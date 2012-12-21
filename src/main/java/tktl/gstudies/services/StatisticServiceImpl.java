@@ -242,9 +242,6 @@ public class StatisticServiceImpl implements StatisticService {
     }
 
     private void setAverageGrades(CourseStats courseStats, String dateString, List<Stud> students) {
-//        courseStats.setAverageGradeSevenMonths(this.getGroupAverageGradeNMonthsSpan(students, this.makeDate(dateString), 7));
-//        courseStats.setAverageGradeThirteenMonths(this.getGroupAverageGradeNMonthsSpan(students, this.makeDate(dateString), 13));
-//        courseStats.setAverageGradeNineteenMonths(this.getGroupAverageGradeNMonthsSpan(students, this.makeDate(dateString), 19));
         courseStats.setAverageGradeSevenMonths(this.getGroupAverageGradeNMonthsSpan2(students, this.makeDate(dateString), 7));
         courseStats.setAverageGradeThirteenMonths(this.getGroupAverageGradeNMonthsSpan2(students, this.makeDate(dateString), 13));
         courseStats.setAverageGradeNineteenMonths(this.getGroupAverageGradeNMonthsSpan2(students, this.makeDate(dateString), 19));
@@ -357,6 +354,7 @@ public class StatisticServiceImpl implements StatisticService {
 
         CourseStatsResponseObj statsResponseObj = new CourseStatsResponseObj();
         statsResponseObj = ss.getData("2010-12-16", "582206");
+        //System.out.println(statsResponseObj.getCourseStatsObjs().get(0).getCreditGainsSevenMonths().toString());
         System.out.println(statsResponseObj);
     }
 }
