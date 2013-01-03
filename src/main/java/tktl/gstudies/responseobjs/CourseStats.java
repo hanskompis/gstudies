@@ -148,6 +148,37 @@ public class CourseStats {
         return arr;
     }
 
+    private int[][] convertCategorizedHashMapIntoArray(HashMap toConvert) {
+        int arrSize = (findLargestKey(toConvert) / 10) + 1;
+        System.out.println("arrsize: " + arrSize);
+
+        int[][] arr = new int[arrSize][2];
+        for (int i = 0; i < arrSize; i++) {
+            for (int j = 0; j < arr[i].length; j++) {
+                arr[i][j] = 0;
+            }
+        }
+        int currentCategory = 0;
+        int highestCategory = (arr.length - 1) * 10;
+        System.out.println("highestcat: " + highestCategory);
+        while (currentCategory <= highestCategory) {
+            System.out.println("cn: " + currentCategory);
+            if (toConvert.containsKey(currentCategory)) {
+                int[] toAdd = new int[2];
+                toAdd[0] = currentCategory;
+                toAdd[1] = (Integer) toConvert.get(currentCategory);
+                arr[currentCategory / 10] = toAdd;
+            } else {
+                int[] toAdd = new int[2];
+                toAdd[0] = currentCategory;
+                toAdd[1] = 0;
+                arr[currentCategory / 10] = toAdd;
+            }
+            currentCategory += 10;
+        }
+        return arr;
+    }
+
     public void calculateCreditAverages() {
         this.averageCreditsSevenMonths = 1.0 * this.amountCreditsSevenMonths / this.amountStudents;
         this.averageCreditsThirteenMonths = 1.0 * this.amountCreditsThirteenMonths / this.amountStudents;
@@ -155,11 +186,13 @@ public class CourseStats {
     }
 
     public void convertAllHashMaps() {
-    //    System.out.println("convertissa: "+creditGainsSevenMonths.toString());
+        //    System.out.println("convertissa: "+creditGainsSevenMonths.toString());
         this.creditGainsSevenMonthsArr = this.convertHashMapIntoArrayWithNulls(creditGainsSevenMonths);
         this.creditGainsThirteenMonthsArr = this.convertHashMapIntoArrayWithNulls(creditGainsThirteenMonths);
         this.creditGainsNineteenMonthsArr = this.convertHashMapIntoArrayWithNulls(creditGainsNineteenMonths);
-        this.creditGainsSevenMonthsCategorized = this.getCategorizedMap(creditGainsSevenMonths);
+        this.creditGainsSevenMonthsCategorizedArr = this.convertCategorizedHashMapIntoArray(this.getCategorizedMap(creditGainsSevenMonths));
+        this.creditGainsThirteenMonthsCategorizedArr = this.convertCategorizedHashMapIntoArray(this.getCategorizedMap(creditGainsThirteenMonths));
+        this.creditGainsNineteenMonthsCategorizedArr = this.convertCategorizedHashMapIntoArray(this.getCategorizedMap(creditGainsNineteenMonths));
     }
 
     private HashMap<Integer, Integer> getCategorizedMap(HashMap<Integer, Integer> hm) {
@@ -187,9 +220,9 @@ public class CourseStats {
                     + "distribution of credits 7 mths ave:" + this.averageCreditsSevenMonths + " distr" + this.creditGainsSevenMonths.toString() + "\n"
                     + "categorized: " + this.creditGainsSevenMonthsCategorized.toString() + "\n"
                     + "distribution of credits 13 mths ave: " + this.averageCreditsThirteenMonths + " distr" + this.creditGainsThirteenMonths.toString() + "\n"
-      //              + "categorized: " + this.creditGainsThirteenMonthsCategorized.toString()+ "\n"
+                    //              + "categorized: " + this.creditGainsThirteenMonthsCategorized.toString()+ "\n"
                     + "distribution of credits 19 mths ave: " + this.averageCreditsNineteenMonths + " distr" + this.creditGainsNineteenMonths.toString() + "\n"
-        //            + "categorized: " + this.creditGainsNineteenMonthsCategorized.toString() + "\n"
+                    //            + "categorized: " + this.creditGainsNineteenMonthsCategorized.toString() + "\n"
                     + "average grade 7 mths: " + this.averageGradeSevenMonths + "\n"
                     + "average grade 13 mths: " + this.averageGradeThirteenMonths + "\n"
                     + "average grade 19 mths: " + this.averageGradeNineteenMonths + "\n"

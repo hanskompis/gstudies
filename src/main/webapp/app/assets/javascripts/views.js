@@ -108,16 +108,16 @@ App.Views.courseStatsView = Backbone.View.extend({
         
         var courseResponse = new Backbone.Collection(testResponse);
         this.render(courseResponse);
-    //kommentti veke, kun rendaus valmis
-    //        var self = this;
-    //        course.save({},{
-    //            success : function (model,response){
-    //                var courseResponse = new Backbone.Collection(response);
-    //                self.response = courseResponse;
-    //                //        console.log(self.response);
-    //                self.render(courseResponse);  
-    //            }
-    //        })
+    //    kommentti veke, kun rendaus valmis
+    //            var self = this;
+    //            course.save({},{
+    //                success : function (model,response){
+    //                    var courseResponse = new Backbone.Collection(response);
+    //                    self.response = courseResponse;
+    //                    //        console.log(self.response);
+    //                    self.render(courseResponse);  
+    //                }
+    //            })
     },
     
     passedGraphAction : function (){
@@ -128,14 +128,24 @@ App.Views.courseStatsView = Backbone.View.extend({
         $("#graphsContainer").html(content);
         
         //var options = { series: { curvedLines: { active: true }}}; 
-       // var data = [graphdata, graphdata2, graphdata3];
-        
-        var d2 = [[20, 20], [42, 60], [54, 20], [80, 80]];
+        // var data = [graphdata, graphdata2, graphdata3];
+       
+        //muutetttaaavaaa!!!!!1
+       
+        var passedResponse = new Backbone.Collection(testResponse);
+       
+        //muutetttaaavaaa!!!!!1
+
+        var dataSeries = [];
+        var amountYears = passedResponse.models.length;
+        for(var i = 0; i < amountYears; i++){
+            dataSeries.push( passedResponse.models[i].get("courseStatsObjs")[0].creditGainsSevenMonthsCategorizedArr);
+        }
         var options = {
             series: {
-                //              lines: {
-                //                  show : true
-                //              }  
+                //                              lines: {
+                //                                  show : true
+                //                              }  
                 curvedLines: {
                     active: true,
                     show: true,
@@ -146,14 +156,14 @@ App.Views.courseStatsView = Backbone.View.extend({
  
             xaxis: {
                 min: 0, 
-                max: 82
+                max: 150
             },
             yaxis: {
                 min: 0, 
-                max: 80 
+                max: 11 
             }
         }
-        $.plot($("#placeholderForCreditGains"), [d2], options);
+        $.plot($("#placeholderForCreditGains"), dataSeries, options);
     },
     
     failedGraphAction : function (){
