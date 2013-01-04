@@ -150,8 +150,6 @@ public class CourseStats {
 
     private int[][] convertCategorizedHashMapIntoArray(HashMap toConvert) {
         int arrSize = (findLargestKey(toConvert) / 10) + 1;
-        System.out.println("arrsize: " + arrSize);
-
         int[][] arr = new int[arrSize][2];
         for (int i = 0; i < arrSize; i++) {
             for (int j = 0; j < arr[i].length; j++) {
@@ -160,9 +158,7 @@ public class CourseStats {
         }
         int currentCategory = 0;
         int highestCategory = (arr.length - 1) * 10;
-        System.out.println("highestcat: " + highestCategory);
         while (currentCategory <= highestCategory) {
-            System.out.println("cn: " + currentCategory);
             if (toConvert.containsKey(currentCategory)) {
                 int[] toAdd = new int[2];
                 toAdd[0] = currentCategory;

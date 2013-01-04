@@ -72,6 +72,13 @@ App.Views.queryView = Backbone.View.extend({
     }
 }),
 App.Views.courseStatsView = Backbone.View.extend({
+    largestValue7Months : 0,
+    largestValue13Months : 0,
+    largestValue19Months : 0,
+    largestCategory7Months : 0,
+    largestCategory13Months : 0,
+    largestCategory19Months : 0,
+
     response :null,    
     render: function (response){
         var content = Mustache.to_html($("#courseStatsBaseTemplate").html(),{});
@@ -107,6 +114,9 @@ App.Views.courseStatsView = Backbone.View.extend({
         });
         
         var courseResponse = new Backbone.Collection(testResponse);
+        //
+        //tähän maksimivalueiden ja categoryjen haku
+        //
         this.render(courseResponse);
     //    kommentti veke, kun rendaus valmis
     //            var self = this;
@@ -139,7 +149,10 @@ App.Views.courseStatsView = Backbone.View.extend({
         var dataSeries = [];
         var amountYears = passedResponse.models.length;
         for(var i = 0; i < amountYears; i++){
-            dataSeries.push( passedResponse.models[i].get("courseStatsObjs")[0].creditGainsSevenMonthsCategorizedArr);
+            dataSeries.push({
+                data : passedResponse.models[i].get("courseStatsObjs")[0].creditGainsSevenMonthsCategorizedArr, 
+                label :   passedResponse.models[i].get("dateOfAccomplishment")
+            } );
         }
         var options = {
             series: {
@@ -156,14 +169,14 @@ App.Views.courseStatsView = Backbone.View.extend({
  
             xaxis: {
                 min: 0, 
-                max: 150
+                max: this.findLargestCategoryFromSet(dataSeries)+10
             },
             yaxis: {
-                min: 0, 
-                max: 11 
+                min: -1, 
+                max: this.findLargestValueFromSet(dataSeries)+1 
             }
         }
-        $.plot($("#placeholderForCreditGains"), dataSeries, options);
+        $.plot($("#placeholderForCreditGains7Months"), dataSeries, options);
     },
     
     failedGraphAction : function (){
@@ -171,6 +184,40 @@ App.Views.courseStatsView = Backbone.View.extend({
             studentGroup : "Failed"
         });
         $("#graphsContainer").html(content);
+        //muutetttaaavaaa!!!!!1
+       
+        var passedResponse = new Backbone.Collection(testResponse);
+       
+        //muutetttaaavaaa!!!!!1
+        
+        var dataSeries = [];
+        var amountYears = passedResponse.models.length;
+        for(var i = 0; i < amountYears; i++){
+            dataSeries.push({
+                data : passedResponse.models[i].get("courseStatsObjs")[1].creditGainsSevenMonthsCategorizedArr, 
+                label :   passedResponse.models[i].get("dateOfAccomplishment")
+            } );
+        }
+        var options = {
+            series: {
+                curvedLines: {
+                    active: true,
+                    show: true,
+                    fit: true,
+                    lineWidth: 3
+                }
+            },
+ 
+            xaxis: {
+                min: 0, 
+                max: this.findLargestCategoryFromSet(dataSeries)+10
+            },
+            yaxis: {
+                min: -1, 
+                max: this.findLargestValueFromSet(dataSeries)+1 
+            }
+        }
+        $.plot($("#placeholderForCreditGains7Months"), dataSeries, options);
     },
     
     combinedGraphAction : function (){
@@ -245,5 +292,53 @@ App.Views.courseStatsView = Backbone.View.extend({
             });
             $("#gradesSDTable").append(rowContent);
         }
+    },
+    findLargestCategory : function (arrayOfArrays){
+        var largest = 0;
+        for(var i = 0; i < arrayOfArrays.length; i++){
+            if(arrayOfArrays[i][0]>largest){
+                largest = arrayOfArrays[i][0];
+            }
+        }
+        return largest;
+    },
+    findLargestValue : function (arrayOfArrays){
+        var largest = 0;
+        for(var i = 0; i < arrayOfArrays.length; i++){
+            if(arrayOfArrays[i][1]>largest){
+                largest = arrayOfArrays[i][1];
+            }
+        }
+        return largest;
+    },
+    findLargestCategoryFromSet : function (setOfArraysOfArrays){
+        var largest = 0;
+        for(var i = 0; i < setOfArraysOfArrays.length; i++){
+            var largestOfThisArray = this.findLargestCategory(setOfArraysOfArrays[i].data);
+            if(largestOfThisArray>largest){
+                largest = largestOfThisArray;
+            }
+        }
+        return largest;
+    },
+    findLargestValueFromSet : function (setOfArraysOfArrays){
+        var largest = 0;
+        for(var i = 0; i < setOfArraysOfArrays.length; i++){
+            var largestOfThisArray = this.findLargestValue(setOfArraysOfArrays[i].data);
+            if(largestOfThisArray>largest){
+                largest = largestOfThisArray;
+            }
+        }
+        return largest;
+    }, 
+    findLargestValueFromSetOfSets : function (setOfSets){
+        var largest = 0;
+        for(var i = 0; i < setOfSets.length; i++){
+            var largestOfThisSet = this.findLargestValueFromSet(setOfSets[i]);
+            if(largestOfThisSet > largest){
+                largest = largestOfThisSet;
+            }
+        }
+        return largest;
     }
 });
