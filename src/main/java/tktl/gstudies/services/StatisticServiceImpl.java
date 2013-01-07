@@ -265,7 +265,10 @@ public class StatisticServiceImpl implements StatisticService {
         this.setAverageGrades(courseStats, dateString, students);
         this.setStandardDeviations(courseStats, dateString, students);
         courseStats.calculateCreditAverages();
+        courseStats.setLargestCategories();
+        courseStats.setLargestValues();
         return courseStats;
+
     }
 
     @Override
@@ -279,7 +282,6 @@ public class StatisticServiceImpl implements StatisticService {
 
     @Override
     public int[] getGradeDistribution(List<Stud> studs, String courseId, String dateString) {
-        System.out.println("METODISSA STUDEJA: " + studs.size());
         int kurssisuoritukset = 0;
         int[] grades = {0, 0, 0, 0, 0};
         for (Stud stud : studs) {
@@ -305,7 +307,6 @@ public class StatisticServiceImpl implements StatisticService {
                 }
             }
         }
-        System.out.println("kurssisuorituksia löytyi: " + kurssisuoritukset);
         return grades;
     }
 
