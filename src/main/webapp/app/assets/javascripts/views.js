@@ -110,21 +110,23 @@ App.Views.courseStatsView = Backbone.View.extend({
             endYear : $("#endYear").val()
         });
         $("#statsContainer").empty();
+        var content = Mustache.to_html($("#InfoTemplate").html(),{});
+        $(("#graphsContainer")).html(content);
         
 
-//        this.response = new Backbone.Collection(testResponse);
-//        this.render();
+        this.response = new Backbone.Collection(testResponse);
+        this.render();
     //        this.render(courseResponse);
     //    kommentti veke, kun rendaus valmis
-                    var self = this;
-                    course.save({},{
-                        success : function (model,response){
-                            var courseResponse = new Backbone.Collection(response);
-                            self.response = courseResponse;
-                            //        console.log(self.response);
-                            self.render();  
-                        }
-                    })
+    //                    var self = this;
+    //                    course.save({},{
+    //                        success : function (model,response){
+    //                            var courseResponse = new Backbone.Collection(response);
+    //                            self.response = courseResponse;
+    //                            //        console.log(self.response);
+    //                            self.render();  
+    //                        }
+    //                    })
     },
     
     passedGraphAction : function (){
@@ -132,10 +134,16 @@ App.Views.courseStatsView = Backbone.View.extend({
             studentGroup : "Passed"
         });        
         $("#graphsContainer").html(content);
+        //this.normalizeDataSeries(testDataSeries);
+        console.log("org: ");
+        console.log(JSON.stringify(this.getDataSeries(7,this.PASSED)));
+        console.log("norm: ");
+        console.log(JSON.stringify(this.normalizeDataSeries(this.getDataSeries(7,this.PASSED))));
+
         $.plot($("#placeholderForCreditGains7Months"), this.getDataSeries(7,this.PASSED), this.getOptions(7));
         $.plot($("#placeholderForCreditGains13Months"), this.getDataSeries(13,this.PASSED), this.getOptions(13));
         $.plot($("#placeholderForCreditGains19Months"), this.getDataSeries(19,this.PASSED), this.getOptions(19));
-
+        $.plot($("#placeholderForCreditGains7MonthsNormalized"), this.normalizeDataSeries(this.getDataSeries(7,this.PASSED)), this.getOptions(7));
     },
     
     failedGraphAction : function (){
@@ -146,6 +154,8 @@ App.Views.courseStatsView = Backbone.View.extend({
         $.plot($("#placeholderForCreditGains7Months"), this.getDataSeries(7,this.FAILED), this.getOptions(7));
         $.plot($("#placeholderForCreditGains13Months"), this.getDataSeries(13,this.FAILED), this.getOptions(13));
         $.plot($("#placeholderForCreditGains19Months"), this.getDataSeries(19,this.FAILED), this.getOptions(19));
+        $.plot($("#placeholderForCreditGains7MonthsNormalized"), this.normalizeDataSeries(this.getDataSeries(7,this.FAILED)), this.getOptions(7));
+
     },
     
     combinedGraphAction : function (){
@@ -156,6 +166,42 @@ App.Views.courseStatsView = Backbone.View.extend({
         $.plot($("#placeholderForCreditGains7Months"), this.getDataSeries(7,this.ALL), this.getOptions(7));
         $.plot($("#placeholderForCreditGains13Months"), this.getDataSeries(13,this.ALL), this.getOptions(13));
         $.plot($("#placeholderForCreditGains19Months"), this.getDataSeries(19,this.ALL), this.getOptions(19));
+        $.plot($("#placeholderForCreditGains7MonthsNormalized"), this.normalizeDataSeries(this.getDataSeries(7,this.ALL)), this.getOptions(7));
+    },
+    
+    normalizeDataSeries : function (dataSeries) {
+        //console.log(JSON.stringify(dataSeries));
+        var normalizedDataSeries = dataSeries;
+        var largestAmountOfStudents = this.findLargestAmountOfStudents(normalizedDataSeries);
+        for(var i = 0; i < normalizedDataSeries.length; i++){
+            var factor = largestAmountOfStudents/this.studentsOnGroup(normalizedDataSeries[i].data);
+            console.log(factor);
+            for(var j = 0; j < normalizedDataSeries[i].data.length; j++){
+                normalizedDataSeries[i].data[j][1] = Math.round(normalizedDataSeries[i].data[j][1]*factor);
+            }
+        }
+        //console.log(JSON.stringify(normalizedDataSeries));
+        return normalizedDataSeries;
+    },
+    
+    findLargestAmountOfStudents : function (dataSeries) {
+        var largest = 0;
+        var currentAmount;
+        for(var i = 0; i < dataSeries.length; i++){
+            currentAmount = this.studentsOnGroup(dataSeries[i].data);
+            if(currentAmount > largest){
+                largest = currentAmount;
+            }
+        }
+        return largest;
+    },
+    
+    studentsOnGroup : function (categorizedArray) {
+        var sum = 0;
+        for(var i = 0; i < categorizedArray.length; i++){
+            sum = sum + categorizedArray[i][1];
+        }
+        return sum;
     },
     
     getDataSeries : function (months, group) {

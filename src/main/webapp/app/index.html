@@ -47,6 +47,7 @@
             päättymisvuosivuosi : <input type="text" id="endYear" class="input-small" value="2010"<br />
             <input type="button" id="submitCourseButton" value="lähetä"><br/>
         </div>
+        <div id="InfoContainer"></div>        
         <div id="statsContainer"></div>
         <div id="graphsContainer"></div>
     </script>
@@ -69,7 +70,7 @@
             </table>
         </table>
         <table id="creditGainsTable" class="table table-bordered table-nonfluid">
-            <caption>Arvosanasaannot</caption>
+            <caption>Opintopistesaannot</caption>
             <tr>
                 <td></td><td colspan="3">läpäisseet</td><td colspan="3">hylätyt</td><td colspan="3">yhdistetty</td>
             </tr>
@@ -132,8 +133,15 @@
         <div id="placeholderForCreditGains13Months" style="width: 450px; height: 250px;"></div>
         <h3>Credit Gains 19 months</h3>
         <div id="placeholderForCreditGains19Months" style="width: 450px; height: 250px;"></div>
+        <h3>Credit Gains 7 months, normalized</h3>
+        <div id="placeholderForCreditGains7MonthsNormalized" style="width: 450px; height: 250px;"></div>
     </div>
 
+</script>
+<script type="text/template" id="InfoTemplate">
+    <div class="alert alert-info">
+        <Strong>Busy.</strong> Y U no take coffee while waiting?
+    </div>
 </script>
 
 
