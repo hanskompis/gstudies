@@ -74,8 +74,9 @@ App.Views.queryView = Backbone.View.extend({
 App.Views.courseStatsView = Backbone.View.extend({
     PASSED : 0, 
     FAILED : 1, 
-    ALL : 2, 
-    
+    ALL : 2,
+    dataSeries2 : null, 
+
     response :null,    
     render: function (){
         var content = Mustache.to_html($("#courseStatsBaseTemplate").html(),{});
@@ -115,6 +116,11 @@ App.Views.courseStatsView = Backbone.View.extend({
         
 
         this.response = new Backbone.Collection(testResponse);
+        //this.dataSeries2 = new dataSeries(this.r);
+        dataSeriesUtils.response = this.response;
+        //console.log(dataSeriesUtils.response);
+        dataSeriesUtils.setDataSeries();
+        //console.log(dataSeriesUtils.DSCreditGains7MonthsPass);
         this.render();
     //        this.render(courseResponse);
     //    kommentti veke, kun rendaus valmis
@@ -134,16 +140,12 @@ App.Views.courseStatsView = Backbone.View.extend({
             studentGroup : "Passed"
         });        
         $("#graphsContainer").html(content);
-        //this.normalizeDataSeries(testDataSeries);
-        console.log("org: ");
-        console.log(JSON.stringify(this.getDataSeries(7,this.PASSED)));
-        console.log("norm: ");
-        console.log(JSON.stringify(this.normalizeDataSeries(this.getDataSeries(7,this.PASSED))));
 
-        $.plot($("#placeholderForCreditGains7Months"), this.getDataSeries(7,this.PASSED), this.getOptions(7));
-        $.plot($("#placeholderForCreditGains13Months"), this.getDataSeries(13,this.PASSED), this.getOptions(13));
-        $.plot($("#placeholderForCreditGains19Months"), this.getDataSeries(19,this.PASSED), this.getOptions(19));
-        $.plot($("#placeholderForCreditGains7MonthsNormalized"), this.normalizeDataSeries(this.getDataSeries(7,this.PASSED)), this.getOptions(7));
+//        $.plot($("#placeholderForCreditGains7Months"), this.getDataSeries(7,this.PASSED), this.getOptions(7));
+        $.plot($("#placeholderForCreditGains7Months"), dataSeriesUtils.DSCreditGains7MonthsPass, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains7Months, dataSeriesUtils.largestValueOfCreditGains7Months));
+        $.plot($("#placeholderForCreditGains13Months"), dataSeriesUtils.DSCreditGains13MonthsPass, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains13Months, dataSeriesUtils.largestValueOfCreditGains13Months));
+        $.plot($("#placeholderForCreditGains19Months"), dataSeriesUtils.DSCreditGains19MonthsPass, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains19Months, dataSeriesUtils.largestValueOfCreditGains19Months));
+       // $.plot($("#placeholderForCreditGains7MonthsNormalized"), this.normalizeDataSeries(this.getDataSeries(7,this.PASSED)), this.getOptions(7));
     },
     
     failedGraphAction : function (){
@@ -151,10 +153,10 @@ App.Views.courseStatsView = Backbone.View.extend({
             studentGroup : "Failed"
         });
         $("#graphsContainer").html(content);
-        $.plot($("#placeholderForCreditGains7Months"), this.getDataSeries(7,this.FAILED), this.getOptions(7));
-        $.plot($("#placeholderForCreditGains13Months"), this.getDataSeries(13,this.FAILED), this.getOptions(13));
-        $.plot($("#placeholderForCreditGains19Months"), this.getDataSeries(19,this.FAILED), this.getOptions(19));
-        $.plot($("#placeholderForCreditGains7MonthsNormalized"), this.normalizeDataSeries(this.getDataSeries(7,this.FAILED)), this.getOptions(7));
+        $.plot($("#placeholderForCreditGains7Months"), dataSeriesUtils.DSCreditGains7MonthsFail, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains7Months, dataSeriesUtils.largestValueOfCreditGains7Months));
+        $.plot($("#placeholderForCreditGains13Months"), dataSeriesUtils.DSCreditGains13MonthsFail, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains13Months, dataSeriesUtils.largestValueOfCreditGains13Months));
+        $.plot($("#placeholderForCreditGains19Months"), dataSeriesUtils.DSCreditGains19MonthsFail, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains19Months, dataSeriesUtils.largestValueOfCreditGains19Months));
+      //  $.plot($("#placeholderForCreditGains7MonthsNormalized"), this.normalizeDataSeries(this.getDataSeries(7,this.FAILED)), this.getOptions(7));
 
     },
     
@@ -163,81 +165,81 @@ App.Views.courseStatsView = Backbone.View.extend({
             studentGroup : "Combined"
         });
         $("#graphsContainer").html(content);   
-        $.plot($("#placeholderForCreditGains7Months"), this.getDataSeries(7,this.ALL), this.getOptions(7));
-        $.plot($("#placeholderForCreditGains13Months"), this.getDataSeries(13,this.ALL), this.getOptions(13));
-        $.plot($("#placeholderForCreditGains19Months"), this.getDataSeries(19,this.ALL), this.getOptions(19));
-        $.plot($("#placeholderForCreditGains7MonthsNormalized"), this.normalizeDataSeries(this.getDataSeries(7,this.ALL)), this.getOptions(7));
+        $.plot($("#placeholderForCreditGains7Months"), dataSeriesUtils.DSCreditGains7MonthsAll, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains7Months, dataSeriesUtils.largestValueOfCreditGains7Months));
+        $.plot($("#placeholderForCreditGains13Months"), dataSeriesUtils.DSCreditGains13MonthsAll, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains13Months, dataSeriesUtils.largestValueOfCreditGains13Months));
+        $.plot($("#placeholderForCreditGains19Months"), dataSeriesUtils.DSCreditGains19MonthsAll, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains19Months, dataSeriesUtils.largestValueOfCreditGains19Months));
+       // $.plot($("#placeholderForCreditGains7MonthsNormalized"), this.normalizeDataSeries(this.getDataSeries(7,this.ALL)), this.getOptions(7));
     },
     
-    normalizeDataSeries : function (dataSeries) {
-        //console.log(JSON.stringify(dataSeries));
-        var normalizedDataSeries = dataSeries;
-        var largestAmountOfStudents = this.findLargestAmountOfStudents(normalizedDataSeries);
-        for(var i = 0; i < normalizedDataSeries.length; i++){
-            var factor = largestAmountOfStudents/this.studentsOnGroup(normalizedDataSeries[i].data);
-            console.log(factor);
-            for(var j = 0; j < normalizedDataSeries[i].data.length; j++){
-                normalizedDataSeries[i].data[j][1] = Math.round(normalizedDataSeries[i].data[j][1]*factor);
-            }
-        }
-        //console.log(JSON.stringify(normalizedDataSeries));
-        return normalizedDataSeries;
-    },
+//    normalizeDataSeries : function (dataSeries) {
+//        //console.log(JSON.stringify(dataSeries));
+//        var normalizedDataSeries = dataSeries;
+//        var largestAmountOfStudents = this.findLargestAmountOfStudents(normalizedDataSeries);
+//        for(var i = 0; i < normalizedDataSeries.length; i++){
+//            var factor = largestAmountOfStudents/this.studentsOnGroup(normalizedDataSeries[i].data);
+//            console.log(factor);
+//            for(var j = 0; j < normalizedDataSeries[i].data.length; j++){
+//                normalizedDataSeries[i].data[j][1] = Math.round(normalizedDataSeries[i].data[j][1]*factor);
+//            }
+//        }
+//        //console.log(JSON.stringify(normalizedDataSeries));
+//        return normalizedDataSeries;
+//    },
     
-    findLargestAmountOfStudents : function (dataSeries) {
-        var largest = 0;
-        var currentAmount;
-        for(var i = 0; i < dataSeries.length; i++){
-            currentAmount = this.studentsOnGroup(dataSeries[i].data);
-            if(currentAmount > largest){
-                largest = currentAmount;
-            }
-        }
-        return largest;
-    },
+//    findLargestAmountOfStudents : function (dataSeries) {
+//        var largest = 0;
+//        var currentAmount;
+//        for(var i = 0; i < dataSeries.length; i++){
+//            currentAmount = this.studentsOnGroup(dataSeries[i].data);
+//            if(currentAmount > largest){
+//                largest = currentAmount;
+//            }
+//        }
+//        return largest;
+//    },
+//    
+//    studentsOnGroup : function (categorizedArray) {
+//        var sum = 0;
+//        for(var i = 0; i < categorizedArray.length; i++){
+//            sum = sum + categorizedArray[i][1];
+//        }
+//        return sum;
+//    },
     
-    studentsOnGroup : function (categorizedArray) {
-        var sum = 0;
-        for(var i = 0; i < categorizedArray.length; i++){
-            sum = sum + categorizedArray[i][1];
-        }
-        return sum;
-    },
-    
-    getDataSeries : function (months, group) {
-        var dataSeries = [];
-        var amountYears = this.response.models.length;
-        var ddata;
-        for(var i = 0; i < amountYears; i++){
-            if(months == 7){
-                ddata = this.response.models[i].get("courseStatsObjs")[group].creditGainsSevenMonthsCategorizedArr;
-                dataSeries.push({
-                    data : ddata,
-                    label : this.response.models[i].get("dateOfAccomplishment")
-                })
-            }
-            else if(months == 13){
-                ddata = this.response.models[i].get("courseStatsObjs")[group].creditGainsThirteenMonthsCategorizedArr;
-                dataSeries.push({
-                    data : ddata,
-                    label : this.response.models[i].get("dateOfAccomplishment")
-                })
-            }
-            else if(months == 19){
-                ddata = this.response.models[i].get("courseStatsObjs")[group].creditGainsNineteenMonthsCategorizedArr;
-                dataSeries.push({
-                    data : ddata,
-                    label : this.response.models[i].get("dateOfAccomplishment")
-                })
-            }
-            else{
-                alert("error getDataSeries");
-            }
-        }
-        return dataSeries;
-    },
+//    getDataSeries : function (months, group) {
+//        var dataSeries = [];
+//        var amountYears = this.response.models.length;
+//        var ddata;
+//        for(var i = 0; i < amountYears; i++){
+//            if(months == 7){
+//                ddata = this.response.models[i].get("courseStatsObjs")[group].creditGainsSevenMonthsCategorizedArr;
+//                dataSeries.push({
+//                    data : ddata,
+//                    label : this.response.models[i].get("dateOfAccomplishment")
+//                })
+//            }
+//            else if(months == 13){
+//                ddata = this.response.models[i].get("courseStatsObjs")[group].creditGainsThirteenMonthsCategorizedArr;
+//                dataSeries.push({
+//                    data : ddata,
+//                    label : this.response.models[i].get("dateOfAccomplishment")
+//                })
+//            }
+//            else if(months == 19){
+//                ddata = this.response.models[i].get("courseStatsObjs")[group].creditGainsNineteenMonthsCategorizedArr;
+//                dataSeries.push({
+//                    data : ddata,
+//                    label : this.response.models[i].get("dateOfAccomplishment")
+//                })
+//            }
+//            else{
+//                alert("error getDataSeries");
+//            }
+//        }
+//        return dataSeries;
+//    },
         
-    getOptions : function(n) {
+    getOptions : function(xmax, ymax) {
         return         {
             series: {
                 curvedLines: {
@@ -249,11 +251,13 @@ App.Views.courseStatsView = Backbone.View.extend({
             },
             xaxis: {
                 min: 0, 
-                max: this.findLargestCategoryFromThemAll(n)+10
+                //max: this.findLargestCategoryFromThemAll(n)+10
+                max : xmax+10
             },
             yaxis: {
                 min: -1, 
-                max: this.findLargestValueFromThemAll(n)+1
+                //max: this.findLargestValueFromThemAll(n)+1
+                max : ymax+1
             }
         }
     },
@@ -323,76 +327,76 @@ App.Views.courseStatsView = Backbone.View.extend({
             });
             $("#gradesSDTable").append(rowContent);
         }
-    },
-    
-    findLargestValueNMonthsFromResponseModels : function (i,n){
-        var largest = 0;
-        var currentValue;
-        this.response.each(function(result){
-            if(n==7){
-                currentValue = result.get("courseStatsObjs")[i].largestValue7Months;
-            }
-            else if(n==13){
-                currentValue = result.get("courseStatsObjs")[i].largestValue13Months;
-            }
-            else if(n==19){
-                currentValue = result.get("courseStatsObjs")[i].largestValue19Months;
-            }
-            else{
-                alert("fail!!!")
-            }
-            if(currentValue > largest){
-                largest = currentValue;
-            }
-        });
-        return largest;
-    },
-        
-    findLargestCategoryNMonthsFromResponseModels : function (i,n){
-        var largest = 0;
-        var currentCategory;
-        this.response.each(function(result){
-            if(n==7){
-                currentCategory = result.get("courseStatsObjs")[i].largestCategory7Months;
-            }
-            else if(n==13){
-                currentCategory = result.get("courseStatsObjs")[i].largestCategory13Months;
-            }
-            else if(n==19){
-                currentCategory = result.get("courseStatsObjs")[i].largestCategory19Months;
-            }
-            else{
-                alert("fail!!!")
-            }
-            if(currentCategory > largest){
-                largest = currentCategory;
-            }
-        });
-        return largest;
-    },
-    
-    findLargestCategoryFromThemAll : function (n){
-        var largest = 0;
-        var CurrentCategory;
-        for(var i = 0; i < 3; i++){
-            CurrentCategory = this.findLargestCategoryNMonthsFromResponseModels(i,n);
-            if(CurrentCategory > largest){
-                largest = CurrentCategory;
-            }
-        }
-        return largest;
-    },
-    
-    findLargestValueFromThemAll : function (n){
-        var largest = 0;
-        var CurrentValue;
-        for(var i = 0; i < 3; i++){
-            CurrentValue = this.findLargestValueNMonthsFromResponseModels(i,n);
-            if(CurrentValue > largest){
-                largest = CurrentValue;
-            }
-        }
-        return largest;
-    }
+    }//,
+//    
+//    findLargestValueNMonthsFromResponseModels : function (i,n){
+//        var largest = 0;
+//        var currentValue;
+//        this.response.each(function(result){
+//            if(n==7){
+//                currentValue = result.get("courseStatsObjs")[i].largestValue7Months;
+//            }
+//            else if(n==13){
+//                currentValue = result.get("courseStatsObjs")[i].largestValue13Months;
+//            }
+//            else if(n==19){
+//                currentValue = result.get("courseStatsObjs")[i].largestValue19Months;
+//            }
+//            else{
+//                alert("fail!!!")
+//            }
+//            if(currentValue > largest){
+//                largest = currentValue;
+//            }
+//        });
+//        return largest;
+//    },
+//        
+//    findLargestCategoryNMonthsFromResponseModels : function (i,n){
+//        var largest = 0;
+//        var currentCategory;
+//        this.response.each(function(result){
+//            if(n==7){
+//                currentCategory = result.get("courseStatsObjs")[i].largestCategory7Months;
+//            }
+//            else if(n==13){
+//                currentCategory = result.get("courseStatsObjs")[i].largestCategory13Months;
+//            }
+//            else if(n==19){
+//                currentCategory = result.get("courseStatsObjs")[i].largestCategory19Months;
+//            }
+//            else{
+//                alert("fail!!!")
+//            }
+//            if(currentCategory > largest){
+//                largest = currentCategory;
+//            }
+//        });
+//        return largest;
+//    },
+//    
+//    findLargestCategoryFromThemAll : function (n){
+//        var largest = 0;
+//        var CurrentCategory;
+//        for(var i = 0; i < 3; i++){
+//            CurrentCategory = this.findLargestCategoryNMonthsFromResponseModels(i,n);
+//            if(CurrentCategory > largest){
+//                largest = CurrentCategory;
+//            }
+//        }
+//        return largest;
+//    },
+//    
+//    findLargestValueFromThemAll : function (n){
+//        var largest = 0;
+//        var CurrentValue;
+//        for(var i = 0; i < 3; i++){
+//            CurrentValue = this.findLargestValueNMonthsFromResponseModels(i,n);
+//            if(CurrentValue > largest){
+//                largest = CurrentValue;
+//            }
+//        }
+//        return largest;
+//    }
     
 });
