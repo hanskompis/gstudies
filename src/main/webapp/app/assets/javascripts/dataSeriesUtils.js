@@ -4,32 +4,34 @@ var dataSeriesUtils = {
     FAILED : 1, 
     ALL : 2,
     
-    DSCreditGains7MonthsPass : null,
-    DSCreditGains13MonthsPass : null,
-    DSCreditGains19MonthsPass : null,
-    DSCreditGains7MonthsFail : null,
-    DSCreditGains13MonthsFail : null,
-    DSCreditGains19MonthsFail : null, 
-    DSCreditGains7MonthsAll : null,
-    DSCreditGains13MonthsAll : null, 
-    DSCreditGains19MonthsAll : null,
-    DSCreditGains7MonthsNormPass : null,
-    DSCreditGains13MonthsNormPass : null,
-    DSCreditGains19MonthsNormPass : null,
-    DSCreditGains7MonthsNormFail : null,
-    DSCreditGains13MonthsNormFail : null,
-    DSCreditGains19MonthsNormFail : null,
-    DSCreditGains7MonthsNormAll : null,
-    DSCreditGains13MonthsNormAll : null,
-    DSCreditGains19MonthsNormAll : null,
-    largestValueOfCreditGains7Months : null,
-    largestValueOfCreditGains13Months : null,
-    largestValueOfCreditGains19Months : null,
-    largestCategoryOfCreditGains7Months : null,
+    //    DSCreditGains7MonthsPass : null,
+    //    DSCreditGains13MonthsPass : null,
+    //    DSCreditGains19MonthsPass : null,
+    //    DSCreditGains7MonthsFail : null,
+    //    DSCreditGains13MonthsFail : null,
+    //    DSCreditGains19MonthsFail : null, 
+    //    DSCreditGains7MonthsAll : null,
+    //    DSCreditGains13MonthsAll : null, 
+    //    DSCreditGains19MonthsAll : null,
+    //    
+    //    DSCreditGains7MonthsNormPass : null,
+    //    DSCreditGains13MonthsNormPass : null,
+    //    DSCreditGains19MonthsNormPass : null,
+    //    DSCreditGains7MonthsNormFail : null,
+    //    DSCreditGains13MonthsNormFail : null,
+    //    DSCreditGains19MonthsNormFail : null,
+    //    DSCreditGains7MonthsNormAll : null,
+    //    DSCreditGains13MonthsNormAll : null,
+    //    DSCreditGains19MonthsNormAll : null,
     
-    largestValueOfCreditGains7MonthsNorm : null,
-    largestValueOfCreditGains13MonthsNorm : null,
-    largestValueOfCreditGains19MonthsNorm : null,
+    //    largestValueOfCreditGains7Months : null,
+    //    largestValueOfCreditGains13Months : null,
+    //    largestValueOfCreditGains19Months : null,
+    //    largestCategoryOfCreditGains7Months : null,
+    //    
+    //    largestValueOfCreditGains7MonthsNorm : null,
+    //    largestValueOfCreditGains13MonthsNorm : null,
+    //    largestValueOfCreditGains19MonthsNorm : null,
 
 
     
@@ -43,17 +45,33 @@ var dataSeriesUtils = {
         this.DSCreditGains7MonthsAll = this.getDataSeries(7,this.ALL);
         this.DSCreditGains13MonthsAll = this.getDataSeries(13,this.ALL);
         this.DSCreditGains19MonthsAll = this.getDataSeries(19,this.ALL);
+        
+        this.DSCreditGains7MonthsNormPass = this.normalizeDataSeries(this.DSCreditGains7MonthsPass);
+        this.DSCreditGains13MonthsNormPass = this.normalizeDataSeries(this.DSCreditGains13MonthsPass);
+        this.DSCreditGains19MonthsNormPass = this.normalizeDataSeries(this.DSCreditGains19MonthsPass);
+        this.DSCreditGains7MonthsNormFail = this.normalizeDataSeries(this.DSCreditGains7MonthsFail);
+        this.DSCreditGains13MonthsNormFail = this.normalizeDataSeries(this.DSCreditGains13MonthsFail);
+        this.DSCreditGains19MonthsNormFail = this.normalizeDataSeries(this.DSCreditGains19MonthsFail);
+        this.DSCreditGains7MonthsNormAll = this.normalizeDataSeries(this.DSCreditGains7MonthsAll);
+        this.DSCreditGains13MonthsNormAll = this.normalizeDataSeries(this.DSCreditGains13MonthsAll);
+        this.DSCreditGains19MonthsNormAll = this.normalizeDataSeries(this.DSCreditGains19MonthsAll);
+
+
         this.largestValueOfCreditGains7Months = this.findLargestValueOfDataSeries([this.DSCreditGains7MonthsPass,this.DSCreditGains7MonthsFail, this.DSCreditGains7MonthsAll]);
         this.largestValueOfCreditGains13Months = this.findLargestValueOfDataSeries([this.DSCreditGains13MonthsPass,this.DSCreditGains13MonthsFail, this.DSCreditGains13MonthsAll]);
         this.largestValueOfCreditGains19Months = this.findLargestValueOfDataSeries([this.DSCreditGains19MonthsPass,this.DSCreditGains19MonthsFail, this.DSCreditGains19MonthsAll]);
+        
         this.largestCategoryOfCreditGains7Months = this.findLargestCategoryOfDataSeries([this.DSCreditGains7MonthsPass,this.DSCreditGains7MonthsFail, this.DSCreditGains7MonthsAll]);
         this.largestCategoryOfCreditGains13Months = this.findLargestCategoryOfDataSeries([this.DSCreditGains13MonthsPass,this.DSCreditGains13MonthsFail, this.DSCreditGains13MonthsAll]);
         this.largestCategoryOfCreditGains19Months = this.findLargestCategoryOfDataSeries([this.DSCreditGains19MonthsPass,this.DSCreditGains19MonthsFail, this.DSCreditGains19MonthsAll]);
 
-    //        this.largestValueOfCreditGains7MonthsNorm = this.findLargestValueOfDataSeries([this.DSCreditGains7MonthsNormPass,this.DSCreditGains7MonthsNormFail, this.DSCreditGains7MonthsNormAll]);
-    //        this.largestValueOfCreditGains13MonthsNorm = this.findLargestValueOfDataSeries([this.DSCreditGains13MonthsNormPass,this.DSCreditGains13MonthsNormFail, this.DSCreditGains13MonthsNormAll]);
-    //        this.largestValueOfCreditGains19MonthsNorm = this.findLargestValueOfDataSeries([this.DSCreditGains19MonthsNormPass,this.DSCreditGains19MonthsNormFail, this.DSCreditGains19MonthsNormAll]);
+        this.largestValueOfCreditGains7MonthsNorm = this.findLargestValueOfDataSeries([this.DSCreditGains7MonthsNormPass,this.DSCreditGains7MonthsNormFail, this.DSCreditGains7MonthsNormAll]);
+        this.largestValueOfCreditGains13MonthsNorm = this.findLargestValueOfDataSeries([this.DSCreditGains13MonthsNormPass,this.DSCreditGains13MonthsNormFail, this.DSCreditGains13MonthsNormAll]);
+        this.largestValueOfCreditGains19MonthsNorm = this.findLargestValueOfDataSeries([this.DSCreditGains19MonthsNormPass,this.DSCreditGains19MonthsNormFail, this.DSCreditGains19MonthsNormAll]);
 
+        this.largestCategoryOfCreditGains7MonthsNorm = this.findLargestCategoryOfDataSeries([this.DSCreditGains7MonthsNormPass,this.DSCreditGains7MonthsNormFail, this.DSCreditGains7MonthsNormAll]);
+        this.largestCategoryOfCreditGains13MonthsNorm = this.findLargestCategoryOfDataSeries([this.DSCreditGains13MonthsNormPass,this.DSCreditGains13MonthsNormFail, this.DSCreditGains13MonthsNormAll]);
+        this.largestCategoryOfCreditGains19MonthsNorm = this.findLargestCategoryOfDataSeries([this.DSCreditGains19MonthsNormPass,this.DSCreditGains19MonthsNormFail, this.DSCreditGains19MonthsNormAll]);
     },
     
     getDataSeries : function (months, group) {
@@ -165,7 +183,7 @@ var dataSeriesUtils = {
     },
     
     normalizeDataSeries : function (dataSeries) {
-        //console.log(JSON.stringify(dataSeries));
+        console.log(JSON.stringify(dataSeries));
         var normalizedDataSeries = dataSeries;
         var largestAmountOfStudents = this.findLargestAmountOfStudents(normalizedDataSeries);
         for(var i = 0; i < normalizedDataSeries.length; i++){
@@ -175,7 +193,7 @@ var dataSeriesUtils = {
                 normalizedDataSeries[i].data[j][1] = Math.round(normalizedDataSeries[i].data[j][1]*factor);
             }
         }
-        //console.log(JSON.stringify(normalizedDataSeries));
+        console.log(JSON.stringify(normalizedDataSeries));
         return normalizedDataSeries;
     }
 }

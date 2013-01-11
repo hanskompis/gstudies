@@ -141,11 +141,14 @@ App.Views.courseStatsView = Backbone.View.extend({
         });        
         $("#graphsContainer").html(content);
 
-//        $.plot($("#placeholderForCreditGains7Months"), this.getDataSeries(7,this.PASSED), this.getOptions(7));
+        //        $.plot($("#placeholderForCreditGains7Months"), this.getDataSeries(7,this.PASSED), this.getOptions(7));
         $.plot($("#placeholderForCreditGains7Months"), dataSeriesUtils.DSCreditGains7MonthsPass, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains7Months, dataSeriesUtils.largestValueOfCreditGains7Months));
         $.plot($("#placeholderForCreditGains13Months"), dataSeriesUtils.DSCreditGains13MonthsPass, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains13Months, dataSeriesUtils.largestValueOfCreditGains13Months));
         $.plot($("#placeholderForCreditGains19Months"), dataSeriesUtils.DSCreditGains19MonthsPass, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains19Months, dataSeriesUtils.largestValueOfCreditGains19Months));
-       // $.plot($("#placeholderForCreditGains7MonthsNormalized"), this.normalizeDataSeries(this.getDataSeries(7,this.PASSED)), this.getOptions(7));
+        $.plot($("#placeholderForCreditGains7MonthsNormalized"), dataSeriesUtils.DSCreditGains7MonthsNormPass, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains7MonthsNorm, dataSeriesUtils.largestValueOfCreditGains7MonthsNorm));
+        $.plot($("#placeholderForCreditGains13MonthsNormalized"), dataSeriesUtils.DSCreditGains13MonthsNormPass, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains13MonthsNorm, dataSeriesUtils.largestValueOfCreditGains13MonthsNorm));
+        $.plot($("#placeholderForCreditGains19MonthsNormalized"), dataSeriesUtils.DSCreditGains19MonthsNormPass, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains19MonthsNorm, dataSeriesUtils.largestValueOfCreditGains19MonthsNorm));
+ 
     },
     
     failedGraphAction : function (){
@@ -156,7 +159,9 @@ App.Views.courseStatsView = Backbone.View.extend({
         $.plot($("#placeholderForCreditGains7Months"), dataSeriesUtils.DSCreditGains7MonthsFail, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains7Months, dataSeriesUtils.largestValueOfCreditGains7Months));
         $.plot($("#placeholderForCreditGains13Months"), dataSeriesUtils.DSCreditGains13MonthsFail, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains13Months, dataSeriesUtils.largestValueOfCreditGains13Months));
         $.plot($("#placeholderForCreditGains19Months"), dataSeriesUtils.DSCreditGains19MonthsFail, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains19Months, dataSeriesUtils.largestValueOfCreditGains19Months));
-      //  $.plot($("#placeholderForCreditGains7MonthsNormalized"), this.normalizeDataSeries(this.getDataSeries(7,this.FAILED)), this.getOptions(7));
+        $.plot($("#placeholderForCreditGains7MonthsNormalized"), dataSeriesUtils.DSCreditGains7MonthsNormFail, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains7MonthsNorm, dataSeriesUtils.largestValueOfCreditGains7MonthsNorm));
+        $.plot($("#placeholderForCreditGains13MonthsNormalized"), dataSeriesUtils.DSCreditGains13MonthsNormFail, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains13MonthsNorm, dataSeriesUtils.largestValueOfCreditGains13MonthsNorm));
+        $.plot($("#placeholderForCreditGains19MonthsNormalized"), dataSeriesUtils.DSCreditGains19MonthsNormFail, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains19MonthsNorm, dataSeriesUtils.largestValueOfCreditGains19MonthsNorm));
 
     },
     
@@ -168,76 +173,79 @@ App.Views.courseStatsView = Backbone.View.extend({
         $.plot($("#placeholderForCreditGains7Months"), dataSeriesUtils.DSCreditGains7MonthsAll, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains7Months, dataSeriesUtils.largestValueOfCreditGains7Months));
         $.plot($("#placeholderForCreditGains13Months"), dataSeriesUtils.DSCreditGains13MonthsAll, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains13Months, dataSeriesUtils.largestValueOfCreditGains13Months));
         $.plot($("#placeholderForCreditGains19Months"), dataSeriesUtils.DSCreditGains19MonthsAll, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains19Months, dataSeriesUtils.largestValueOfCreditGains19Months));
-       // $.plot($("#placeholderForCreditGains7MonthsNormalized"), this.normalizeDataSeries(this.getDataSeries(7,this.ALL)), this.getOptions(7));
+        $.plot($("#placeholderForCreditGains7MonthsNormalized"), dataSeriesUtils.DSCreditGains7MonthsNormAll, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains7MonthsNorm, dataSeriesUtils.largestValueOfCreditGains7MonthsNorm));
+        $.plot($("#placeholderForCreditGains13MonthsNormalized"), dataSeriesUtils.DSCreditGains13MonthsNormAll, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains13MonthsNorm, dataSeriesUtils.largestValueOfCreditGains13MonthsNorm));
+        $.plot($("#placeholderForCreditGains19MonthsNormalized"), dataSeriesUtils.DSCreditGains19MonthsNormAll, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains19MonthsNorm, dataSeriesUtils.largestValueOfCreditGains19MonthsNorm));
+
     },
     
-//    normalizeDataSeries : function (dataSeries) {
-//        //console.log(JSON.stringify(dataSeries));
-//        var normalizedDataSeries = dataSeries;
-//        var largestAmountOfStudents = this.findLargestAmountOfStudents(normalizedDataSeries);
-//        for(var i = 0; i < normalizedDataSeries.length; i++){
-//            var factor = largestAmountOfStudents/this.studentsOnGroup(normalizedDataSeries[i].data);
-//            console.log(factor);
-//            for(var j = 0; j < normalizedDataSeries[i].data.length; j++){
-//                normalizedDataSeries[i].data[j][1] = Math.round(normalizedDataSeries[i].data[j][1]*factor);
-//            }
-//        }
-//        //console.log(JSON.stringify(normalizedDataSeries));
-//        return normalizedDataSeries;
-//    },
+    //    normalizeDataSeries : function (dataSeries) {
+    //        //console.log(JSON.stringify(dataSeries));
+    //        var normalizedDataSeries = dataSeries;
+    //        var largestAmountOfStudents = this.findLargestAmountOfStudents(normalizedDataSeries);
+    //        for(var i = 0; i < normalizedDataSeries.length; i++){
+    //            var factor = largestAmountOfStudents/this.studentsOnGroup(normalizedDataSeries[i].data);
+    //            console.log(factor);
+    //            for(var j = 0; j < normalizedDataSeries[i].data.length; j++){
+    //                normalizedDataSeries[i].data[j][1] = Math.round(normalizedDataSeries[i].data[j][1]*factor);
+    //            }
+    //        }
+    //        //console.log(JSON.stringify(normalizedDataSeries));
+    //        return normalizedDataSeries;
+    //    },
     
-//    findLargestAmountOfStudents : function (dataSeries) {
-//        var largest = 0;
-//        var currentAmount;
-//        for(var i = 0; i < dataSeries.length; i++){
-//            currentAmount = this.studentsOnGroup(dataSeries[i].data);
-//            if(currentAmount > largest){
-//                largest = currentAmount;
-//            }
-//        }
-//        return largest;
-//    },
-//    
-//    studentsOnGroup : function (categorizedArray) {
-//        var sum = 0;
-//        for(var i = 0; i < categorizedArray.length; i++){
-//            sum = sum + categorizedArray[i][1];
-//        }
-//        return sum;
-//    },
+    //    findLargestAmountOfStudents : function (dataSeries) {
+    //        var largest = 0;
+    //        var currentAmount;
+    //        for(var i = 0; i < dataSeries.length; i++){
+    //            currentAmount = this.studentsOnGroup(dataSeries[i].data);
+    //            if(currentAmount > largest){
+    //                largest = currentAmount;
+    //            }
+    //        }
+    //        return largest;
+    //    },
+    //    
+    //    studentsOnGroup : function (categorizedArray) {
+    //        var sum = 0;
+    //        for(var i = 0; i < categorizedArray.length; i++){
+    //            sum = sum + categorizedArray[i][1];
+    //        }
+    //        return sum;
+    //    },
     
-//    getDataSeries : function (months, group) {
-//        var dataSeries = [];
-//        var amountYears = this.response.models.length;
-//        var ddata;
-//        for(var i = 0; i < amountYears; i++){
-//            if(months == 7){
-//                ddata = this.response.models[i].get("courseStatsObjs")[group].creditGainsSevenMonthsCategorizedArr;
-//                dataSeries.push({
-//                    data : ddata,
-//                    label : this.response.models[i].get("dateOfAccomplishment")
-//                })
-//            }
-//            else if(months == 13){
-//                ddata = this.response.models[i].get("courseStatsObjs")[group].creditGainsThirteenMonthsCategorizedArr;
-//                dataSeries.push({
-//                    data : ddata,
-//                    label : this.response.models[i].get("dateOfAccomplishment")
-//                })
-//            }
-//            else if(months == 19){
-//                ddata = this.response.models[i].get("courseStatsObjs")[group].creditGainsNineteenMonthsCategorizedArr;
-//                dataSeries.push({
-//                    data : ddata,
-//                    label : this.response.models[i].get("dateOfAccomplishment")
-//                })
-//            }
-//            else{
-//                alert("error getDataSeries");
-//            }
-//        }
-//        return dataSeries;
-//    },
+    //    getDataSeries : function (months, group) {
+    //        var dataSeries = [];
+    //        var amountYears = this.response.models.length;
+    //        var ddata;
+    //        for(var i = 0; i < amountYears; i++){
+    //            if(months == 7){
+    //                ddata = this.response.models[i].get("courseStatsObjs")[group].creditGainsSevenMonthsCategorizedArr;
+    //                dataSeries.push({
+    //                    data : ddata,
+    //                    label : this.response.models[i].get("dateOfAccomplishment")
+    //                })
+    //            }
+    //            else if(months == 13){
+    //                ddata = this.response.models[i].get("courseStatsObjs")[group].creditGainsThirteenMonthsCategorizedArr;
+    //                dataSeries.push({
+    //                    data : ddata,
+    //                    label : this.response.models[i].get("dateOfAccomplishment")
+    //                })
+    //            }
+    //            else if(months == 19){
+    //                ddata = this.response.models[i].get("courseStatsObjs")[group].creditGainsNineteenMonthsCategorizedArr;
+    //                dataSeries.push({
+    //                    data : ddata,
+    //                    label : this.response.models[i].get("dateOfAccomplishment")
+    //                })
+    //            }
+    //            else{
+    //                alert("error getDataSeries");
+    //            }
+    //        }
+    //        return dataSeries;
+    //    },
         
     getOptions : function(xmax, ymax) {
         return         {
