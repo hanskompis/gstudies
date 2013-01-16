@@ -54,6 +54,6 @@ public class TestController {
     @ResponseBody
     public List<CourseStatsResponseObj> test() {
         
-        return statisticService.getAllDataFromCourseBetweenYears("582206", 2007, 2008);
+        return statisticService.getAllDataFromCourseBetweenYears("582206", 2007, 2010);
     }
 }

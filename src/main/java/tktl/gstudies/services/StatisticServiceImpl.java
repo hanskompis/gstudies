@@ -265,8 +265,8 @@ public class StatisticServiceImpl implements StatisticService {
         this.setAverageGrades(courseStats, dateString, students);
         this.setStandardDeviations(courseStats, dateString, students);
         courseStats.calculateCreditAverages();
+        courseStats.makeCumulativeLists();
         return courseStats;
-
     }
 
     @Override

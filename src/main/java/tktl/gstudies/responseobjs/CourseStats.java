@@ -39,39 +39,25 @@ public class CourseStats {
     private int[][] creditGainsSevenMonthsCategorizedArr;
     private int[][] creditGainsThirteenMonthsCategorizedArr;
     private int[][] creditGainsNineteenMonthsCategorizedArr;
-//    private int largestCategory7Months;
-//    private int largestCategory13Months;
-//    private int largestCategory19Months;
-//    private int largestValue7Months;
-//    private int largestValue13Months;
-//    private int largestValue19Months;
+    private int[][] creditGainsSevenMonthsNormCumulArr;
+    private int[][] creditGainsThirteenMonthsNormCumulArr;
+    private int[][] creditGainsNineteenMonthsNormCumulArr;
 
     private int findLargestCategory(int[][] categorizedArray) {
         return categorizedArray[categorizedArray.length - 1][0];
     }
 
     private int findLargestValue(int[][] categorizedArray) {
-        int largest = 0; 
-        for(int i = 0; i < categorizedArray.length; i++){
+        int largest = 0;
+        for (int i = 0; i < categorizedArray.length; i++) {
             int currentValue = categorizedArray[i][1];
-            if(currentValue > largest){
+            if (currentValue > largest) {
                 largest = currentValue;
             }
         }
         return largest;
     }
-    
-//    public void setLargestCategories(){
-//        this.largestCategory7Months = this.findLargestCategory(this.creditGainsSevenMonthsCategorizedArr);
-//        this.largestCategory13Months = this.findLargestCategory(this.creditGainsThirteenMonthsCategorizedArr);
-//        this.largestCategory19Months = this.findLargestCategory(this.creditGainsNineteenMonthsCategorizedArr);
-//    }
-//    
-//    public void setLargestValues(){
-//        this.largestValue7Months =  this.findLargestValue(this.creditGainsSevenMonthsCategorizedArr);
-//        this.largestValue13Months = this.findLargestValue(this.creditGainsThirteenMonthsCategorizedArr);
-//        this.largestValue19Months = this.findLargestValue(this.creditGainsNineteenMonthsCategorizedArr);
-//    }
+
     public void addCreditGainToSevenMonthsCSPassed(double gain) {
         double floored = Math.floor(gain);
         int toAdd = (int) floored;
@@ -134,6 +120,22 @@ public class CourseStats {
 //        }
 //        return arr;
 //    }
+    public void makeCumulativeLists() {
+        this.creditGainsSevenMonthsNormCumulArr = this.getCumulativeList(creditGainsSevenMonthsArr);
+        this.creditGainsThirteenMonthsNormCumulArr = this.getCumulativeList(creditGainsThirteenMonthsArr);
+        this.creditGainsNineteenMonthsNormCumulArr = this.getCumulativeList(creditGainsNineteenMonthsArr);
+    }
+
+    private int[][] getCumulativeList(int[][] list) {
+        int[][] toReturn = new int[list.length][2];
+        toReturn[0] = list[0];
+        for (int i = 1; i < list.length; i++) {
+            toReturn[i][0] = i;
+            toReturn[i][1] = toReturn[i - 1][1] + list[i][1];
+        }
+        return toReturn;
+    }
+
     private int findLargestKey(HashMap<Integer, Integer> hmap) {
         int largest = 0;
         for (Map.Entry<Integer, Integer> entry : hmap.entrySet()) {
@@ -246,7 +248,7 @@ public class CourseStats {
         if (this.amountStudents != 0) {
             return "amount of " + this.groupIdentifier + ": " + this.amountStudents + "\n"
                     + "distribution of credits 7 mths ave:" + this.averageCreditsSevenMonths + " distr" + this.creditGainsSevenMonths.toString() + "\n"
-                    + "categorized: " + this.creditGainsSevenMonthsCategorized.toString() + "\n"
+                    //+ "categorized: " + this.creditGainsSevenMonthsCategorized.toString() + "\n"
                     + "distribution of credits 13 mths ave: " + this.averageCreditsThirteenMonths + " distr" + this.creditGainsThirteenMonths.toString() + "\n"
                     //              + "categorized: " + this.creditGainsThirteenMonthsCategorized.toString()+ "\n"
                     + "distribution of credits 19 mths ave: " + this.averageCreditsNineteenMonths + " distr" + this.creditGainsNineteenMonths.toString() + "\n"
@@ -262,54 +264,30 @@ public class CourseStats {
             return "pröööttt";
         }
     }
-//
-//    public int getLargestCategory7Months() {
-//        return largestCategory7Months;
-//    }
-//
-//    public void setLargestCategory7Months(int largestCategory7Months) {
-//        this.largestCategory7Months = largestCategory7Months;
-//    }
-//
-//    public int getLargestCategory13Months() {
-//        return largestCategory13Months;
-//    }
-//
-//    public void setLargestCategory13Months(int largestCategory13Months) {
-//        this.largestCategory13Months = largestCategory13Months;
-//    }
-//
-//    public int getLargestCategory19Months() {
-//        return largestCategory19Months;
-//    }
-//
-//    public void setLargestCategory19Months(int largestCategory19Months) {
-//        this.largestCategory19Months = largestCategory19Months;
-//    }
-//
-//    public int getLargestValue7Months() {
-//        return largestValue7Months;
-//    }
-//
-//    public void setLargestValue7Months(int largestValue7Months) {
-//        this.largestValue7Months = largestValue7Months;
-//    }
-//
-//    public int getLargestValue13Months() {
-//        return largestValue13Months;
-//    }
-//
-//    public void setLargestValue13Months(int largestValue13Months) {
-//        this.largestValue13Months = largestValue13Months;
-//    }
-//
-//    public int getLargestValue19Months() {
-//        return largestValue19Months;
-//    }
-//
-//    public void setLargestValue19Months(int largestValue19Months) {
-//        this.largestValue19Months = largestValue19Months;
-//    }
+
+    public int[][] getCreditGainsSevenMonthsNormCumulArr() {
+        return creditGainsSevenMonthsNormCumulArr;
+    }
+
+    public void setCreditGainsSevenMonthsNormCumulArr(int[][] creditGainsSevenMonthsNormCumulArr) {
+        this.creditGainsSevenMonthsNormCumulArr = creditGainsSevenMonthsNormCumulArr;
+    }
+
+    public int[][] getCreditGainsThirteenMonthsNormCumulArr() {
+        return creditGainsThirteenMonthsNormCumulArr;
+    }
+
+    public void setCreditGainsThirteenMonthsNormCumulArr(int[][] creditGainsThirteenMonthsNormCumulArr) {
+        this.creditGainsThirteenMonthsNormCumulArr = creditGainsThirteenMonthsNormCumulArr;
+    }
+
+    public int[][] getCreditGainsNineteenMonthsNormCumulArr() {
+        return creditGainsNineteenMonthsNormCumulArr;
+    }
+
+    public void setCreditGainsNineteenMonthsNormCumulArr(int[][] creditGainsNineteenMonthsNormCumulArr) {
+        this.creditGainsNineteenMonthsNormCumulArr = creditGainsNineteenMonthsNormCumulArr;
+    }
 
     public HashMap<Integer, Integer> getCreditGainsSevenMonthsCategorized() {
         return creditGainsSevenMonthsCategorized;

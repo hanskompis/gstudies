@@ -3,38 +3,7 @@ var dataSeriesUtils = {
     PASSED : 0, 
     FAILED : 1, 
     ALL : 2,
-    
-    //    DSCreditGains7MonthsPass : null,
-    //    DSCreditGains13MonthsPass : null,
-    //    DSCreditGains19MonthsPass : null,
-    //    DSCreditGains7MonthsFail : null,
-    //    DSCreditGains13MonthsFail : null,
-    //    DSCreditGains19MonthsFail : null, 
-    //    DSCreditGains7MonthsAll : null,
-    //    DSCreditGains13MonthsAll : null, 
-    //    DSCreditGains19MonthsAll : null,
-    //    
-    //    DSCreditGains7MonthsNormPass : null,
-    //    DSCreditGains13MonthsNormPass : null,
-    //    DSCreditGains19MonthsNormPass : null,
-    //    DSCreditGains7MonthsNormFail : null,
-    //    DSCreditGains13MonthsNormFail : null,
-    //    DSCreditGains19MonthsNormFail : null,
-    //    DSCreditGains7MonthsNormAll : null,
-    //    DSCreditGains13MonthsNormAll : null,
-    //    DSCreditGains19MonthsNormAll : null,
-    
-    //    largestValueOfCreditGains7Months : null,
-    //    largestValueOfCreditGains13Months : null,
-    //    largestValueOfCreditGains19Months : null,
-    //    largestCategoryOfCreditGains7Months : null,
-    //    
-    //    largestValueOfCreditGains7MonthsNorm : null,
-    //    largestValueOfCreditGains13MonthsNorm : null,
-    //    largestValueOfCreditGains19MonthsNorm : null,
 
-
-    
     setDataSeries : function () {
         this.DSCreditGains7MonthsPass = this.getDataSeries(7,this.PASSED);
         this.DSCreditGains13MonthsPass = this.getDataSeries(13,this.PASSED);
@@ -55,8 +24,17 @@ var dataSeriesUtils = {
         this.DSCreditGains7MonthsNormAll = this.normalizeDataSeries(this.DSCreditGains7MonthsAll);
         this.DSCreditGains13MonthsNormAll = this.normalizeDataSeries(this.DSCreditGains13MonthsAll);
         this.DSCreditGains19MonthsNormAll = this.normalizeDataSeries(this.DSCreditGains19MonthsAll);
-
-
+                
+        this.DSCreditGains7MonthsNormCumulPass = this.normalizeCumulativeDataSeries(this.getCumulativeDataSeries(7, this.PASSED));
+        this.DSCreditGains13MonthsNormCumulPass = this.normalizeCumulativeDataSeries(this.getCumulativeDataSeries(13, this.PASSED));
+        this.DSCreditGains19MonthsNormCumulPass = this.normalizeCumulativeDataSeries(this.getCumulativeDataSeries(19, this.PASSED));
+        this.DSCreditGains7MonthsNormCumulFail = this.normalizeCumulativeDataSeries(this.getCumulativeDataSeries(7, this.FAILED));
+        this.DSCreditGains13MonthsNormCumulFail = this.normalizeCumulativeDataSeries(this.getCumulativeDataSeries(13, this.FAILED));
+        this.DSCreditGains19MonthsNormCumulFail = this.normalizeCumulativeDataSeries(this.getCumulativeDataSeries(19, this.FAILED));
+        this.DSCreditGains7MonthsNormCumulAll = this.normalizeCumulativeDataSeries(this.getCumulativeDataSeries(7, this.ALL));
+        this.DSCreditGains13MonthsNormCumulAll = this.normalizeCumulativeDataSeries(this.getCumulativeDataSeries(13, this.ALL));
+        this.DSCreditGains19MonthsNormCumulAll = this.normalizeCumulativeDataSeries(this.getCumulativeDataSeries(19, this.ALL));
+        
         this.largestValueOfCreditGains7Months = this.findLargestValueOfDataSeries([this.DSCreditGains7MonthsPass,this.DSCreditGains7MonthsFail, this.DSCreditGains7MonthsAll]);
         this.largestValueOfCreditGains13Months = this.findLargestValueOfDataSeries([this.DSCreditGains13MonthsPass,this.DSCreditGains13MonthsFail, this.DSCreditGains13MonthsAll]);
         this.largestValueOfCreditGains19Months = this.findLargestValueOfDataSeries([this.DSCreditGains19MonthsPass,this.DSCreditGains19MonthsFail, this.DSCreditGains19MonthsAll]);
@@ -72,6 +50,30 @@ var dataSeriesUtils = {
         this.largestCategoryOfCreditGains7MonthsNorm = this.findLargestCategoryOfDataSeries([this.DSCreditGains7MonthsNormPass,this.DSCreditGains7MonthsNormFail, this.DSCreditGains7MonthsNormAll]);
         this.largestCategoryOfCreditGains13MonthsNorm = this.findLargestCategoryOfDataSeries([this.DSCreditGains13MonthsNormPass,this.DSCreditGains13MonthsNormFail, this.DSCreditGains13MonthsNormAll]);
         this.largestCategoryOfCreditGains19MonthsNorm = this.findLargestCategoryOfDataSeries([this.DSCreditGains19MonthsNormPass,this.DSCreditGains19MonthsNormFail, this.DSCreditGains19MonthsNormAll]);
+   
+        this.largestValueOfCreditGains7MonthsNormCumulPass = this.findLargestValueOfDataSeries([this.DSCreditGains7MonthsNormCumulPass]);
+        this.largestValueOfCreditGains13MonthsNormCumulPass = this.findLargestValueOfDataSeries([this.DSCreditGains13MonthsNormCumulPass]);
+        this.largestValueOfCreditGains19MonthsNormCumulPass = this.findLargestValueOfDataSeries([this.DSCreditGains19MonthsNormCumulPass]);
+        
+        this.largestValueOfCreditGains7MonthsNormCumulFail = this.findLargestValueOfDataSeries([this.DSCreditGains7MonthsNormCumulFail]);
+        this.largestValueOfCreditGains13MonthsNormCumulFail = this.findLargestValueOfDataSeries([this.DSCreditGains13MonthsNormCumulFail]);
+        this.largestValueOfCreditGains19MonthsNormCumulFail = this.findLargestValueOfDataSeries([this.DSCreditGains19MonthsNormCumulFail]);
+        
+        this.largestValueOfCreditGains7MonthsNormCumulAll = this.findLargestValueOfDataSeries([this.DSCreditGains7MonthsNormCumulAll]);
+        this.largestValueOfCreditGains13MonthsNormCumulAll = this.findLargestValueOfDataSeries([this.DSCreditGains13MonthsNormCumulAll]);
+        this.largestValueOfCreditGains19MonthsNormCumulAll = this.findLargestValueOfDataSeries([this.DSCreditGains19MonthsNormCumulAll]);
+        
+        this.largestCategoryOfCreditGains7MonthsNormCumulPass = this.findLargestCategoryOfDataSeries([this.DSCreditGains7MonthsNormCumulPass]);
+        this.largestCategoryOfCreditGains13MonthsNormCumulPass = this.findLargestCategoryOfDataSeries([this.DSCreditGains13MonthsNormCumulPass]);
+        this.largestCategoryOfCreditGains19MonthsNormCumulPass = this.findLargestCategoryOfDataSeries([this.DSCreditGains19MonthsNormCumulPass]);
+        
+        this.largestCategoryOfCreditGains7MonthsNormCumulFail = this.findLargestCategoryOfDataSeries([this.DSCreditGains7MonthsNormCumulFail]);
+        this.largestCategoryOfCreditGains13MonthsNormCumulFail = this.findLargestCategoryOfDataSeries([this.DSCreditGains13MonthsNormCumulFail]);
+        this.largestCategoryOfCreditGains19MonthsNormCumulFail = this.findLargestCategoryOfDataSeries([this.DSCreditGains19MonthsNormCumulFail]);
+        
+        this.largestCategoryOfCreditGains7MonthsNormCumulAll = this.findLargestCategoryOfDataSeries([this.DSCreditGains7MonthsNormCumulAll]);
+        this.largestCategoryOfCreditGains13MonthsNormCumulAll = this.findLargestCategoryOfDataSeries([this.DSCreditGains13MonthsNormCumulAll]);
+        this.largestCategoryOfCreditGains19MonthsNormCumulAll = this.findLargestCategoryOfDataSeries([this.DSCreditGains19MonthsNormCumulAll]);
     },
     
     getDataSeries : function (months, group) {
@@ -102,6 +104,38 @@ var dataSeriesUtils = {
             }
             else{
                 alert("error getDataSeries");
+            }
+        }
+        return dataSeries;
+    },
+    getCumulativeDataSeries : function (months,group){
+        var dataSeries = [];
+        var amountYears = this.response.models.length;
+        var ddata;
+        for(var i = 0; i < amountYears; i++){
+            if(months == 7){
+                ddata = this.response.models[i].get("courseStatsObjs")[group].creditGainsSevenMonthsNormCumulArr;
+                dataSeries.push({
+                    data : ddata,
+                    label : this.response.models[i].get("dateOfAccomplishment")
+                })
+            }
+            else if(months == 13){
+                ddata = this.response.models[i].get("courseStatsObjs")[group].creditGainsThirteenMonthsNormCumulArr;
+                dataSeries.push({
+                    data : ddata,
+                    label : this.response.models[i].get("dateOfAccomplishment")
+                })
+            }
+            else if(months == 19){
+                ddata = this.response.models[i].get("courseStatsObjs")[group].creditGainsNineteenMonthsNormCumulArr;
+                dataSeries.push({
+                    data : ddata,
+                    label : this.response.models[i].get("dateOfAccomplishment")
+                })
+            }
+            else{
+                alert("error getCumulativeDataSeries");
             }
         }
         return dataSeries;
@@ -173,6 +207,17 @@ var dataSeriesUtils = {
         }
         return largest;
     },
+    findLargestAmountOfStudentsCumulative : function (dataSeries) {
+        var largest = 0;
+        var currentAmount;
+        for(var i = 0; i < dataSeries.length; i++){
+            currentAmount = this.studentsOnGroupCumulative(dataSeries[i].data);
+            if(currentAmount > largest){
+                largest = currentAmount;
+            }
+        }
+        return largest;
+    },
     
     studentsOnGroup : function (categorizedArray) {
         var sum = 0;
@@ -181,19 +226,34 @@ var dataSeriesUtils = {
         }
         return sum;
     },
-    
+    studentsOnGroupCumulative : function (cumulativeArray) {
+        return cumulativeArray[cumulativeArray.length-1][1];
+    },
+
     normalizeDataSeries : function (dataSeries) {
-        console.log(JSON.stringify(dataSeries));
+        //     console.log(JSON.stringify(dataSeries));
         var normalizedDataSeries = dataSeries;
         var largestAmountOfStudents = this.findLargestAmountOfStudents(normalizedDataSeries);
         for(var i = 0; i < normalizedDataSeries.length; i++){
             var factor = largestAmountOfStudents/this.studentsOnGroup(normalizedDataSeries[i].data);
-            console.log(factor);
+            //       console.log(factor);
             for(var j = 0; j < normalizedDataSeries[i].data.length; j++){
                 normalizedDataSeries[i].data[j][1] = Math.round(normalizedDataSeries[i].data[j][1]*factor);
             }
         }
-        console.log(JSON.stringify(normalizedDataSeries));
+        // console.log(JSON.stringify(normalizedDataSeries));
+        return normalizedDataSeries;
+    },
+    
+    normalizeCumulativeDataSeries : function(dataSeries) {
+        var normalizedDataSeries = dataSeries;
+        var largestAmountOfStudents = this.findLargestAmountOfStudentsCumulative(normalizedDataSeries);
+        for(var i = 0; i < normalizedDataSeries.length; i++){
+            var factor = largestAmountOfStudents/this.studentsOnGroupCumulative(normalizedDataSeries[i].data);
+            for(var j = 0; j < normalizedDataSeries[i].data.length; j++){
+                normalizedDataSeries[i].data[j][1] = Math.round(normalizedDataSeries[i].data[j][1]*factor);
+            }
+        }
         return normalizedDataSeries;
     }
 }
