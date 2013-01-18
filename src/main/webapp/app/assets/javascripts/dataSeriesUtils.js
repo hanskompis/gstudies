@@ -26,6 +26,7 @@ var dataSeriesUtils = {
         this.DSCreditGains19MonthsNormAll = this.normalizeDataSeries(this.DSCreditGains19MonthsAll);
                 
         this.DSCreditGains7MonthsNormCumulPass = this.normalizeCumulativeDataSeries(this.getCumulativeDataSeries(7, this.PASSED));
+        //                     console.log(JSON.stringify(this.DSCreditGains7MonthsNormCumulPass));
         this.DSCreditGains13MonthsNormCumulPass = this.normalizeCumulativeDataSeries(this.getCumulativeDataSeries(13, this.PASSED));
         this.DSCreditGains19MonthsNormCumulPass = this.normalizeCumulativeDataSeries(this.getCumulativeDataSeries(19, this.PASSED));
         this.DSCreditGains7MonthsNormCumulFail = this.normalizeCumulativeDataSeries(this.getCumulativeDataSeries(7, this.FAILED));
@@ -74,6 +75,8 @@ var dataSeriesUtils = {
         this.largestCategoryOfCreditGains7MonthsNormCumulAll = this.findLargestCategoryOfDataSeries([this.DSCreditGains7MonthsNormCumulAll]);
         this.largestCategoryOfCreditGains13MonthsNormCumulAll = this.findLargestCategoryOfDataSeries([this.DSCreditGains13MonthsNormCumulAll]);
         this.largestCategoryOfCreditGains19MonthsNormCumulAll = this.findLargestCategoryOfDataSeries([this.DSCreditGains19MonthsNormCumulAll]);
+        
+        this.getDataSeriesForDiffHistograms(this.DSCreditGains7MonthsNormCumulPass);
     },
     
     getDataSeries : function (months, group) {
@@ -245,15 +248,106 @@ var dataSeriesUtils = {
         return normalizedDataSeries;
     },
     
+    longestArray : function (dataSeries) {
+        var longest = 0;
+        for(var i = 0; i < dataSeries.length ; i++ ){
+            var current = dataSeries[i].data.length;
+            if(current > longest){
+                longest  = current;
+            }    
+        }
+        return longest;
+    },
+    
     normalizeCumulativeDataSeries : function(dataSeries) {
         var normalizedDataSeries = dataSeries;
         var largestAmountOfStudents = this.findLargestAmountOfStudentsCumulative(normalizedDataSeries);
         for(var i = 0; i < normalizedDataSeries.length; i++){
             var factor = largestAmountOfStudents/this.studentsOnGroupCumulative(normalizedDataSeries[i].data);
+            var differenceInLength = this.longestArray(normalizedDataSeries)-normalizedDataSeries[i].data.length;
             for(var j = 0; j < normalizedDataSeries[i].data.length; j++){
                 normalizedDataSeries[i].data[j][1] = Math.round(normalizedDataSeries[i].data[j][1]*factor);
-            }
+            }  
+            normalizedDataSeries[i].data = this.addLastPairsToCumulativeSeries(normalizedDataSeries[i].data, differenceInLength);
         }
+        normalizedDataSeries = this.addAverageDataSeries(normalizedDataSeries);
         return normalizedDataSeries;
+    }, 
+    
+    addLastPairsToCumulativeSeries : function(dataSeries,amountPairs) {
+        for(var i = 0; i < amountPairs ; i++){
+            var lastPair = dataSeries[dataSeries.length-1];
+            var toAdd = [];
+            toAdd = [lastPair[0]+1,lastPair[1]];
+            dataSeries.push(toAdd);
+        }
+        return dataSeries;
+    },
+    
+    mean : function(array) {
+        var sum = 0;
+        for(var i = 0; i < array.length ; i++){
+            sum = sum + array[i]
+        }
+        return sum/array.length;
+        
+    },
+    
+    addAverageDataSeries : function(dataSeries) {
+        if(dataSeries.length == 1){
+            dataseries.push({
+                data : dataSeries.data,
+                label : "average"
+            })
+            return dataSeries;
+        }
+        var averageData = [];   
+        var amountPairs = dataSeries[0].data.length;
+        for(var i = 0; i < amountPairs ; i++){
+            var values = [];
+            for(var j = 0; j < dataSeries.length ; j++){
+                values.push(dataSeries[j].data[i][1]);
+            }
+            averageData.push([i,this.mean(values)]);
+        }
+        dataSeries.push({
+            data : averageData,
+            label : "average"
+        })
+        return dataSeries;
+    },
+    
+    getAverageDataOfSet : function(dataSeries) {
+      for(var i = 0; i < dataSeries.length ; i++){
+          if(dataSeries[i].label==="average"){
+              return dataSeries[i].data;
+          }
+      }  
+    },
+    
+    getHistogramDataSeries : function(dataSeries, averageData) {
+      var histoGramData = [];
+      for(var i = 0; i < dataSeries.data.length ; i++){
+          var value = averageData[i][1]-dataSeries.data[i][1];
+          histoGramData.push([i,value]);
+      }
+      return {
+          data : histoGramData,
+          label : "average - "+dataSeries.label
+      }
+    },
+    
+    getDataSeriesForDiffHistograms : function (dataSeries){
+        var averageData = this.getAverageDataOfSet(dataSeries);
+        var histogramDataSeries = [];
+        for(var i = 0; i < dataSeries.length; i++){
+            if(dataSeries[i].label == "average"){
+                continue;
+            }
+            histogramDataSeries.push(this.getHistogramDataSeries(dataSeries[i],averageData));
+        }
+        
+        this.histotest = histogramDataSeries;
+        
     }
 }

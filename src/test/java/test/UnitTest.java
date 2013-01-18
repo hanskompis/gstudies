@@ -11,20 +11,18 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import tktl.gstudies.repositories.JDBCRepository;
 import tktl.gstudies.services.StatisticServiceImpl;
 
-/**
- * ONLY SET UP!
- * @author hkeijone
- */
-@ActiveProfiles("test")
+//@ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:spring-context-test.xml",
-    "classpath:spring-beans.xml","classpath:spring-database.xml"})
+//@ContextConfiguration(locations = {"classpath:spring-context-test.xml",
+//    "classpath:spring-beans.xml","classpath:spring-database.xml"})
+
+@ContextConfiguration(locations = {"spring-context.xml", "spring-database.xml"})
 public class UnitTest {
 
     @Autowired
     private JDBCRepository testRepository;
-    @Autowired
-    private StatisticServiceImpl statisticService;
+//    @Autowired
+//    private StatisticServiceImpl statisticService;
 
     public UnitTest() {
     }
