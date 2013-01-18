@@ -88,9 +88,18 @@
             </tr>
         </table>
         <p>
-            <a class="btn btn-primary btn-large" id="passedGraphButton">Passed &raquo;</a>
-            <a class="btn btn-primary btn-large" id="failedGraphButton">Failed &raquo;</a>
-            <a class="btn btn-primary btn-large" id="combinedGraphButton">Combined &raquo;</a>
+            <!--<a class="btn btn-primary btn-medium" id="passedGraphButton">Passed &raquo;</a>
+            <a class="btn btn-primary btn-medium" id="failedGraphButton">Failed &raquo;</a>
+            <a class="btn btn-primary btn-medium" id="combinedGraphButton">Combined &raquo;</a> -->
+            <a class="btn btn-primary btn-small" id="credits7GraphButton">Credits 7 &raquo;</a>
+            <a class="btn btn-primary btn-small" id="credits13GraphButton">Credits 13 &raquo;</a>
+            <a class="btn btn-primary btn-small" id="credits19GraphButton">Credits 19 &raquo;</a>
+            <a class="btn btn-primary btn-small" id="credits7NormGraphButton">Credits 7 norm &raquo;</a>
+            <a class="btn btn-primary btn-small" id="credits13NormGraphButton">Credits 13 norm &raquo;</a>
+            <a class="btn btn-primary btn-small" id="credits19NormGraphButton">Credits 19 norm &raquo;</a>
+            <a class="btn btn-primary btn-small" id="credits7CumulGraphButton">Credits 7 cumul &raquo;</a>
+            <a class="btn btn-primary btn-small" id="credits13CumulGraphButton">Credits 13 cumul &raquo;</a>
+            <a class="btn btn-primary btn-small" id="credits19CumulGraphButton">Credits 19 cumul &raquo;</a>
         </p>
     </div>
 </script>
@@ -123,7 +132,106 @@
     </tr>
 </script>
 
-<script type="text/template" id="graphStatsTemplate">
+<script type="text/template" id="credits7Template">
+    <div class="well">
+        <h3>Credit Gains 7 months, passed</h3>
+        <div id="placeholderForCreditGains7MonthsPassed" style="width: 450px; height: 250px;"></div>
+        <h3>Credit Gains 7 months, failed</h3>
+        <div id="placeholderForCreditGains7MonthsFailed" style="width: 450px; height: 250px;"></div>
+        <h3>Credit Gains 7 months, all</h3>
+        <div id="placeholderForCreditGains7MonthsAll" style="width: 450px; height: 250px;"></div>
+    </div>
+</script>
+
+<script type="text/template" id="credits13Template">
+    <div class="well">
+        <h3>Credit Gains 13 months, passed</h3>
+        <div id="placeholderForCreditGains13MonthsPassed" style="width: 450px; height: 250px;"></div>
+        <h3>Credit Gains 13 months, failed</h3>
+        <div id="placeholderForCreditGains13MonthsFailed" style="width: 450px; height: 250px;"></div>
+        <h3>Credit Gains 13 months, all</h3>
+        <div id="placeholderForCreditGains13MonthsAll" style="width: 450px; height: 250px;"></div>
+    </div>
+</script>
+
+<script type="text/template" id="credits19Template">
+    <div class="well">
+        <h3>Credit Gains 19 months, passed</h3>
+        <div id="placeholderForCreditGains19MonthsPassed" style="width: 450px; height: 250px;"></div>
+        <h3>Credit Gains 19 months, failed</h3>
+        <div id="placeholderForCreditGains19MonthsFailed" style="width: 450px; height: 250px;"></div>
+        <h3>Credit Gains 19 months, all</h3>
+        <div id="placeholderForCreditGains19MonthsAll" style="width: 450px; height: 250px;"></div>
+    </div>
+</script>
+
+<script type="text/template" id="credits7normTemplate">
+    <div class="well">
+        <h3>Credit Gains 7 months, normalized, passed</h3>
+        <div id="placeholderForCreditGains7MonthsPassedNorm" style="width: 450px; height: 250px;"></div>
+        <h3>Credit Gains 7 months, normalized, failed</h3>
+        <div id="placeholderForCreditGains7MonthsFailedNorm" style="width: 450px; height: 250px;"></div>
+        <h3>Credit Gains 7 months, normalized, all</h3>
+        <div id="placeholderForCreditGains7MonthsAllNorm" style="width: 450px; height: 250px;"></div>
+    </div>
+</script>
+
+<script type="text/template" id="credits13normTemplate">
+    <div class="well">
+        <h3>Credit Gains 13 months, normalized, passed</h3>
+        <div id="placeholderForCreditGains13MonthsPassedNorm" style="width: 450px; height: 250px;"></div>
+        <h3>Credit Gains 13 months, normalized, failed</h3>
+        <div id="placeholderForCreditGains13MonthsFailedNorm" style="width: 450px; height: 250px;"></div>
+        <h3>Credit Gains 13 months, normalized, all</h3>
+        <div id="placeholderForCreditGains13MonthsAllNorm" style="width: 450px; height: 250px;"></div>
+    </div>
+</script>
+
+<script type="text/template" id="credits19normTemplate">
+    <div class="well">
+        <h3>Credit Gains 19 months, normalized, passed</h3>
+        <div id="placeholderForCreditGains19MonthsPassedNorm" style="width: 450px; height: 250px;"></div>
+        <h3>Credit Gains 19 months, normalized, failed</h3>
+        <div id="placeholderForCreditGains19MonthsFailedNorm" style="width: 450px; height: 250px;"></div>
+        <h3>Credit Gains 19 months, normalized, all</h3>
+        <div id="placeholderForCreditGains19MonthsAllNorm" style="width: 450px; height: 250px;"></div>
+    </div>
+</script>
+
+<script type="text/template" id="credits7cumulTemplate">
+    <div class="well">
+        <h3>Credit Gains 7 months, normalized, cumulative, passed</h3>
+        <div id="placeholderForCreditGains7MonthsPassedCumul" style="width: 750px; height: 450px;"></div>
+        <h3>Credit Gains 7 months, normalized, cumulative, failed</h3>
+        <div id="placeholderForCreditGains7MonthsFailedCumul" style="width: 750px; height: 450px;"></div>
+        <h3>Credit Gains 7 months, normalized, cumulative, all</h3>
+        <div id="placeholderForCreditGains7MonthsAllCumul" style="width: 750px; height: 450px;"></div>
+    </div>
+</script>
+
+<script type="text/template" id="credits13cumulTemplate">
+    <div class="well">
+        <h3>Credit Gains 13 months, normalized, cumulative, passed</h3>
+        <div id="placeholderForCreditGains13MonthsPassedCumul" style="width: 750px; height: 450px;"></div>
+        <h3>Credit Gains 13 months, normalized, cumulative, failed</h3>
+        <div id="placeholderForCreditGains13MonthsFailedCumul" style="width: 750px; height: 450px;"></div>
+        <h3>Credit Gains 13 months, normalized, cumulative, all</h3>
+        <div id="placeholderForCreditGains13MonthsAllCumul" style="width: 750px; height: 450px;"></div>
+    </div>
+</script>
+
+<script type="text/template" id="credits19cumulTemplate">
+    <div class="well">
+        <h3>Credit Gains 19 months, normalized, cumulative, passed</h3>
+        <div id="placeholderForCreditGains19MonthsPassedCumul" style="width: 750px; height: 450px;"></div>
+        <h3>Credit Gains 19 months, normalized, cumulative, failed</h3>
+        <div id="placeholderForCreditGains19MonthsFailedCumul" style="width: 750px; height: 450px;"></div>
+        <h3>Credit Gains 19 months, normalized, cumulative, all</h3>
+        <div id="placeholderForCreditGains19MonthsAllCumul" style="width: 750px; height: 450px;"></div>
+    </div>
+</script>
+
+<!--<script type="text/template" id="graphStatsTemplate">
     <br />
     <div class="well">
         <h1>{{studentGroup}}</h1>
@@ -150,7 +258,8 @@
 
     </div>
 
-</script>
+</script> -->
+
 <script type="text/template" id="InfoTemplate">
     <div class="alert alert-info">
         <Strong>Busy.</strong> Y U no take coffee while waiting?

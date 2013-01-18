@@ -98,10 +98,95 @@ App.Views.courseStatsView = Backbone.View.extend({
     
     events : {
         "click #submitCourseButton" : "submitCourseAction",
-        "click #passedGraphButton" : "passedGraphAction",
-        "click #failedGraphButton" : "failedGraphAction",
-        "click #combinedGraphButton" : "combinedGraphAction"
+//        "click #passedGraphButton" : "passedGraphAction",
+//        "click #failedGraphButton" : "failedGraphAction",
+//        "click #combinedGraphButton" : "combinedGraphAction",
+        "click #credits7GraphButton" : "credits7GraphAction",
+        "click #credits13GraphButton" : "credits13GraphAction",
+        "click #credits19GraphButton" : "credits19GraphAction",
+        "click #credits7NormGraphButton" : "credits7NormGraphAction",
+        "click #credits13NormGraphButton" : "credits13NormGraphAction",
+        "click #credits19NormGraphButton" : "credits19NormGraphAction",
+        "click #credits7CumulGraphButton" : "credits7CumulGraphAction",
+        "click #credits13CumulGraphButton" : "credits13CumulGraphAction",
+        "click #credits19CumulGraphButton" : "credits19CumulGraphAction"
+    },
+    
+    credits7GraphAction : function (){
+        $("#graphsContainer").empty();
+        var content = Mustache.to_html($("#credits7Template").html(),{});
+        $(("#graphsContainer")).html(content);
+        $.plot($("#placeholderForCreditGains7MonthsPassed"), dataSeriesUtils.DSCreditGains7MonthsPass, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains7Months, dataSeriesUtils.largestValueOfCreditGains7Months));
+        $.plot($("#placeholderForCreditGains7MonthsFailed"), dataSeriesUtils.DSCreditGains7MonthsFail, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains7Months, dataSeriesUtils.largestValueOfCreditGains7Months));
+        $.plot($("#placeholderForCreditGains7MonthsAll"), dataSeriesUtils.DSCreditGains7MonthsAll, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains7Months, dataSeriesUtils.largestValueOfCreditGains7Months));
 
+    },
+    
+    credits13GraphAction : function (){
+        $("#graphsContainer").empty();
+        var content = Mustache.to_html($("#credits13Template").html(),{});
+        $(("#graphsContainer")).html(content);
+        $.plot($("#placeholderForCreditGains13MonthsPassed"), dataSeriesUtils.DSCreditGains13MonthsPass, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains13Months, dataSeriesUtils.largestValueOfCreditGains13Months));
+        $.plot($("#placeholderForCreditGains13MonthsFailed"), dataSeriesUtils.DSCreditGains13MonthsFail, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains13Months, dataSeriesUtils.largestValueOfCreditGains13Months));
+        $.plot($("#placeholderForCreditGains13MonthsAll"), dataSeriesUtils.DSCreditGains13MonthsAll, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains13Months, dataSeriesUtils.largestValueOfCreditGains13Months));
+
+    },
+    credits19GraphAction : function (){
+        $("#graphsContainer").empty();
+        var content = Mustache.to_html($("#credits19Template").html(),{});
+        $(("#graphsContainer")).html(content);
+        $.plot($("#placeholderForCreditGains19MonthsPassed"), dataSeriesUtils.DSCreditGains19MonthsPass, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains19Months, dataSeriesUtils.largestValueOfCreditGains19Months));
+        $.plot($("#placeholderForCreditGains19MonthsFailed"), dataSeriesUtils.DSCreditGains19MonthsFail, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains19Months, dataSeriesUtils.largestValueOfCreditGains19Months));
+        $.plot($("#placeholderForCreditGains19MonthsAll"), dataSeriesUtils.DSCreditGains19MonthsAll, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains19Months, dataSeriesUtils.largestValueOfCreditGains19Months));
+    },
+    credits7NormGraphAction : function () {
+        $("#graphsContainer").empty();
+        var content = Mustache.to_html($("#credits7normTemplate").html(),{});
+        $(("#graphsContainer")).html(content);
+        $.plot($("#placeholderForCreditGains7MonthsPassedNorm"), dataSeriesUtils.DSCreditGains7MonthsNormPass, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains7MonthsNorm, dataSeriesUtils.largestValueOfCreditGains7MonthsNorm));
+        $.plot($("#placeholderForCreditGains7MonthsFailedNorm"), dataSeriesUtils.DSCreditGains7MonthsNormFail, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains7MonthsNorm, dataSeriesUtils.largestValueOfCreditGains7MonthsNorm));
+        $.plot($("#placeholderForCreditGains7MonthsAllNorm"), dataSeriesUtils.DSCreditGains7MonthsNormAll, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains7MonthsNorm, dataSeriesUtils.largestValueOfCreditGains7MonthsNorm));
+    },
+    credits13NormGraphAction : function () {
+        $("#graphsContainer").empty();
+        var content = Mustache.to_html($("#credits13normTemplate").html(),{});
+        $(("#graphsContainer")).html(content);
+        $.plot($("#placeholderForCreditGains13MonthsPassedNorm"), dataSeriesUtils.DSCreditGains13MonthsNormPass, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains13MonthsNorm, dataSeriesUtils.largestValueOfCreditGains13MonthsNorm));
+        $.plot($("#placeholderForCreditGains13MonthsFailedNorm"), dataSeriesUtils.DSCreditGains13MonthsNormFail, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains13MonthsNorm, dataSeriesUtils.largestValueOfCreditGains13MonthsNorm));
+        $.plot($("#placeholderForCreditGains13MonthsAllNorm"), dataSeriesUtils.DSCreditGains13MonthsNormAll, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains13MonthsNorm, dataSeriesUtils.largestValueOfCreditGains13MonthsNorm));
+    },
+    credits19NormGraphAction : function () {
+        $("#graphsContainer").empty();
+        var content = Mustache.to_html($("#credits19normTemplate").html(),{});
+        $(("#graphsContainer")).html(content);
+        $.plot($("#placeholderForCreditGains19MonthsPassedNorm"), dataSeriesUtils.DSCreditGains19MonthsNormPass, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains19MonthsNorm, dataSeriesUtils.largestValueOfCreditGains19MonthsNorm));
+        $.plot($("#placeholderForCreditGains19MonthsFailedNorm"), dataSeriesUtils.DSCreditGains19MonthsNormFail, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains19MonthsNorm, dataSeriesUtils.largestValueOfCreditGains19MonthsNorm));
+        $.plot($("#placeholderForCreditGains19MonthsAllNorm"), dataSeriesUtils.DSCreditGains19MonthsNormAll, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains19MonthsNorm, dataSeriesUtils.largestValueOfCreditGains19MonthsNorm));
+    },
+    credits7CumulGraphAction: function () {
+        $("#graphsContainer").empty();
+        var content = Mustache.to_html($("#credits7cumulTemplate").html(),{});
+        $(("#graphsContainer")).html(content);
+        $.plot($("#placeholderForCreditGains7MonthsPassedCumul"), dataSeriesUtils.DSCreditGains7MonthsNormCumulPass, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains7MonthsNormCumulPass, dataSeriesUtils.largestValueOfCreditGains7MonthsNormCumulPass));
+        $.plot($("#placeholderForCreditGains7MonthsFailedCumul"), dataSeriesUtils.DSCreditGains7MonthsNormCumulFail, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains7MonthsNormCumulFail, dataSeriesUtils.largestValueOfCreditGains7MonthsNormCumulFail));
+        $.plot($("#placeholderForCreditGains7MonthsAllCumul"), dataSeriesUtils.DSCreditGains7MonthsNormCumulAll, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains7MonthsNormCumulAll, dataSeriesUtils.largestValueOfCreditGains7MonthsNormCumulAll));
+    },
+    credits13CumulGraphAction: function () {
+        $("#graphsContainer").empty();
+        var content = Mustache.to_html($("#credits13cumulTemplate").html(),{});
+        $(("#graphsContainer")).html(content);
+        $.plot($("#placeholderForCreditGains13MonthsPassedCumul"), dataSeriesUtils.DSCreditGains13MonthsNormCumulPass, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains13MonthsNormCumulPass, dataSeriesUtils.largestValueOfCreditGains13MonthsNormCumulPass));
+        $.plot($("#placeholderForCreditGains13MonthsFailedCumul"), dataSeriesUtils.DSCreditGains13MonthsNormCumulFail, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains13MonthsNormCumulFail, dataSeriesUtils.largestValueOfCreditGains13MonthsNormCumulFail));
+        $.plot($("#placeholderForCreditGains13MonthsAllCumul"), dataSeriesUtils.DSCreditGains13MonthsNormCumulAll, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains13MonthsNormCumulAll, dataSeriesUtils.largestValueOfCreditGains13MonthsNormCumulAll));
+    },
+    
+    credits19CumulGraphAction: function () {
+        $("#graphsContainer").empty();
+        var content = Mustache.to_html($("#credits19cumulTemplate").html(),{});
+        $(("#graphsContainer")).html(content);
+        $.plot($("#placeholderForCreditGains19MonthsPassedCumul"), dataSeriesUtils.DSCreditGains19MonthsNormCumulPass, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains19MonthsNormCumulPass, dataSeriesUtils.largestValueOfCreditGains19MonthsNormCumulPass));
+        $.plot($("#placeholderForCreditGains19MonthsFailedCumul"), dataSeriesUtils.DSCreditGains19MonthsNormCumulFail, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains19MonthsNormCumulFail, dataSeriesUtils.largestValueOfCreditGains19MonthsNormCumulFail));
+        $.plot($("#placeholderForCreditGains19MonthsAllCumul"), dataSeriesUtils.DSCreditGains19MonthsNormCumulAll, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains19MonthsNormCumulAll, dataSeriesUtils.largestValueOfCreditGains19MonthsNormCumulAll));
     },
     
     submitCourseAction : function (){
@@ -134,61 +219,66 @@ App.Views.courseStatsView = Backbone.View.extend({
     //                        }
     //                    })
     },
-    
-    passedGraphAction : function (){
-        var content = Mustache.to_html($("#graphStatsTemplate").html(),{
-            studentGroup : "Passed"
-        });        
-        $("#graphsContainer").html(content);
-        $.plot($("#placeholderForCreditGains7Months"), dataSeriesUtils.DSCreditGains7MonthsPass, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains7Months, dataSeriesUtils.largestValueOfCreditGains7Months));
-        $.plot($("#placeholderForCreditGains13Months"), dataSeriesUtils.DSCreditGains13MonthsPass, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains13Months, dataSeriesUtils.largestValueOfCreditGains13Months));
-        $.plot($("#placeholderForCreditGains19Months"), dataSeriesUtils.DSCreditGains19MonthsPass, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains19Months, dataSeriesUtils.largestValueOfCreditGains19Months));
-        $.plot($("#placeholderForCreditGains7MonthsNormalized"), dataSeriesUtils.DSCreditGains7MonthsNormPass, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains7MonthsNorm, dataSeriesUtils.largestValueOfCreditGains7MonthsNorm));
-        $.plot($("#placeholderForCreditGains13MonthsNormalized"), dataSeriesUtils.DSCreditGains13MonthsNormPass, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains13MonthsNorm, dataSeriesUtils.largestValueOfCreditGains13MonthsNorm));
-        $.plot($("#placeholderForCreditGains19MonthsNormalized"), dataSeriesUtils.DSCreditGains19MonthsNormPass, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains19MonthsNorm, dataSeriesUtils.largestValueOfCreditGains19MonthsNorm));
-
-        $.plot($("#placeholderForCreditGains7MonthsCumulative"), dataSeriesUtils.DSCreditGains7MonthsNormCumulPass, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains7MonthsNormCumulPass, dataSeriesUtils.largestValueOfCreditGains7MonthsNormCumulPass));
-        $.plot($("#placeholderForCreditGains13MonthsCumulative"), dataSeriesUtils.DSCreditGains13MonthsNormCumulPass, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains13MonthsNormCumulPass, dataSeriesUtils.largestValueOfCreditGains13MonthsNormCumulPass));
-        $.plot($("#placeholderForCreditGains19MonthsCumulative"), dataSeriesUtils.DSCreditGains19MonthsNormCumulPass, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains19MonthsNormCumulPass, dataSeriesUtils.largestValueOfCreditGains19MonthsNormCumulPass));
-
-        $.plot($("#placeholderForCreditGains7MonthsDiff"),[{data : dataSeriesUtils.histotest[0].data , bars: { show: true }}] );
-    },
-    
-    failedGraphAction : function (){
-        var content = Mustache.to_html($("#graphStatsTemplate").html(),{
-            studentGroup : "Failed"
-        });
-        $("#graphsContainer").html(content);
-        $.plot($("#placeholderForCreditGains7Months"), dataSeriesUtils.DSCreditGains7MonthsFail, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains7Months, dataSeriesUtils.largestValueOfCreditGains7Months));
-        $.plot($("#placeholderForCreditGains13Months"), dataSeriesUtils.DSCreditGains13MonthsFail, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains13Months, dataSeriesUtils.largestValueOfCreditGains13Months));
-        $.plot($("#placeholderForCreditGains19Months"), dataSeriesUtils.DSCreditGains19MonthsFail, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains19Months, dataSeriesUtils.largestValueOfCreditGains19Months));
-        $.plot($("#placeholderForCreditGains7MonthsNormalized"), dataSeriesUtils.DSCreditGains7MonthsNormFail, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains7MonthsNorm, dataSeriesUtils.largestValueOfCreditGains7MonthsNorm));
-        $.plot($("#placeholderForCreditGains13MonthsNormalized"), dataSeriesUtils.DSCreditGains13MonthsNormFail, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains13MonthsNorm, dataSeriesUtils.largestValueOfCreditGains13MonthsNorm));
-        $.plot($("#placeholderForCreditGains19MonthsNormalized"), dataSeriesUtils.DSCreditGains19MonthsNormFail, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains19MonthsNorm, dataSeriesUtils.largestValueOfCreditGains19MonthsNorm));
-
-        $.plot($("#placeholderForCreditGains7MonthsCumulative"), dataSeriesUtils.DSCreditGains7MonthsNormCumulFail, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains7MonthsNormCumulFail, dataSeriesUtils.largestValueOfCreditGains7MonthsNormCumulFail));
-        $.plot($("#placeholderForCreditGains13MonthsCumulative"), dataSeriesUtils.DSCreditGains13MonthsNormCumulFail, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains13MonthsNormCumulFail, dataSeriesUtils.largestValueOfCreditGains13MonthsNormCumulFail));
-        $.plot($("#placeholderForCreditGains19MonthsCumulative"), dataSeriesUtils.DSCreditGains19MonthsNormCumulFail, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains19MonthsNormCumulFail, dataSeriesUtils.largestValueOfCreditGains19MonthsNormCumulFail));
-
-    },
-    
-    combinedGraphAction : function (){
-        var content = Mustache.to_html($("#graphStatsTemplate").html(),{
-            studentGroup : "Combined"
-        });
-        $("#graphsContainer").html(content);   
-        $.plot($("#placeholderForCreditGains7Months"), dataSeriesUtils.DSCreditGains7MonthsAll, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains7Months, dataSeriesUtils.largestValueOfCreditGains7Months));
-        $.plot($("#placeholderForCreditGains13Months"), dataSeriesUtils.DSCreditGains13MonthsAll, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains13Months, dataSeriesUtils.largestValueOfCreditGains13Months));
-        $.plot($("#placeholderForCreditGains19Months"), dataSeriesUtils.DSCreditGains19MonthsAll, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains19Months, dataSeriesUtils.largestValueOfCreditGains19Months));
-        $.plot($("#placeholderForCreditGains7MonthsNormalized"), dataSeriesUtils.DSCreditGains7MonthsNormAll, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains7MonthsNorm, dataSeriesUtils.largestValueOfCreditGains7MonthsNorm));
-        $.plot($("#placeholderForCreditGains13MonthsNormalized"), dataSeriesUtils.DSCreditGains13MonthsNormAll, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains13MonthsNorm, dataSeriesUtils.largestValueOfCreditGains13MonthsNorm));
-        $.plot($("#placeholderForCreditGains19MonthsNormalized"), dataSeriesUtils.DSCreditGains19MonthsNormAll, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains19MonthsNorm, dataSeriesUtils.largestValueOfCreditGains19MonthsNorm));
-
-        $.plot($("#placeholderForCreditGains7MonthsCumulative"), dataSeriesUtils.DSCreditGains7MonthsNormCumulAll, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains7MonthsNormCumulAll, dataSeriesUtils.largestValueOfCreditGains7MonthsNormCumulAll));
-        $.plot($("#placeholderForCreditGains13MonthsCumulative"), dataSeriesUtils.DSCreditGains13MonthsNormCumulAll, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains13MonthsNormCumulAll, dataSeriesUtils.largestValueOfCreditGains13MonthsNormCumulAll));
-        $.plot($("#placeholderForCreditGains19MonthsCumulative"), dataSeriesUtils.DSCreditGains19MonthsNormCumulAll, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains19MonthsNormCumulAll, dataSeriesUtils.largestValueOfCreditGains19MonthsNormCumulAll));
-
-    },
+//    
+//    passedGraphAction : function (){
+//        var content = Mustache.to_html($("#graphStatsTemplate").html(),{
+//            studentGroup : "Passed"
+//        });        
+//        $("#graphsContainer").html(content);
+//        $.plot($("#placeholderForCreditGains7Months"), dataSeriesUtils.DSCreditGains7MonthsPass, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains7Months, dataSeriesUtils.largestValueOfCreditGains7Months));
+//        $.plot($("#placeholderForCreditGains13Months"), dataSeriesUtils.DSCreditGains13MonthsPass, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains13Months, dataSeriesUtils.largestValueOfCreditGains13Months));
+//        $.plot($("#placeholderForCreditGains19Months"), dataSeriesUtils.DSCreditGains19MonthsPass, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains19Months, dataSeriesUtils.largestValueOfCreditGains19Months));
+//        $.plot($("#placeholderForCreditGains7MonthsNormalized"), dataSeriesUtils.DSCreditGains7MonthsNormPass, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains7MonthsNorm, dataSeriesUtils.largestValueOfCreditGains7MonthsNorm));
+//        $.plot($("#placeholderForCreditGains13MonthsNormalized"), dataSeriesUtils.DSCreditGains13MonthsNormPass, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains13MonthsNorm, dataSeriesUtils.largestValueOfCreditGains13MonthsNorm));
+//        $.plot($("#placeholderForCreditGains19MonthsNormalized"), dataSeriesUtils.DSCreditGains19MonthsNormPass, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains19MonthsNorm, dataSeriesUtils.largestValueOfCreditGains19MonthsNorm));
+//
+//        $.plot($("#placeholderForCreditGains7MonthsCumulative"), dataSeriesUtils.DSCreditGains7MonthsNormCumulPass, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains7MonthsNormCumulPass, dataSeriesUtils.largestValueOfCreditGains7MonthsNormCumulPass));
+//        $.plot($("#placeholderForCreditGains13MonthsCumulative"), dataSeriesUtils.DSCreditGains13MonthsNormCumulPass, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains13MonthsNormCumulPass, dataSeriesUtils.largestValueOfCreditGains13MonthsNormCumulPass));
+//        $.plot($("#placeholderForCreditGains19MonthsCumulative"), dataSeriesUtils.DSCreditGains19MonthsNormCumulPass, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains19MonthsNormCumulPass, dataSeriesUtils.largestValueOfCreditGains19MonthsNormCumulPass));
+//
+//        $.plot($("#placeholderForCreditGains7MonthsDiff"),[{
+//            data : dataSeriesUtils.histotest[0].data , 
+//            bars: {
+//                show: true
+//            }
+//        }] );
+//    },
+//    
+//    failedGraphAction : function (){
+//        var content = Mustache.to_html($("#graphStatsTemplate").html(),{
+//            studentGroup : "Failed"
+//        });
+//        $("#graphsContainer").html(content);
+//        $.plot($("#placeholderForCreditGains7Months"), dataSeriesUtils.DSCreditGains7MonthsFail, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains7Months, dataSeriesUtils.largestValueOfCreditGains7Months));
+//        $.plot($("#placeholderForCreditGains13Months"), dataSeriesUtils.DSCreditGains13MonthsFail, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains13Months, dataSeriesUtils.largestValueOfCreditGains13Months));
+//        $.plot($("#placeholderForCreditGains19Months"), dataSeriesUtils.DSCreditGains19MonthsFail, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains19Months, dataSeriesUtils.largestValueOfCreditGains19Months));
+//        $.plot($("#placeholderForCreditGains7MonthsNormalized"), dataSeriesUtils.DSCreditGains7MonthsNormFail, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains7MonthsNorm, dataSeriesUtils.largestValueOfCreditGains7MonthsNorm));
+//        $.plot($("#placeholderForCreditGains13MonthsNormalized"), dataSeriesUtils.DSCreditGains13MonthsNormFail, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains13MonthsNorm, dataSeriesUtils.largestValueOfCreditGains13MonthsNorm));
+//        $.plot($("#placeholderForCreditGains19MonthsNormalized"), dataSeriesUtils.DSCreditGains19MonthsNormFail, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains19MonthsNorm, dataSeriesUtils.largestValueOfCreditGains19MonthsNorm));
+//
+//        $.plot($("#placeholderForCreditGains7MonthsCumulative"), dataSeriesUtils.DSCreditGains7MonthsNormCumulFail, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains7MonthsNormCumulFail, dataSeriesUtils.largestValueOfCreditGains7MonthsNormCumulFail));
+//        $.plot($("#placeholderForCreditGains13MonthsCumulative"), dataSeriesUtils.DSCreditGains13MonthsNormCumulFail, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains13MonthsNormCumulFail, dataSeriesUtils.largestValueOfCreditGains13MonthsNormCumulFail));
+//        $.plot($("#placeholderForCreditGains19MonthsCumulative"), dataSeriesUtils.DSCreditGains19MonthsNormCumulFail, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains19MonthsNormCumulFail, dataSeriesUtils.largestValueOfCreditGains19MonthsNormCumulFail));
+//
+//    },
+//    
+//    combinedGraphAction : function (){
+//        var content = Mustache.to_html($("#graphStatsTemplate").html(),{
+//            studentGroup : "Combined"
+//        });
+//        $("#graphsContainer").html(content);   
+//        $.plot($("#placeholderForCreditGains7Months"), dataSeriesUtils.DSCreditGains7MonthsAll, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains7Months, dataSeriesUtils.largestValueOfCreditGains7Months));
+//        $.plot($("#placeholderForCreditGains13Months"), dataSeriesUtils.DSCreditGains13MonthsAll, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains13Months, dataSeriesUtils.largestValueOfCreditGains13Months));
+//        $.plot($("#placeholderForCreditGains19Months"), dataSeriesUtils.DSCreditGains19MonthsAll, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains19Months, dataSeriesUtils.largestValueOfCreditGains19Months));
+//        $.plot($("#placeholderForCreditGains7MonthsNormalized"), dataSeriesUtils.DSCreditGains7MonthsNormAll, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains7MonthsNorm, dataSeriesUtils.largestValueOfCreditGains7MonthsNorm));
+//        $.plot($("#placeholderForCreditGains13MonthsNormalized"), dataSeriesUtils.DSCreditGains13MonthsNormAll, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains13MonthsNorm, dataSeriesUtils.largestValueOfCreditGains13MonthsNorm));
+//        $.plot($("#placeholderForCreditGains19MonthsNormalized"), dataSeriesUtils.DSCreditGains19MonthsNormAll, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains19MonthsNorm, dataSeriesUtils.largestValueOfCreditGains19MonthsNorm));
+//
+//        $.plot($("#placeholderForCreditGains7MonthsCumulative"), dataSeriesUtils.DSCreditGains7MonthsNormCumulAll, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains7MonthsNormCumulAll, dataSeriesUtils.largestValueOfCreditGains7MonthsNormCumulAll));
+//        $.plot($("#placeholderForCreditGains13MonthsCumulative"), dataSeriesUtils.DSCreditGains13MonthsNormCumulAll, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains13MonthsNormCumulAll, dataSeriesUtils.largestValueOfCreditGains13MonthsNormCumulAll));
+//        $.plot($("#placeholderForCreditGains19MonthsCumulative"), dataSeriesUtils.DSCreditGains19MonthsNormCumulAll, this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains19MonthsNormCumulAll, dataSeriesUtils.largestValueOfCreditGains19MonthsNormCumulAll));
+//
+//    },
         
     getOptions : function(xmax, ymax) {
         return         {
