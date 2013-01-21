@@ -88,9 +88,6 @@
             </tr>
         </table>
         <p>
-            <!--<a class="btn btn-primary btn-medium" id="passedGraphButton">Passed &raquo;</a>
-            <a class="btn btn-primary btn-medium" id="failedGraphButton">Failed &raquo;</a>
-            <a class="btn btn-primary btn-medium" id="combinedGraphButton">Combined &raquo;</a> -->
             <a class="btn btn-primary btn-small" id="credits7GraphButton">Credits 7 &raquo;</a>
             <a class="btn btn-primary btn-small" id="credits13GraphButton">Credits 13 &raquo;</a>
             <a class="btn btn-primary btn-small" id="credits19GraphButton">Credits 19 &raquo;</a>
@@ -99,7 +96,10 @@
             <a class="btn btn-primary btn-small" id="credits19NormGraphButton">Credits 19 norm &raquo;</a>
             <a class="btn btn-primary btn-small" id="credits7CumulGraphButton">Credits 7 cumul &raquo;</a>
             <a class="btn btn-primary btn-small" id="credits13CumulGraphButton">Credits 13 cumul &raquo;</a>
-            <a class="btn btn-primary btn-small" id="credits19CumulGraphButton">Credits 19 cumul &raquo;</a>
+            <a class="btn btn-primary btn-small" id="credits19CumulGraphButton">Credits 19 cumul &raquo;</a><br/><br/>
+            <a class="btn btn-primary btn-small" id="credits7HistoGraphButton">Credits 7 histo &raquo;</a>
+            <a class="btn btn-primary btn-small" id="credits13HistoGraphButton">Credits 13 histo &raquo;</a>
+            <a class="btn btn-primary btn-small" id="credits19HistoGraphButton">Credits 19 histo &raquo;</a>
         </p>
     </div>
 </script>
@@ -231,34 +231,12 @@
     </div>
 </script>
 
-<!--<script type="text/template" id="graphStatsTemplate">
-    <br />
+<script type="text/template" id="credits7histoTemplate">
     <div class="well">
-        <h1>{{studentGroup}}</h1>
-        <h3>Credit Gains 7 months</h3>
-        <div id="placeholderForCreditGains7Months" style="width: 450px; height: 250px;"></div>
-        <h3>Credit Gains 13 months</h3>
-        <div id="placeholderForCreditGains13Months" style="width: 450px; height: 250px;"></div>
-        <h3>Credit Gains 19 months</h3>
-        <div id="placeholderForCreditGains19Months" style="width: 450px; height: 250px;"></div>
-        <h3>Credit Gains 7 months, normalized</h3>
-        <div id="placeholderForCreditGains7MonthsNormalized" style="width: 450px; height: 250px;"></div>
-        <h3>Credit Gains 13 months, normalized</h3>
-        <div id="placeholderForCreditGains13MonthsNormalized" style="width: 450px; height: 250px;"></div>
-        <h3>Credit Gains 19 months, normalized</h3>
-        <div id="placeholderForCreditGains19MonthsNormalized" style="width: 450px; height: 250px;"></div>
-        <h3>Credit Gains 7 months, normalized, cumulative, phuqqed for life, what not</h3>
-        <div id="placeholderForCreditGains7MonthsCumulative" style="width: 750px; height: 450px;"></div>
-        <h3>Credit Gains 13 months, normalized, cumulative, phuqqed for life, what not</h3>
-        <div id="placeholderForCreditGains13MonthsCumulative" style="width: 750px; height: 450px;"></div>      
-        <h3>Credit Gains 19 months, normalized, cumulative, phuqqed for life, what not</h3>
-        <div id="placeholderForCreditGains19MonthsCumulative" style="width: 750px; height: 450px;"></div>
-        <h3>Average cumulative vs cumulative</h3>
-        <div id="placeholderForCreditGains7MonthsDiff" style="width: 450px; height: 250px;"></div>
-
+        <h3>Credit Gains 7 months, cumulative compared to average, passed</h3>
+        <div id="placeholderForCreditGainsHisto" style="width: 750px; height: 450px;"></div>
     </div>
-
-</script> -->
+</script>
 
 <script type="text/template" id="InfoTemplate">
     <div class="alert alert-info">

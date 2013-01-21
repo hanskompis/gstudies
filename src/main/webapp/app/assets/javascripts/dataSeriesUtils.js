@@ -36,6 +36,11 @@ var dataSeriesUtils = {
         this.DSCreditGains13MonthsNormCumulAll = this.normalizeCumulativeDataSeries(this.getCumulativeDataSeries(13, this.ALL));
         this.DSCreditGains19MonthsNormCumulAll = this.normalizeCumulativeDataSeries(this.getCumulativeDataSeries(19, this.ALL));
         
+        this.DSCreditGains7MonthsHistoPass = this.getDataSeriesForDiffHistograms(this.DSCreditGains7MonthsNormCumulPass);
+        this.DSCreditGains7MonthsHistoFail = this.getDataSeriesForDiffHistograms(this.DSCreditGains7MonthsNormCumulFail);
+        this.DSCreditGains7MonthsHistoAll = this.getDataSeriesForDiffHistograms(this.DSCreditGains7MonthsNormCumulAll);
+
+        
         this.largestValueOfCreditGains7Months = this.findLargestValueOfDataSeries([this.DSCreditGains7MonthsPass,this.DSCreditGains7MonthsFail, this.DSCreditGains7MonthsAll]);
         this.largestValueOfCreditGains13Months = this.findLargestValueOfDataSeries([this.DSCreditGains13MonthsPass,this.DSCreditGains13MonthsFail, this.DSCreditGains13MonthsAll]);
         this.largestValueOfCreditGains19Months = this.findLargestValueOfDataSeries([this.DSCreditGains19MonthsPass,this.DSCreditGains19MonthsFail, this.DSCreditGains19MonthsAll]);
@@ -76,7 +81,7 @@ var dataSeriesUtils = {
         this.largestCategoryOfCreditGains13MonthsNormCumulAll = this.findLargestCategoryOfDataSeries([this.DSCreditGains13MonthsNormCumulAll]);
         this.largestCategoryOfCreditGains19MonthsNormCumulAll = this.findLargestCategoryOfDataSeries([this.DSCreditGains19MonthsNormCumulAll]);
         
-        this.getDataSeriesForDiffHistograms(this.DSCreditGains7MonthsNormCumulPass);
+    //        this.getDataSeriesForDiffHistograms(this.DSCreditGains7MonthsNormCumulPass);
     },
     
     getDataSeries : function (months, group) {
@@ -234,8 +239,12 @@ var dataSeriesUtils = {
     },
 
     normalizeDataSeries : function (dataSeries) {
-        //     console.log(JSON.stringify(dataSeries));
-        var normalizedDataSeries = dataSeries;
+        console.log("orggis");
+        console.log(JSON.stringify(dataSeries[0]));
+//        var normalizedDataSeries = dataSeries;
+        var normalizedDataSeries = JSON.parse(JSON.stringify(dataSeries));
+
+        
         var largestAmountOfStudents = this.findLargestAmountOfStudents(normalizedDataSeries);
         for(var i = 0; i < normalizedDataSeries.length; i++){
             var factor = largestAmountOfStudents/this.studentsOnGroup(normalizedDataSeries[i].data);
@@ -244,7 +253,10 @@ var dataSeriesUtils = {
                 normalizedDataSeries[i].data[j][1] = Math.round(normalizedDataSeries[i].data[j][1]*factor);
             }
         }
-        // console.log(JSON.stringify(normalizedDataSeries));
+        console.log("orggis normeerauksen jälkeen");
+        console.log(JSON.stringify(dataSeries[0]));
+        console.log("normeerattu");
+        console.log(JSON.stringify(normalizedDataSeries[0]));
         return normalizedDataSeries;
     },
     
@@ -318,23 +330,23 @@ var dataSeriesUtils = {
     },
     
     getAverageDataOfSet : function(dataSeries) {
-      for(var i = 0; i < dataSeries.length ; i++){
-          if(dataSeries[i].label==="average"){
-              return dataSeries[i].data;
-          }
-      }  
+        for(var i = 0; i < dataSeries.length ; i++){
+            if(dataSeries[i].label==="average"){
+                return dataSeries[i].data;
+            }
+        }  
     },
     
     getHistogramDataSeries : function(dataSeries, averageData) {
-      var histoGramData = [];
-      for(var i = 0; i < dataSeries.data.length ; i++){
-          var value = averageData[i][1]-dataSeries.data[i][1];
-          histoGramData.push([i,value]);
-      }
-      return {
-          data : histoGramData,
-          label : "average - "+dataSeries.label
-      }
+        var histoGramData = [];
+        for(var i = 0; i < dataSeries.data.length ; i++){
+            var value = averageData[i][1]-dataSeries.data[i][1];
+            histoGramData.push([i,value]);
+        }
+        return {
+            data : histoGramData,
+            label : "average - "+dataSeries.label
+        }
     },
     
     getDataSeriesForDiffHistograms : function (dataSeries){
@@ -346,8 +358,6 @@ var dataSeriesUtils = {
             }
             histogramDataSeries.push(this.getHistogramDataSeries(dataSeries[i],averageData));
         }
-        
-        this.histotest = histogramDataSeries;
-        
+        return histogramDataSeries;
     }
 }
