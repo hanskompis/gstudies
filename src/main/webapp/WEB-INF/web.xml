@@ -27,16 +27,13 @@ version="2.4">
     
     <!-- Front controller -->
     <servlet>
-        <servlet-name>spring-front-controller</servlet-name>
+        <servlet-name>gstudies</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <init-param>
-            <param-name>contextConfigLocation</param-name>
-            <param-value>/WEB-INF/spring-context.xml /WEB-INF/spring-database.xml</param-value>
-        </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    
     <servlet-mapping>
-        <servlet-name>spring-front-controller</servlet-name>
+        <servlet-name>gstudies</servlet-name>
         <url-pattern>/*</url-pattern>
     </servlet-mapping>
 

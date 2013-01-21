@@ -326,8 +326,17 @@ public class StatisticServiceImpl implements StatisticService {
     @Override
     public List<CourseStatsResponseObj> getAllDataFromCourseBetweenYears(String courseId, int startYear, int endYear){
         List<Date> dates = this.findMostPopulatedCourseInstancesBetweenYears(courseId, startYear, endYear);
+        if(dates == null) {
+            System.out.println("No dates, lol.");
+        }
+        
         List<CourseStatsResponseObj> toReturn = new ArrayList<CourseStatsResponseObj>();
         for(Date d : dates){
+            if(d == null) {
+                System.out.println("Date null but on list, wtf?");
+                continue;
+            }
+            
             toReturn.add(this.getData(d.toString(), courseId));
         }
         return toReturn;

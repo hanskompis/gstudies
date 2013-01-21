@@ -40,12 +40,13 @@
         <property name="url" value="jdbc:h2:mem:test"/>
     </bean> -->
 
-    
-    <beans profile="default">
+    <!-- tietokantakonfiguraatio -->
+    <import resource="database.xml" />
+    <!--
+    <beans profile="dev,default">
         <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
             <property name="locations">
                 <list>
-                    <!-- resources defined later override previous ones -->
                     <value>classpath:properties/dev.properties</value>
                 </list>
             </property>
@@ -53,6 +54,17 @@
             <property name="ignoreUnresolvablePlaceholders" value="false" />
         </bean>
     </beans>
-
-
+    
+    <beans profile="test">
+        <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+            <property name="locations">
+                <list>
+                    <value>classpath:properties/dev.properties</value>
+                </list>
+            </property>
+            <property name="ignoreResourceNotFound" value="true" />
+            <property name="ignoreUnresolvablePlaceholders" value="false" />
+        </bean>
+    </beans>
+    -->
 </beans>

@@ -1,4 +1,4 @@
-package test;
+package tktl;
 
 
 import org.junit.*;
@@ -8,22 +8,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import tktl.gstudies.repositories.CourseObjectRepository;
 import tktl.gstudies.repositories.JDBCRepository;
-import tktl.gstudies.services.StatisticServiceImpl;
 
-//@ActiveProfiles("test")
+@ActiveProfiles("test")
+@ContextConfiguration({ "file:src/main/webapp/WEB-INF/gstudies-servlet.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
-//@ContextConfiguration(locations = {"classpath:spring-context-test.xml",
-//    "classpath:spring-beans.xml","classpath:spring-database.xml"})
-
-@ContextConfiguration(locations = {"spring-context.xml", "spring-database.xml"})
 public class UnitTest {
 
     @Autowired
-    private JDBCRepository testRepository;
-//    @Autowired
-//    private StatisticServiceImpl statisticService;
-
+    private CourseObjectRepository courseRepository;
+    
     public UnitTest() {
     }
 
@@ -45,6 +40,6 @@ public class UnitTest {
 
     @Test
     public void maxAmountCoursesDoesNotExceed11() {
-        assertTrue(true);
+        assertNotNull(courseRepository.findAll());
     }
 }
