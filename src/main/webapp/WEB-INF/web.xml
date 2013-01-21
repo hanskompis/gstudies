@@ -34,7 +34,7 @@ version="2.4">
     
     <servlet-mapping>
         <servlet-name>gstudies</servlet-name>
-        <url-pattern>/app/*</url-pattern>
+        <url-pattern>/*</url-pattern>
     </servlet-mapping>
 
     

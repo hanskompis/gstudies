@@ -30,14 +30,14 @@
         </property>
     </bean>
     
-    
+        
     <bean id="importDataSource"
-          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+              class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://localhost:3306/ormkanta" />
+        <property name="url" value="jdbc:mysql://localhost:3306/gkanta" />
         <property name="username" value="root" />
         <property name="password" value="" />
-    </bean> 
+    </bean>
     
     
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
@@ -55,14 +55,17 @@
         <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
             <property name="location" value="classpath:properties/test.properties" />
         </bean>
-        <!--
-        <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-            <property name="persistenceUnitName" value="persistenceUnitTest"/>
-            <property name="dataLocation" value="/home/hkeijone/kanta/testikanta"/>
-        </bean>
-        -->
         
-        <jdbc:embedded-database id="dataSource" type="H2"/> 
+        <jdbc:embedded-database id="dataSource" type="HSQL"/>
+        <!--
+        <bean id="dataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+            <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+            <property name="url" value="jdbc:mysql://localhost:3306/ormkanta" />
+            <property name="username" value="root" />
+            <property name="password" value="" />
+        </bean> 
+        -->
     </beans>
     
     <!-- oletuskonffi -->
@@ -71,12 +74,16 @@
             <property name="location" value="classpath:properties/dev.properties" />
         </bean>
         
+        
         <bean id="dataSource"
-              class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
             <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-            <property name="url" value="jdbc:mysql://localhost:3306/gkanta" />
+            <property name="url" value="jdbc:mysql://localhost:3306/ormkanta" />
             <property name="username" value="root" />
             <property name="password" value="" />
-        </bean>
+        </bean> 
+    
     </beans>
+    
+    
 </beans>
