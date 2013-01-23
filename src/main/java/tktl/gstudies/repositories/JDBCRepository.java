@@ -29,7 +29,7 @@ public class JDBCRepository {
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
-    @Qualifier("dataSource")
+    @Qualifier("importDataSource")
     public void setDataSource(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }

@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -43,9 +44,9 @@ public class Stud extends AbstractModel {
 
     @OneToMany(mappedBy = "student")
     private List<AcademicYearEnrollment> enrollments;
-    @OneToMany(mappedBy = "student")
+    @OneToMany(mappedBy = "student", fetch=FetchType.EAGER)
     private List<RightToStudy> rightsToStudy;
-    @OneToMany(mappedBy = "student")
+    @OneToMany(mappedBy = "student", fetch=FetchType.EAGER)
     private List<Study> studies;
     Integer studentId;
     String gender;

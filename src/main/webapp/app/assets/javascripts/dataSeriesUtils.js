@@ -24,17 +24,26 @@ var dataSeriesUtils = {
         this.DSCreditGains7MonthsNormAll = this.normalizeDataSeries(this.DSCreditGains7MonthsAll);
         this.DSCreditGains13MonthsNormAll = this.normalizeDataSeries(this.DSCreditGains13MonthsAll);
         this.DSCreditGains19MonthsNormAll = this.normalizeDataSeries(this.DSCreditGains19MonthsAll);
-                
-        this.DSCreditGains7MonthsNormCumulPass = this.normalizeCumulativeDataSeries(this.getCumulativeDataSeries(7, this.PASSED));
-        //                     console.log(JSON.stringify(this.DSCreditGains7MonthsNormCumulPass));
-        this.DSCreditGains13MonthsNormCumulPass = this.normalizeCumulativeDataSeries(this.getCumulativeDataSeries(13, this.PASSED));
-        this.DSCreditGains19MonthsNormCumulPass = this.normalizeCumulativeDataSeries(this.getCumulativeDataSeries(19, this.PASSED));
-        this.DSCreditGains7MonthsNormCumulFail = this.normalizeCumulativeDataSeries(this.getCumulativeDataSeries(7, this.FAILED));
-        this.DSCreditGains13MonthsNormCumulFail = this.normalizeCumulativeDataSeries(this.getCumulativeDataSeries(13, this.FAILED));
-        this.DSCreditGains19MonthsNormCumulFail = this.normalizeCumulativeDataSeries(this.getCumulativeDataSeries(19, this.FAILED));
-        this.DSCreditGains7MonthsNormCumulAll = this.normalizeCumulativeDataSeries(this.getCumulativeDataSeries(7, this.ALL));
-        this.DSCreditGains13MonthsNormCumulAll = this.normalizeCumulativeDataSeries(this.getCumulativeDataSeries(13, this.ALL));
-        this.DSCreditGains19MonthsNormCumulAll = this.normalizeCumulativeDataSeries(this.getCumulativeDataSeries(19, this.ALL));
+        
+        this.DSCreditGains7MonthsNormCumulPass = this.normalizePercentageCumulativeDataSeries(this.getCumulativeDataSeries(7, this.PASSED));
+        this.DSCreditGains13MonthsNormCumulPass = this.normalizePercentageCumulativeDataSeries(this.getCumulativeDataSeries(13, this.PASSED));
+        this.DSCreditGains19MonthsNormCumulPass = this.normalizePercentageCumulativeDataSeries(this.getCumulativeDataSeries(19, this.PASSED));
+        this.DSCreditGains7MonthsNormCumulFail = this.normalizePercentageCumulativeDataSeries(this.getCumulativeDataSeries(7, this.FAILED));
+        this.DSCreditGains13MonthsNormCumulFail = this.normalizePercentageCumulativeDataSeries(this.getCumulativeDataSeries(13, this.FAILED));
+        this.DSCreditGains19MonthsNormCumulFail = this.normalizePercentageCumulativeDataSeries(this.getCumulativeDataSeries(19, this.FAILED));
+        this.DSCreditGains7MonthsNormCumulAll = this.normalizePercentageCumulativeDataSeries(this.getCumulativeDataSeries(7, this.ALL));
+        this.DSCreditGains13MonthsNormCumulAll = this.normalizePercentageCumulativeDataSeries(this.getCumulativeDataSeries(13, this.ALL));
+        this.DSCreditGains19MonthsNormCumulAll = this.normalizePercentageCumulativeDataSeries(this.getCumulativeDataSeries(19, this.ALL));
+        
+        this.DSCreditGains7MonthsNormCumulReverPass = this.normalizePercentageCumulativeDataSeries(this.getCumulativeReverseDataSeries(7, this.PASSED));
+        this.DSCreditGains13MonthsNormCumulReverPass = this.normalizePercentageCumulativeDataSeries(this.getCumulativeReverseDataSeries(13, this.PASSED));
+        this.DSCreditGains19MonthsNormCumulReverPass = this.normalizePercentageCumulativeDataSeries(this.getCumulativeReverseDataSeries(19, this.PASSED));
+        this.DSCreditGains7MonthsNormCumulReverFail = this.normalizePercentageCumulativeDataSeries(this.getCumulativeReverseDataSeries(7, this.FAILED));
+        this.DSCreditGains13MonthsNormCumulReverFail = this.normalizePercentageCumulativeDataSeries(this.getCumulativeReverseDataSeries(13, this.FAILED));
+        this.DSCreditGains19MonthsNormCumulReverFail = this.normalizePercentageCumulativeDataSeries(this.getCumulativeReverseDataSeries(19, this.FAILED));
+        this.DSCreditGains7MonthsNormCumulReverAll = this.normalizePercentageCumulativeDataSeries(this.getCumulativeReverseDataSeries(7, this.ALL));
+        this.DSCreditGains13MonthsNormCumulReverAll = this.normalizePercentageCumulativeDataSeries(this.getCumulativeReverseDataSeries(13, this.ALL));
+        this.DSCreditGains19MonthsNormCumulReverAll = this.normalizePercentageCumulativeDataSeries(this.getCumulativeReverseDataSeries(19, this.ALL));
         
         this.DSCreditGains7MonthsHistoPass = this.getDataSeriesForDiffHistograms(this.DSCreditGains7MonthsNormCumulPass);
         this.DSCreditGains7MonthsHistoFail = this.getDataSeriesForDiffHistograms(this.DSCreditGains7MonthsNormCumulFail);
@@ -80,6 +89,16 @@ var dataSeriesUtils = {
         this.largestCategoryOfCreditGains7MonthsNormCumulAll = this.findLargestCategoryOfDataSeries([this.DSCreditGains7MonthsNormCumulAll]);
         this.largestCategoryOfCreditGains13MonthsNormCumulAll = this.findLargestCategoryOfDataSeries([this.DSCreditGains13MonthsNormCumulAll]);
         this.largestCategoryOfCreditGains19MonthsNormCumulAll = this.findLargestCategoryOfDataSeries([this.DSCreditGains19MonthsNormCumulAll]);
+        
+        this.largestCategoryOfCreditGains7MonthsReverNormPass = this.findLargestCategoryOfDataSeries([this.DSCreditGains7MonthsNormCumulReverPass]);
+        this.largestCategoryOfCreditGains13MonthsReverNormPass = this.findLargestCategoryOfDataSeries([this.DSCreditGains13MonthsNormCumulReverPass]);
+        this.largestCategoryOfCreditGains19MonthsReverNormPass = this.findLargestCategoryOfDataSeries([this.DSCreditGains19MonthsNormCumulReverPass]);
+        this.largestCategoryOfCreditGains7MonthsReverNormFail = this.findLargestCategoryOfDataSeries([this.DSCreditGains7MonthsNormCumulReverFail]);
+        this.largestCategoryOfCreditGains13MonthsReverNormFail = this.findLargestCategoryOfDataSeries([this.DSCreditGains13MonthsNormCumulReverFail]);
+        this.largestCategoryOfCreditGains19MonthsReverNormFail = this.findLargestCategoryOfDataSeries([this.DSCreditGains19MonthsNormCumulReverFail]);
+        this.largestCategoryOfCreditGains7MonthsReverNormAll = this.findLargestCategoryOfDataSeries([this.DSCreditGains7MonthsNormCumulReverAll]);
+        this.largestCategoryOfCreditGains13MonthsReverNormAll = this.findLargestCategoryOfDataSeries([this.DSCreditGains13MonthsNormCumulReverAll]);
+        this.largestCategoryOfCreditGains19MonthsReverNormAll = this.findLargestCategoryOfDataSeries([this.DSCreditGains19MonthsNormCumulReverAll]);
         
     //        this.getDataSeriesForDiffHistograms(this.DSCreditGains7MonthsNormCumulPass);
     },
@@ -144,6 +163,38 @@ var dataSeriesUtils = {
             }
             else{
                 alert("error getCumulativeDataSeries");
+            }
+        }
+        return dataSeries;
+    },
+    getCumulativeReverseDataSeries : function (months,group){
+        var dataSeries = [];
+        var amountYears = this.response.models.length;
+        var ddata;
+        for(var i = 0; i < amountYears; i++){
+            if(months == 7){
+                ddata = this.response.models[i].get("courseStatsObjs")[group].creditGainsSevenMonthsNormCumulReverArr;
+                dataSeries.push({
+                    data : ddata,
+                    label : this.response.models[i].get("dateOfAccomplishment")
+                })
+            }
+            else if(months == 13){
+                ddata = this.response.models[i].get("courseStatsObjs")[group].creditGainsThirteenMonthsNormCumulReverArr;
+                dataSeries.push({
+                    data : ddata,
+                    label : this.response.models[i].get("dateOfAccomplishment")
+                })
+            }
+            else if(months == 19){
+                ddata = this.response.models[i].get("courseStatsObjs")[group].creditGainsNineteenMonthsNormCumulReverArr;
+                dataSeries.push({
+                    data : ddata,
+                    label : this.response.models[i].get("dateOfAccomplishment")
+                })
+            }
+            else{
+                alert("error getCumulativeReverseDataSeries");
             }
         }
         return dataSeries;
@@ -235,16 +286,11 @@ var dataSeriesUtils = {
         return sum;
     },
     studentsOnGroupCumulative : function (cumulativeArray) {
-        return cumulativeArray[cumulativeArray.length-1][1];
+        return Math.max(cumulativeArray[cumulativeArray.length-1][1], cumulativeArray[0][1]);
     },
 
     normalizeDataSeries : function (dataSeries) {
-        console.log("orggis");
-        console.log(JSON.stringify(dataSeries[0]));
-//        var normalizedDataSeries = dataSeries;
-        var normalizedDataSeries = JSON.parse(JSON.stringify(dataSeries));
-
-        
+        var normalizedDataSeries = JSON.parse(JSON.stringify(dataSeries)); 
         var largestAmountOfStudents = this.findLargestAmountOfStudents(normalizedDataSeries);
         for(var i = 0; i < normalizedDataSeries.length; i++){
             var factor = largestAmountOfStudents/this.studentsOnGroup(normalizedDataSeries[i].data);
@@ -253,10 +299,6 @@ var dataSeriesUtils = {
                 normalizedDataSeries[i].data[j][1] = Math.round(normalizedDataSeries[i].data[j][1]*factor);
             }
         }
-        console.log("orggis normeerauksen jälkeen");
-        console.log(JSON.stringify(dataSeries[0]));
-        console.log("normeerattu");
-        console.log(JSON.stringify(normalizedDataSeries[0]));
         return normalizedDataSeries;
     },
     
@@ -284,7 +326,23 @@ var dataSeriesUtils = {
         }
         normalizedDataSeries = this.addAverageDataSeries(normalizedDataSeries);
         return normalizedDataSeries;
-    }, 
+    },
+    
+    normalizePercentageCumulativeDataSeries : function(dataSeries) {
+        var normalizedDataSeries = dataSeries;
+        //        console.log(JSON.stringify(normalizedDataSeries[0]));
+        for(var i = 0; i < normalizedDataSeries.length; i++){
+            var amountOfStudents = this.studentsOnGroupCumulative(normalizedDataSeries[i].data);
+            var differenceInLength = this.longestArray(normalizedDataSeries)-normalizedDataSeries[i].data.length;
+            for(var j = 0; j < normalizedDataSeries[i].data.length; j++){
+                normalizedDataSeries[i].data[j][1] = Math.round(normalizedDataSeries[i].data[j][1]/amountOfStudents*100);
+            }  
+            normalizedDataSeries[i].data = this.addLastPairsToCumulativeSeries(normalizedDataSeries[i].data, differenceInLength);
+        }
+        //        console.log(JSON.stringify(normalizedDataSeries[0]));
+        normalizedDataSeries = this.addAverageDataSeries(normalizedDataSeries);
+        return normalizedDataSeries;
+    },
     
     addLastPairsToCumulativeSeries : function(dataSeries,amountPairs) {
         for(var i = 0; i < amountPairs ; i++){

@@ -1,5 +1,8 @@
 package tktl.gstudies.responseobjs;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -42,6 +45,9 @@ public class CourseStats {
     private int[][] creditGainsSevenMonthsNormCumulArr;
     private int[][] creditGainsThirteenMonthsNormCumulArr;
     private int[][] creditGainsNineteenMonthsNormCumulArr;
+    private int[][] creditGainsSevenMonthsNormCumulReverArr;
+    private int[][] creditGainsThirteenMonthsNormCumulReverArr;
+    private int[][] creditGainsNineteenMonthsNormCumulReverArr;
 
     private int findLargestCategory(int[][] categorizedArray) {
         return categorizedArray[categorizedArray.length - 1][0];
@@ -124,6 +130,28 @@ public class CourseStats {
         this.creditGainsSevenMonthsNormCumulArr = this.getCumulativeList(creditGainsSevenMonthsArr);
         this.creditGainsThirteenMonthsNormCumulArr = this.getCumulativeList(creditGainsThirteenMonthsArr);
         this.creditGainsNineteenMonthsNormCumulArr = this.getCumulativeList(creditGainsNineteenMonthsArr);
+        this.creditGainsSevenMonthsNormCumulReverArr = this.reversevalues(creditGainsSevenMonthsNormCumulArr);
+        this.creditGainsThirteenMonthsNormCumulReverArr = this.reversevalues(creditGainsThirteenMonthsNormCumulArr);
+        this.creditGainsNineteenMonthsNormCumulReverArr = this.reversevalues(creditGainsNineteenMonthsNormCumulArr);
+
+        //Collections.reverse(Arrays.asList(this.creditGainsSevenMonthsNormCumulReverArr));
+    }
+
+    private int[][] deepCopyArray(int[][] orig) {
+        int[][] toReturn = new int[orig.length][2];
+        for (int i = 0; i < orig.length; i++) {
+            toReturn[i][0] = new Integer(orig[i][0]).intValue();
+            toReturn[i][1] = new Integer(orig[i][1]).intValue();
+        }
+        return toReturn;
+    }
+
+    private int[][] reversevalues(int[][] originalArray) {
+        int[][] toReturn = this.deepCopyArray(originalArray);
+        for (int i = 0; i < toReturn.length; i++) {
+            toReturn[i][1] = toReturn[toReturn.length - 1][1] - toReturn[i][1];
+        }
+        return toReturn;
     }
 
     private int[][] getCumulativeList(int[][] list) {
@@ -263,6 +291,30 @@ public class CourseStats {
         } else {
             return "pröööttt";
         }
+    }
+
+    public int[][] getCreditGainsSevenMonthsNormCumulReverArr() {
+        return creditGainsSevenMonthsNormCumulReverArr;
+    }
+
+    public void setCreditGainsSevenMonthsNormCumulReverArr(int[][] creditGainsSevenMonthsNormCumulReverArr) {
+        this.creditGainsSevenMonthsNormCumulReverArr = creditGainsSevenMonthsNormCumulReverArr;
+    }
+
+    public int[][] getCreditGainsThirteenMonthsNormCumulReverArr() {
+        return creditGainsThirteenMonthsNormCumulReverArr;
+    }
+
+    public void setCreditGainsThirteenMonthsNormCumulReverArr(int[][] creditGainsThirteenMonthsNormCumulReverArr) {
+        this.creditGainsThirteenMonthsNormCumulReverArr = creditGainsThirteenMonthsNormCumulReverArr;
+    }
+
+    public int[][] getCreditGainsNineteenMonthsNormCumulReverArr() {
+        return creditGainsNineteenMonthsNormCumulReverArr;
+    }
+
+    public void setCreditGainsNineteenMonthsNormCumulReverArr(int[][] creditGainsNineteenMonthsNormCumulReverArr) {
+        this.creditGainsNineteenMonthsNormCumulReverArr = creditGainsNineteenMonthsNormCumulReverArr;
     }
 
     public int[][] getCreditGainsSevenMonthsNormCumulArr() {

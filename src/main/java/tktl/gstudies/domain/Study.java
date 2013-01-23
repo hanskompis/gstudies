@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -34,7 +35,7 @@ public class Study extends AbstractModel implements Comparable {
     @JoinColumn
     private Stud student;
     private Integer studyNumber;
-    @ManyToMany
+    @ManyToMany(fetch=FetchType.EAGER)
     private List<CourseObject> courseObjects;
     @ManyToOne
     @JoinColumn

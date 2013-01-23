@@ -63,7 +63,7 @@
                 </tr>
             </table>
             <table id="courseGradesTable" class="table table-bordered table-nonfluid">
-                <caption>Arvosanat</caption>
+                <caption>Arvosanajakauma kurssilla</caption>
                 <tr>
                     <td></td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td>
                 </tr>
@@ -71,6 +71,15 @@
         </table>
         <table id="creditGainsTable" class="table table-bordered table-nonfluid">
             <caption>Opintopistesaannot</caption>
+            <tr>
+                <td></td><td colspan="3">läpäisseet</td><td colspan="3">hylätyt</td><td colspan="3">yhdistetty</td>
+            </tr>
+            <tr>
+                <td></td><td>7kk</td><td>13kk</td><td>19kk</td><td>7kk</td><td>13kk</td><td>19kk</td><td>7kk</td><td>13kk</td><td>19kk</td>
+            </tr>
+        </table>
+        <table id="gradesTable" class="table table-bordered table-nonfluid">
+            <caption>Arvosanat</caption>
             <tr>
                 <td></td><td colspan="3">läpäisseet</td><td colspan="3">hylätyt</td><td colspan="3">yhdistetty</td>
             </tr>
@@ -97,6 +106,9 @@
             <a class="btn btn-primary btn-small" id="credits7CumulGraphButton">Credits 7 cumul &raquo;</a>
             <a class="btn btn-primary btn-small" id="credits13CumulGraphButton">Credits 13 cumul &raquo;</a>
             <a class="btn btn-primary btn-small" id="credits19CumulGraphButton">Credits 19 cumul &raquo;</a><br/><br/>
+            <a class="btn btn-primary btn-small" id="credits7CumulReverGraphButton">Credits 7 cumul rever&raquo;</a>
+            <a class="btn btn-primary btn-small" id="credits13CumulReverGraphButton">Credits 13 cumul rever &raquo;</a>
+            <a class="btn btn-primary btn-small" id="credits19CumulReverGraphButton">Credits 19 cumul rever&raquo;</a>
             <a class="btn btn-primary btn-small" id="credits7HistoGraphButton">Credits 7 histo &raquo;</a>
             <a class="btn btn-primary btn-small" id="credits13HistoGraphButton">Credits 13 histo &raquo;</a>
             <a class="btn btn-primary btn-small" id="credits19HistoGraphButton">Credits 19 histo &raquo;</a>
@@ -123,6 +135,15 @@
         <td>{{allCredits7}}</td><td>{{allCredits13}}</td><td>{{allCredits19}}</td>
     </tr>
 </script>
+
+<script type="text/template" id="gradesRowTemplate">
+    <tr>
+        <td>{{dateOfAccomplishment}}</td><td>{{passedGrade7}}</td><td>{{passedGrade13}}</td><td>{{passedGrade19}}</td>
+        <td>{{failedGrade7}}</td><td>{{failedGrade13}}</td><td>{{failedGrade19}}</td>
+        <td>{{allGrade7}}</td><td>{{allGrade13}}</td><td>{{allGrade19}}</td>
+    </tr>
+</script>
+
 
 <script type="text/template" id="gradesSDRowTemplate">
     <tr>
@@ -228,6 +249,39 @@
         <div id="placeholderForCreditGains19MonthsFailedCumul" style="width: 750px; height: 450px;"></div>
         <h3>Credit Gains 19 months, normalized, cumulative, all</h3>
         <div id="placeholderForCreditGains19MonthsAllCumul" style="width: 750px; height: 450px;"></div>
+    </div>
+</script>
+
+<script type="text/template" id="credits7cumulReverTemplate">
+    <div class="well">
+        <h3>Credit Gains 7 months, normalized, cumulative, reversed, passed</h3>
+        <div id="placeholderForCreditGains7MonthsPassedCumulRever" style="width: 750px; height: 450px;"></div>
+        <h3>Credit Gains 7 months, normalized, cumulative, reversed, failed</h3>
+        <div id="placeholderForCreditGains7MonthsFailedCumulRever" style="width: 750px; height: 450px;"></div>
+        <h3>Credit Gains 7 months, normalized, cumulative, reversed, all</h3>
+        <div id="placeholderForCreditGains7MonthsAllCumulRever" style="width: 750px; height: 450px;"></div>
+    </div>
+</script>
+
+<script type="text/template" id="credits13cumulReverTemplate">
+    <div class="well">
+        <h3>Credit Gains 13 months, normalized, cumulative, reversed, passed</h3>
+        <div id="placeholderForCreditGains13MonthsPassedCumulRever" style="width: 750px; height: 450px;"></div>
+        <h3>Credit Gains 13 months, normalized, cumulative, reversed, failed</h3>
+        <div id="placeholderForCreditGains13MonthsFailedCumulRever" style="width: 750px; height: 450px;"></div>
+        <h3>Credit Gains 13 months, normalized, cumulative, reversed, all</h3>
+        <div id="placeholderForCreditGains13MonthsAllCumulRever" style="width: 750px; height: 450px;"></div>
+    </div>
+</script>
+
+<script type="text/template" id="credits19cumulReverTemplate">
+    <div class="well">
+        <h3>Credit Gains 19 months, normalized, cumulative, reversed, passed</h3>
+        <div id="placeholderForCreditGains19MonthsPassedCumulRever" style="width: 750px; height: 450px;"></div>
+        <h3>Credit Gains 19 months, normalized, cumulative, reversed, failed</h3>
+        <div id="placeholderForCreditGains19MonthsFailedCumulRever" style="width: 750px; height: 450px;"></div>
+        <h3>Credit Gains 19 months, normalized, cumulative, reversed, all</h3>
+        <div id="placeholderForCreditGains19MonthsAllCumulRever" style="width: 750px; height: 450px;"></div>
     </div>
 </script>
 
