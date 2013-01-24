@@ -27,6 +27,9 @@ public class CourseStats {
     private int amountCreditsSevenMonths;
     private int amountCreditsThirteenMonths;
     private int amountCreditsNineteenMonths;
+    private int amountZeroAchieversSevenMonths;
+    private int amountZeroAchieversThirteenMonths;
+    private int amountZeroAchieversNineteenMonths;
     private double averageCreditsSevenMonths;
     private double averageCreditsThirteenMonths;
     private double averageCreditsNineteenMonths;
@@ -133,8 +136,6 @@ public class CourseStats {
         this.creditGainsSevenMonthsNormCumulReverArr = this.reversevalues(creditGainsSevenMonthsNormCumulArr);
         this.creditGainsThirteenMonthsNormCumulReverArr = this.reversevalues(creditGainsThirteenMonthsNormCumulArr);
         this.creditGainsNineteenMonthsNormCumulReverArr = this.reversevalues(creditGainsNineteenMonthsNormCumulArr);
-
-        //Collections.reverse(Arrays.asList(this.creditGainsSevenMonthsNormCumulReverArr));
     }
 
     private int[][] deepCopyArray(int[][] orig) {
@@ -271,6 +272,12 @@ public class CourseStats {
         return toReturn;
     }
 
+    public void setZeroAchievers() {
+        this.amountZeroAchieversSevenMonths = this.creditGainsSevenMonthsArr[0][1];
+        this.amountZeroAchieversThirteenMonths = this.creditGainsThirteenMonthsArr[0][1];
+        this.amountZeroAchieversNineteenMonths = this.creditGainsNineteenMonthsArr[0][1];
+    }
+
     @Override
     public String toString() {
         if (this.amountStudents != 0) {
@@ -291,6 +298,30 @@ public class CourseStats {
         } else {
             return "pröööttt";
         }
+    }
+
+    public int getAmountZeroAchieversSevenMonths() {
+        return amountZeroAchieversSevenMonths;
+    }
+
+    public void setAmountZeroAchieversSevenMonths(int amountZeroAchieversSevenMonths) {
+        this.amountZeroAchieversSevenMonths = amountZeroAchieversSevenMonths;
+    }
+
+    public int getAmountZeroAchieversThirteenMonths() {
+        return amountZeroAchieversThirteenMonths;
+    }
+
+    public void setAmountZeroAchieversThirteenMonths(int amountZeroAchieversThirteenMonths) {
+        this.amountZeroAchieversThirteenMonths = amountZeroAchieversThirteenMonths;
+    }
+
+    public int getAmountZeroAchieversNineteenMonths() {
+        return amountZeroAchieversNineteenMonths;
+    }
+
+    public void setAmountZeroAchieversNineteenMonths(int amountZeroAchieversNineteenMonths) {
+        this.amountZeroAchieversNineteenMonths = amountZeroAchieversNineteenMonths;
     }
 
     public int[][] getCreditGainsSevenMonthsNormCumulReverArr() {

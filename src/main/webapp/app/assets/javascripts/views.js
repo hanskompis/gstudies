@@ -93,8 +93,8 @@ App.Views.courseStatsView = Backbone.View.extend({
             this.renderRowsToCreditsGainTable(this.response);
             this.renderRowsToGradeSDTable(this.response);
             this.renderRowsToGradeTable(this.response);
+            this.renderRowsToZeroAchieverTable(this.response);
         }
-
     }, 
     
     events : {
@@ -218,7 +218,7 @@ App.Views.courseStatsView = Backbone.View.extend({
         $.plot($("#placeholderForCreditGains19MonthsFailedCumulRever"),dataSeriesUtils.DSCreditGains19MonthsNormCumulReverFail,this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains19MonthsReverNormFail, 100));
         $.plot($("#placeholderForCreditGains19MonthsAllCumulRever"),dataSeriesUtils.DSCreditGains19MonthsNormCumulReverAll,this.getOptions(dataSeriesUtils.largestCategoryOfCreditGains19MonthsReverNormAll, 100));
    
- },
+    },
     
     credits7HistoGraphAction: function (){
         $("#graphsContainer").empty();
@@ -368,5 +368,35 @@ App.Views.courseStatsView = Backbone.View.extend({
             });
             $("#gradesSDTable").append(rowContent);
         }
-    } 
+    },
+    
+    renderRowsToZeroAchieverTable : function(response) {
+        var amountYears = response.models.length;
+        for(var i = 0; i < amountYears; i++){
+            var rowContent = Mustache.to_html($("#zeroGradeRowTemplate").html(),{
+                dateOfAccomplishment : response.models[i].get("dateOfAccomplishment"),
+                passedZero7 : response.models[i].get("courseStatsObjs")[0].amountZeroAchieversSevenMonths,
+                passedZero7perse : (response.models[i].get("courseStatsObjs")[0].amountZeroAchieversSevenMonths/response.models[i].get("courseStatsObjs")[0].amountStudents*100).toFixed(1)+"%",
+                passedZero13 : response.models[i].get("courseStatsObjs")[0].amountZeroAchieversThirteenMonths,
+                passedZero13perse : (response.models[i].get("courseStatsObjs")[0].amountZeroAchieversThirteenMonths/response.models[i].get("courseStatsObjs")[0].amountStudents*100).toFixed(1)+"%",
+                passedZero19 : response.models[i].get("courseStatsObjs")[0].amountZeroAchieversNineteenMonths,
+                passedZero19perse : (response.models[i].get("courseStatsObjs")[0].amountZeroAchieversNineteenMonths/response.models[i].get("courseStatsObjs")[0].amountStudents*100).toFixed(1)+"%",
+                failedZero7 : response.models[i].get("courseStatsObjs")[1].amountZeroAchieversSevenMonths,
+                failedZero7perse : (response.models[i].get("courseStatsObjs")[1].amountZeroAchieversSevenMonths/response.models[i].get("courseStatsObjs")[1].amountStudents*100).toFixed(1)+"%",
+                failedZero13 : response.models[i].get("courseStatsObjs")[1].amountZeroAchieversThirteenMonths,
+                failedZero13perse : (response.models[i].get("courseStatsObjs")[1].amountZeroAchieversThirteenMonths/response.models[i].get("courseStatsObjs")[1].amountStudents*100).toFixed(1)+"%",
+                failedZero19 : response.models[i].get("courseStatsObjs")[1].amountZeroAchieversNineteenMonths,
+                passedZero19perse : (response.models[i].get("courseStatsObjs")[1].amountZeroAchieversNineteenMonths/response.models[i].get("courseStatsObjs")[1].amountStudents*100).toFixed(1)+"%",
+                allZero7 : response.models[i].get("courseStatsObjs")[2].amountZeroAchieversSevenMonths,
+                allZero7perse : (response.models[i].get("courseStatsObjs")[2].amountZeroAchieversSevenMonths/response.models[i].get("courseStatsObjs")[2].amountStudents*100).toFixed(1)+"%",
+                allZero13 : response.models[i].get("courseStatsObjs")[2].amountZeroAchieversThirteenMonths,
+                allZero13perse : (response.models[i].get("courseStatsObjs")[2].amountZeroAchieversThirteenMonths/response.models[i].get("courseStatsObjs")[2].amountStudents*100).toFixed(1)+"%",
+                allZero19 : response.models[i].get("courseStatsObjs")[2].amountZeroAchieversNineteenMonths,
+                allZero19perse : (response.models[i].get("courseStatsObjs")[2].amountZeroAchieversNineteenMonths/response.models[i].get("courseStatsObjs")[2].amountStudents*100).toFixed(1)+"%"
+
+            });
+            $("#zeroAchieverTable").append(rowContent);
+        }
+        console.log(response.models[0].get("courseStatsObjs")[0].amountZeroAchieversSevenMonths/response.models[0].get("courseStatsObjs")[0].amountStudents)
+    }
 });

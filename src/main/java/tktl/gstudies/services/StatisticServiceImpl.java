@@ -266,6 +266,7 @@ public class StatisticServiceImpl implements StatisticService {
         this.setStandardDeviations(courseStats, dateString, students);
         courseStats.calculateCreditAverages();
         courseStats.makeCumulativeLists();
+        courseStats.setZeroAchievers();
         return courseStats;
     }
 
@@ -319,7 +320,7 @@ public class StatisticServiceImpl implements StatisticService {
         statsResponseObj.countPercentages();
         List<Stud> studs = this.getCSStudentsFromCourseWhoPassedOnDate(courseId, dateString);
         statsResponseObj.setCSCourseGrades(this.getGradeDistribution(studs, courseId, dateString));
-       // System.out.println(statsResponseObj);
+
         return statsResponseObj;
     }
     
