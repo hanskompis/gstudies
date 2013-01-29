@@ -53,6 +53,21 @@ public class Stud extends AbstractModel {
     Date dateOfBirth;
     Date dateOfEnrollment;
 
+    public Stud() {
+    }
+
+    public Stud(Integer studentId, String gender, Date dateOfBirth, Date dateOfEnrollment) {
+        this.studentId = studentId;
+        this.gender = gender;
+        this.dateOfBirth = dateOfBirth;
+        this.dateOfEnrollment = dateOfEnrollment;
+    }
+    
+    @Override
+    public String toString(){
+        return this.studentId+" "+this.gender+" "+this.dateOfBirth+" "+this.dateOfEnrollment+" "+this.rightsToStudy.get(0).getMainSubject();
+    }
+
     public List<AcademicYearEnrollment> getEnrollments() {
         return enrollments;
     }
@@ -130,8 +145,4 @@ public class Stud extends AbstractModel {
         this.studies.add(s);
     }
 
-    @Override
-    public String toString() {
-        return this.studentId.toString();
-    }
 }

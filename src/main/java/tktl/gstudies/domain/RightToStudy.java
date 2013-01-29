@@ -18,6 +18,20 @@ public class RightToStudy extends AbstractModel{
     private Date startingDate;
     private String mainSubject;
 
+    public RightToStudy() {
+    }
+
+    public RightToStudy(Stud student, Date startingDate, String mainSubject) {
+        this.student = student;
+        this.startingDate = startingDate;
+        this.mainSubject = mainSubject;
+    }
+    
+    @Override
+    public String toString() {
+        return this.student.studentId+" "+this.startingDate+" "+this.mainSubject;
+    }
+
     public Stud getStudent() {
         return student;
     }

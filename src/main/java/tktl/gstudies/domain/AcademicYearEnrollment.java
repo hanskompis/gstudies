@@ -20,6 +20,16 @@ public class AcademicYearEnrollment extends AbstractModel {
     private Date endDate;
     private String type;
 
+    public AcademicYearEnrollment() {
+    }
+
+    public AcademicYearEnrollment(Stud student, Date startDate, Date endDate, String type) {
+        this.student = student;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.type = type;
+    }
+
     public Stud getStudent() {
         return student;
     }

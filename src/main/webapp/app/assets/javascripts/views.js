@@ -247,19 +247,19 @@ App.Views.courseStatsView = Backbone.View.extend({
         dataSeriesUtils.response = this.response;
         dataSeriesUtils.setDataSeries();
         this.render();
-    //        this.render(courseResponse);
-    //        kommentti veke, kun rendaus valmis
-    //                        var self = this;
-    //                        course.save({},{
-    //                            success : function (model,response){
-    //                                var courseResponse = new Backbone.Collection(response);
-    //                                self.response = courseResponse;
-    //                                //        console.log(self.response);
-    //                                dataSeriesUtils.response = courseResponse;
-    //                                dataSeriesUtils.setDataSeries();
-    //                                self.render();  
-    //                            }
-    //                        })
+
+          //  kommentti veke, kun rendaus valmis
+//                            var self = this;
+//                            course.save({},{
+//                                success : function (model,response){
+//                                    var courseResponse = new Backbone.Collection(response);
+//                                    self.response = courseResponse;
+//                                    //        console.log(self.response);
+//                                    dataSeriesUtils.response = courseResponse;
+//                                    dataSeriesUtils.setDataSeries();
+//                                    self.render();  
+//                                }
+//                            })
     },
       
     getOptions : function(xmax, ymax) {

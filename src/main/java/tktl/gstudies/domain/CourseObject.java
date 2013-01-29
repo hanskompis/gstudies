@@ -20,6 +20,17 @@ public class CourseObject extends AbstractModel{
     private String name;
     private String type;
     private String kind;
+
+    public CourseObject() {
+    }
+
+    public CourseObject(Integer objectId, String courseId, String name, String type, String kind) {
+        this.objectId = objectId;
+        this.courseId = courseId;
+        this.name = name;
+        this.type = type;
+        this.kind = kind;
+    }
     
     public Integer getObjectId() {
         return objectId;
