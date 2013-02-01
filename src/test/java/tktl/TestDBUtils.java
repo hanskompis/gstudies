@@ -14,18 +14,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tktl.gstudies.domain.AcademicYearEnrollment;
 import tktl.gstudies.domain.CourseObject;
+import tktl.gstudies.domain.Grade;
 import tktl.gstudies.domain.RightToStudy;
 import tktl.gstudies.domain.StatusOfStudy;
 import tktl.gstudies.domain.Stud;
+import tktl.gstudies.domain.Study;
+import tktl.gstudies.domain.Teacher;
 import tktl.gstudies.domain.TypeOfStudy;
 import tktl.gstudies.repositories.JDBCRepository;
 import tktl.gstudies.repositories.StudRepository;
 import tktl.gstudies.repositories.StudyRepository;
 import tktl.gstudies.services.AcademicYearEnrollmentService;
 import tktl.gstudies.services.CourseObjectService;
+import tktl.gstudies.services.GradeService;
 import tktl.gstudies.services.RightToStudyService;
 import tktl.gstudies.services.StatusOfStudyService;
 import tktl.gstudies.services.StudentService;
+import tktl.gstudies.services.StudyService;
+import tktl.gstudies.services.TeacherService;
 import tktl.gstudies.services.TypeOfStudyService;
 
 @Service
@@ -45,6 +51,12 @@ public class TestDBUtils {
     private TypeOfStudyService typeOfStudyService;
     @Autowired
     private CourseObjectService courseObjectService;
+    @Autowired
+    private StudyService studyService;
+    @Autowired
+    private TeacherService teacherService;
+    @Autowired
+    private GradeService gradeService;
 
     public TestDBUtils() {
     }
@@ -99,8 +111,8 @@ public class TestDBUtils {
         this.saveCourseObject(1, "1", "Satanismin perusteet", "Perusopinnot", "Opintojakso");
         this.saveCourseObject(2, "2", "Seminaari : Okkulttinen hitlerismi", "Syventävät opinnot", "Opintojakso");
         this.saveCourseObject(3, "3", "Räjähteet ja niiden valmistus", "Aineopinnot", "Opintojakso");
-        this.saveCourseObject(4, "4", "Estetiikka I", "Perusopinnot", "Opintojakso");
-        this.saveCourseObject(5, "5", "Rauha ja rakkaus -workshop", "Aineopinnot", "Opintojakso");
+        this.saveCourseObject(4, "4", "Misantropian perusteet ja filosofinen oikeutus", "Perusopinnot", "Opintojakso");
+        this.saveCourseObject(5, "5", "Rituaalinen sodomia", "Aineopinnot", "Opintojakso");
     }
 
     public void insertAcademicYearEnrollments() {
@@ -186,6 +198,78 @@ public class TestDBUtils {
         this.saveAcademicYearEnrollment(5, Date.valueOf("2012-01-01"), Date.valueOf("2012-07-31"), "Läsnäoleva");
         this.saveAcademicYearEnrollment(5, Date.valueOf("2012-08-01"), Date.valueOf("2012-12-31"), "Läsnäoleva");
 
+    }
+
+    public void insertStudies() {
+        this.saveStudy(1, 1, 1, 4, 1, 4, Date.valueOf("2006-10-15"));
+        this.saveStudy(2, 2, 1, 4, 1, 4, Date.valueOf("2006-10-15"));
+        this.saveStudy(3, 3, 1, 4, 1, 4, Date.valueOf("2006-10-15"));
+        this.saveStudy(4, 4, 1, 10, 1, 4, Date.valueOf("2006-10-15"));
+        this.saveStudy(5, 5, 1, 4, 1, 4, Date.valueOf("2006-10-15"));
+        this.saveStudy(2, 6, 2, 4, 1, 4, Date.valueOf("2007-03-18"));
+        this.saveStudy(3, 7, 2, 10, 1, 4, Date.valueOf("2007-03-18"));
+        this.saveStudy(4, 8, 2, 10, 1, 4, Date.valueOf("2007-03-18"));
+        this.saveStudy(5, 9, 2, 4, 1, 4, Date.valueOf("2007-03-18"));
+        this.saveStudy(1, 10, 3, 10, 1, 5, Date.valueOf("2007-06-01"));
+        this.saveStudy(2, 11, 3, 4, 1, 5, Date.valueOf("2007-06-01"));
+        this.saveStudy(3, 12, 3, 4, 1, 5, Date.valueOf("2007-06-01"));
+        this.saveStudy(4, 13, 3, 10, 1, 5, Date.valueOf("2007-06-01"));
+        this.saveStudy(1, 14, 4, 4, 1, 3, Date.valueOf("2007-10-25"));
+        this.saveStudy(2, 15, 4, 4, 1, 3, Date.valueOf("2007-10-25"));
+        this.saveStudy(3, 16, 4, 10, 1, 3, Date.valueOf("2007-10-25"));
+        this.saveStudy(4, 17, 4, 4, 1, 3, Date.valueOf("2007-10-25"));
+        this.saveStudy(2, 18, 5, 4, 1, 4, Date.valueOf("2008-02-01"));
+        this.saveStudy(3, 19, 5, 4, 1, 4, Date.valueOf("2008-02-01"));
+        this.saveStudy(4, 20, 5, 10, 1, 4, Date.valueOf("2008-02-01"));
+        this.saveStudy(5, 21, 5, 4, 1, 4, Date.valueOf("2008-02-01"));
+    }
+
+    public void insertTeachers() {
+        this.saveTeacher("Möd knuller", 1);
+        this.saveTeacher("Möd knuller", 2);
+        this.saveTeacher("Ylva hubatsa", 3);
+        this.saveTeacher("Arto Brunkkari", 4);
+        this.saveTeacher("Vittu-Stina Kulaus-Richter", 5);
+    }
+
+    public void insertGrades() {
+        this.saveGrade(1, "3", "Yleinen asteikko");
+        this.saveGrade(2, "4", "Yleinen asteikko");
+        this.saveGrade(3, "2", "Yleinen asteikko");
+        this.saveGrade(4, "Hyl.", "Yleinen asteikko");
+        this.saveGrade(5, "5", "Yleinen asteikko");
+        this.saveGrade(6, "1", "Yleinen asteikko");
+        this.saveGrade(7, "Hyl.", "Yleinen asteikko");
+        this.saveGrade(8, "Hyl.", "Yleinen asteikko");
+        this.saveGrade(9, "3", "Yleinen asteikko");
+        this.saveGrade(10, "Hyl.", "Yleinen asteikko");
+        this.saveGrade(11, "4", "Yleinen asteikko");
+        this.saveGrade(12, "2", "Yleinen asteikko");
+        this.saveGrade(13, "Hyl.", "Yleinen asteikko");
+        this.saveGrade(14, "2", "Yleinen asteikko");
+        this.saveGrade(15, "5", "Yleinen asteikko");
+        this.saveGrade(16, "Hyl,", "Yleinen asteikko");
+        this.saveGrade(17, "5", "Yleinen asteikko");
+        this.saveGrade(18, "3", "Yleinen asteikko");
+        this.saveGrade(19, "1", "Yleinen asteikko");
+        this.saveGrade(20, "Hyl.", "Yleinen asteikko");
+        this.saveGrade(21, "5", "Yleinen asteikko");
+    }
+
+    private void saveGrade(int studyNumber, String grade, String description) {
+        Grade toAdd = this.gradeService.save(new Grade(grade, description));
+        this.gradeService.save(toAdd, studyNumber);
+    }
+
+    private void saveTeacher(String nimi, int studynumber) {
+        Teacher toAdd = this.teacherService.save(new Teacher(nimi));
+        this.teacherService.save(toAdd, studynumber);
+    }
+
+    private void saveStudy(int studentId, int studyNumber, int courseObjectId, int statusOfStudyCode, int typeOfStudyCode, double credits, Date dateOfAccomplishment) {
+        Study toAdd = new Study(studyNumber, credits, dateOfAccomplishment);
+        toAdd = studyService.save(toAdd);
+        this.studyService.save(toAdd, studentId, courseObjectId, statusOfStudyCode, typeOfStudyCode);
     }
 
     private void saveStud(int studentId, String gender, Date dateOfBirth, Date dateOfEnrollment) {

@@ -14,6 +14,13 @@ public class Teacher extends AbstractModel {
     private Study study;
     private String name;
 
+    public Teacher(String name) {
+        this.name = name;
+    }
+
+    public Teacher() {
+    }
+
     public String getName() {
         return name;
     }

@@ -30,7 +30,7 @@ public interface StatisticService {
     
 //    public double getAverageGradeNMonthsSpan(List<Study> studies, Date startDate, int timeSpan);
 //    
-//    public double getGroupAverageGradeNMonthsSpan(List<Stud> studs, Date startDate, int timeSpan);
+    public double getGroupAverageGradeNMonthsSpan2(List<Stud> studs, Date startDate, int timeSpan);
     
     public double getStandardDeviationOfgrades(List<Stud> studs, Date startDate, int timeSpan);
     

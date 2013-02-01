@@ -16,6 +16,14 @@ public class Grade extends AbstractModel{
     private String grade;
     private String description;
 
+    public Grade() {
+    }
+
+    public Grade(String grade, String description) {
+        this.grade = grade;
+        this.description = description;
+    }
+
     public String getGrade() {
         return grade;
     }

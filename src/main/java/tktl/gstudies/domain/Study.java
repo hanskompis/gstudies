@@ -51,6 +51,15 @@ public class Study extends AbstractModel implements Comparable {
     private Date dateOfwrite;
     private Date dateOfAccomplishment;
 
+    public Study(Integer studyNumber, double credits, Date dateOfAccomplishment) {
+        this.studyNumber = studyNumber;
+        this.credits = credits;
+        this.dateOfAccomplishment = dateOfAccomplishment;
+    }
+
+    public Study() {
+    }
+
     public Date getDateOfAccomplishment() {
         return dateOfAccomplishment;
     }
