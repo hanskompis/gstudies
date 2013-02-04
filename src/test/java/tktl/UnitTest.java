@@ -245,12 +245,110 @@ public class UnitTest {
     @Test
     public void courseStatsHasCorrectCreditGainsSevenMonths() {
         HashMap testMap = new HashMap();
-        testMap.put(new Integer(0) , new Integer(2));
-        testMap.put(new Integer(4) , new Integer(2));
-//        System.out.println("debug");
-//        System.out.println(testMap);
-//        System.out.println(this.courseStats.getCreditGainsSevenMonths());
+        testMap.put(new Integer(0), new Integer(2));
+        testMap.put(new Integer(4), new Integer(2));
         assertTrue(this.testUtils.equalityOfHashMaps(testMap, this.courseStats.getCreditGainsSevenMonths()));
+    }
+
+    @Test
+    public void courseStatsHasCorrectCreditGainsThirteenMonths() {
+        HashMap testMap = new HashMap();
+        testMap.put(new Integer(3), new Integer(1));
+        testMap.put(new Integer(5), new Integer(1));
+        testMap.put(new Integer(4), new Integer(1));
+        testMap.put(new Integer(12), new Integer(1));
+
+        assertTrue(this.testUtils.equalityOfHashMaps(testMap, this.courseStats.getCreditGainsThirteenMonths()));
+    }
+
+    @Test
+    public void courseStatsHasCorrectCreditGainsNineteenMonths() {
+        HashMap testMap = new HashMap();
+        testMap.put(new Integer(3), new Integer(1));
+        testMap.put(new Integer(16), new Integer(1));
+        testMap.put(new Integer(9), new Integer(1));
+        testMap.put(new Integer(8), new Integer(1));
+
+        assertTrue(this.testUtils.equalityOfHashMaps(testMap, this.courseStats.getCreditGainsNineteenMonths()));
+    }
+
+    @Test
+    public void courseStatsHasCorrectCreditGainsSevenMonthsArr() {
+        int[][] test = {{0, 2}, {0, 0}, {0, 0}, {0, 0}, {4, 2}};
+
+//        testUtils.printArray(test);
+//        testUtils.printArray(this.courseStats.getCreditGainsSevenMonthsArr());
+        assertTrue(testUtils.equivalentArrays(test, this.courseStats.getCreditGainsSevenMonthsArr()));
+    }
+
+    @Test
+    public void courseStatsHasCorrectCreditGainsThirteenMonthsArr() {
+        int[][] test = {{0, 0}, {0, 0}, {0, 0}, {3, 1}, {4, 1}, {5, 1}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {12, 1}};
+        assertTrue(testUtils.equivalentArrays(test, this.courseStats.getCreditGainsThirteenMonthsArr()));
+    }
+
+    @Test
+    public void courseStatsHasCorrectCreditGainsNineteenMonthsArr() {
+        int[][] test = {{0, 0}, {0, 0}, {0, 0}, {3, 1}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {8, 1}, {9, 1}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {16, 1}};
+        testUtils.printArray(test);
+        testUtils.printArray(this.courseStats.getCreditGainsNineteenMonthsArr());
+        assertTrue(testUtils.equivalentArrays(test, this.courseStats.getCreditGainsNineteenMonthsArr()));
+    }
+
+    @Test
+    public void courseStatsHasCorrectCategorizedCreditGainsSevenMonthsArr() {
+        int[][] test = {{0, 4}};
+        //        testUtils.printArray(test);
+//        testUtils.printArray(this.courseStats.getCreditGainsSevenMonthsCategorizedArr());
+        assertTrue(testUtils.equivalentArrays(test, this.courseStats.getCreditGainsSevenMonthsCategorizedArr()));
+    }
+
+    @Test
+    public void courseStatsHasCorrectCategorizedCreditGainsThirteenMonthsArr() {
+        int[][] test = {{0, 3}, {10, 1}};
+        assertTrue(testUtils.equivalentArrays(test, this.courseStats.getCreditGainsThirteenMonthsCategorizedArr()));
+    }
+
+    @Test
+    public void courseStatsHasCorrectCategorizedCreditGainsNineteenMonthsArr() {
+        int[][] test = {{0, 3}, {10, 1}};
+        assertTrue(testUtils.equivalentArrays(test, this.courseStats.getCreditGainsNineteenMonthsCategorizedArr()));
+    }
+
+    @Test
+    public void courseStatsHasCorrectCreditGainsNormCumulSevenMonthsArr() {
+        int[][] test = {{0, 2}, {1, 2}, {2, 2}, {3, 2}, {4, 4}};
+        assertTrue(testUtils.equivalentArrays(test, this.courseStats.getCreditGainsSevenMonthsNormCumulArr()));
+    }
+
+    @Test
+    public void courseStatsHasCorrectCreditGainsNormCumulThirteenMonthsArr() {
+        int[][] test = {{0, 0}, {1, 0}, {2, 0}, {3, 1}, {4, 2}, {5, 3}, {6, 3}, {7, 3}, {8, 3}, {9, 3}, {10, 3}, {11, 3}, {12, 4}};
+        assertTrue(testUtils.equivalentArrays(test, this.courseStats.getCreditGainsThirteenMonthsNormCumulArr()));
+    }
+
+    @Test
+    public void courseStatsHasCorrectCreditGainsNormCumulNineteenMonthsArr() {
+        int[][] test = {{0, 0}, {1, 0}, {2, 0}, {3, 1}, {4, 1}, {5, 1}, {6, 1}, {7, 1}, {8, 2}, {9, 3}, {10, 3}, {11, 3}, {12, 3}, {13, 3}, {14, 3}, {15, 3}, {16, 4}};
+        assertTrue(testUtils.equivalentArrays(test, this.courseStats.getCreditGainsNineteenMonthsNormCumulArr()));
+    }
+
+    @Test
+    public void courseStatsHasCorrectCreditGainsNormCumulReverSevenMonthsArr() {
+        int[][] test = {{0, 2}, {1, 2}, {2, 2}, {3, 2}, {4, 0}};
+        assertTrue(testUtils.equivalentArrays(test, this.courseStats.getCreditGainsSevenMonthsNormCumulReverArr()));
+    }
+
+    @Test
+    public void courseStatsHasCorrectCreditGainsNormCumulReverThirteenMonthsArr() {
+        int[][] test = {{0, 4}, {1, 4}, {2, 4}, {3, 3}, {4, 2}, {5, 1}, {6, 1}, {7, 1}, {8, 1}, {9, 1}, {10, 1}, {11, 1}, {12, 0}};
+        assertTrue(testUtils.equivalentArrays(test, this.courseStats.getCreditGainsThirteenMonthsNormCumulReverArr()));
+    }
+
+    @Test
+    public void courseStatsHasCorrectCreditGainsNormCumulReverNineteenMonthsArr() {
+        int[][] test = {{0, 4}, {1, 4}, {2, 4}, {3, 3}, {4, 3}, {5, 3}, {6, 3}, {7, 3}, {8, 2}, {9, 1}, {10, 1}, {11, 1}, {12, 1}, {13, 1}, {14, 1}, {15, 1}, {16, 0}};
+        assertTrue(testUtils.equivalentArrays(test, this.courseStats.getCreditGainsNineteenMonthsNormCumulReverArr()));
     }
 
     @Test

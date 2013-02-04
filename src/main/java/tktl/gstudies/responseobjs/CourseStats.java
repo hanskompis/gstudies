@@ -36,9 +36,9 @@ public class CourseStats {
     private HashMap<Integer, Integer> creditGainsSevenMonths;
     private HashMap<Integer, Integer> creditGainsThirteenMonths;
     private HashMap<Integer, Integer> creditGainsNineteenMonths;
-    private HashMap<Integer, Integer> creditGainsSevenMonthsCategorized;
-    private HashMap<Integer, Integer> creditGainsThirteenMonthsCategorized;
-    private HashMap<Integer, Integer> creditGainsNineteenMonthsCategorized;
+    //private HashMap<Integer, Integer> creditGainsSevenMonthsCategorized;
+    //private HashMap<Integer, Integer> creditGainsThirteenMonthsCategorized;
+    //private HashMap<Integer, Integer> creditGainsNineteenMonthsCategorized;
     private int[][] creditGainsSevenMonthsArr;
     private int[][] creditGainsThirteenMonthsArr;
     private int[][] creditGainsNineteenMonthsArr;
@@ -372,29 +372,29 @@ public class CourseStats {
         this.creditGainsNineteenMonthsNormCumulArr = creditGainsNineteenMonthsNormCumulArr;
     }
 
-    public HashMap<Integer, Integer> getCreditGainsSevenMonthsCategorized() {
-        return creditGainsSevenMonthsCategorized;
-    }
-
-    public void setCreditGainsSevenMonthsCategorized(HashMap<Integer, Integer> creditGainsSevenMonthsCategorized) {
-        this.creditGainsSevenMonthsCategorized = creditGainsSevenMonthsCategorized;
-    }
-
-    public HashMap<Integer, Integer> getCreditGainsThirteenMonthsCategorized() {
-        return creditGainsThirteenMonthsCategorized;
-    }
-
-    public void setCreditGainsThirteenMonthsCategorized(HashMap<Integer, Integer> creditGainsThirteenMonthsCategorized) {
-        this.creditGainsThirteenMonthsCategorized = creditGainsThirteenMonthsCategorized;
-    }
-
-    public HashMap<Integer, Integer> getCreditGainsNineteenMonthsCategorized() {
-        return creditGainsNineteenMonthsCategorized;
-    }
-
-    public void setCreditGainsNineteenMonthsCategorized(HashMap<Integer, Integer> creditGainsNineteenMonthsCategorized) {
-        this.creditGainsNineteenMonthsCategorized = creditGainsNineteenMonthsCategorized;
-    }
+//    public HashMap<Integer, Integer> getCreditGainsSevenMonthsCategorized() {
+//        return creditGainsSevenMonthsCategorized;
+//    }
+//
+//    public void setCreditGainsSevenMonthsCategorized(HashMap<Integer, Integer> creditGainsSevenMonthsCategorized) {
+//        this.creditGainsSevenMonthsCategorized = creditGainsSevenMonthsCategorized;
+//    }
+//
+//    public HashMap<Integer, Integer> getCreditGainsThirteenMonthsCategorized() {
+//        return creditGainsThirteenMonthsCategorized;
+//    }
+//
+//    public void setCreditGainsThirteenMonthsCategorized(HashMap<Integer, Integer> creditGainsThirteenMonthsCategorized) {
+//        this.creditGainsThirteenMonthsCategorized = creditGainsThirteenMonthsCategorized;
+//    }
+//
+//    public HashMap<Integer, Integer> getCreditGainsNineteenMonthsCategorized() {
+//        return creditGainsNineteenMonthsCategorized;
+//    }
+//
+//    public void setCreditGainsNineteenMonthsCategorized(HashMap<Integer, Integer> creditGainsNineteenMonthsCategorized) {
+//        this.creditGainsNineteenMonthsCategorized = creditGainsNineteenMonthsCategorized;
+//    }
 
     public int[][] getCreditGainsSevenMonthsCategorizedArr() {
         return creditGainsSevenMonthsCategorizedArr;
