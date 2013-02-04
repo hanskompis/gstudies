@@ -94,6 +94,7 @@ App.Views.courseStatsView = Backbone.View.extend({
             this.renderRowsToGradeSDTable(this.response);
             this.renderRowsToGradeTable(this.response);
             this.renderRowsToZeroAchieverTable(this.response);
+            this.renderRowsToProducedCreditsTable(this.response);
         }
     }, 
     
@@ -248,18 +249,18 @@ App.Views.courseStatsView = Backbone.View.extend({
         dataSeriesUtils.setDataSeries();
         this.render();
 
-          //  kommentti veke, kun rendaus valmis
-//                            var self = this;
-//                            course.save({},{
-//                                success : function (model,response){
-//                                    var courseResponse = new Backbone.Collection(response);
-//                                    self.response = courseResponse;
-//                                    //        console.log(self.response);
-//                                    dataSeriesUtils.response = courseResponse;
-//                                    dataSeriesUtils.setDataSeries();
-//                                    self.render();  
-//                                }
-//                            })
+    //  kommentti veke, kun rendaus valmis
+    //                            var self = this;
+    //                            course.save({},{
+    //                                success : function (model,response){
+    //                                    var courseResponse = new Backbone.Collection(response);
+    //                                    self.response = courseResponse;
+    //                                    //        console.log(self.response);
+    //                                    dataSeriesUtils.response = courseResponse;
+    //                                    dataSeriesUtils.setDataSeries();
+    //                                    self.render();  
+    //                                }
+    //                            })
     },
       
     getOptions : function(xmax, ymax) {
@@ -386,7 +387,7 @@ App.Views.courseStatsView = Backbone.View.extend({
                 failedZero13 : response.models[i].get("courseStatsObjs")[1].amountZeroAchieversThirteenMonths,
                 failedZero13perse : (response.models[i].get("courseStatsObjs")[1].amountZeroAchieversThirteenMonths/response.models[i].get("courseStatsObjs")[1].amountStudents*100).toFixed(1)+"%",
                 failedZero19 : response.models[i].get("courseStatsObjs")[1].amountZeroAchieversNineteenMonths,
-                passedZero19perse : (response.models[i].get("courseStatsObjs")[1].amountZeroAchieversNineteenMonths/response.models[i].get("courseStatsObjs")[1].amountStudents*100).toFixed(1)+"%",
+                failedZero19perse : (response.models[i].get("courseStatsObjs")[1].amountZeroAchieversNineteenMonths/response.models[i].get("courseStatsObjs")[1].amountStudents*100).toFixed(1)+"%",
                 allZero7 : response.models[i].get("courseStatsObjs")[2].amountZeroAchieversSevenMonths,
                 allZero7perse : (response.models[i].get("courseStatsObjs")[2].amountZeroAchieversSevenMonths/response.models[i].get("courseStatsObjs")[2].amountStudents*100).toFixed(1)+"%",
                 allZero13 : response.models[i].get("courseStatsObjs")[2].amountZeroAchieversThirteenMonths,
@@ -398,5 +399,26 @@ App.Views.courseStatsView = Backbone.View.extend({
             $("#zeroAchieverTable").append(rowContent);
         }
         console.log(response.models[0].get("courseStatsObjs")[0].amountZeroAchieversSevenMonths/response.models[0].get("courseStatsObjs")[0].amountStudents)
+    },
+    
+    renderRowsToProducedCreditsTable : function(response) {
+        var amountYears = response.models.length;
+        for(var i = 0; i < amountYears; i++){
+            var rowContent = Mustache.to_html($("#producedGradesRowTemplate").html(),{
+                dateOfAccomplishment : response.models[i].get("dateOfAccomplishment"),
+                passedProd7 : response.models[i].get("courseStatsObjs")[0].amountCreditsSevenMonths,
+                passedProd13 : response.models[i].get("courseStatsObjs")[0].amountCreditsThirteenMonths,                  
+                passedProd19 : response.models[i].get("courseStatsObjs")[0].amountCreditsNineteenMonths,
+                failedProd7 : response.models[i].get("courseStatsObjs")[1].amountCreditsSevenMonths,
+                failedProd13 : response.models[i].get("courseStatsObjs")[1].amountCreditsThirteenMonths,                  
+                failedProd19 : response.models[i].get("courseStatsObjs")[1].amountCreditsNineteenMonths,
+                allProd7 : response.models[i].get("courseStatsObjs")[2].amountCreditsSevenMonths,
+                allProd13 : response.models[i].get("courseStatsObjs")[2].amountCreditsThirteenMonths,                  
+                allProd19 : response.models[i].get("courseStatsObjs")[2].amountCreditsNineteenMonths 
+
+            });
+            $("#producedCreditsTable").append(rowContent);
+    
+        }
     }
 });
