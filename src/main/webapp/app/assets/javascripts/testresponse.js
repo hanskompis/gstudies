@@ -8,6 +8,54 @@ var testDataSeries = [{
     "label":"2008-12-11"
 }];
 
+var minitest = {
+    "groupIdentifier":"CSPassed",
+    "amountStudents":4,
+    "averageGradeSevenMonths":2.0,
+    "averageGradeThirteenMonths":2.8333333333333335,
+    "averageGradeNineteenMonths":2.888888888888889,
+    "standardDeviationGradesSevenMonths":1.4142135623730951,
+    "standardDeviationGradesThirteenMonths":1.4719601443879746,
+    "standardDeviationGradesNineteenMonths":1.536590742882148,
+    "amountCreditsSevenMonths":8,
+    "amountCreditsThirteenMonths":24,
+    "amountCreditsNineteenMonths":36,
+    "amountZeroAchieversSevenMonths":2,
+    "amountZeroAchieversThirteenMonths":0,
+    "amountZeroAchieversNineteenMonths":0,
+    "averageCreditsSevenMonths":2.0,
+    "averageCreditsThirteenMonths":6.0,
+    "averageCreditsNineteenMonths":9.0,
+    "creditGainsSevenMonths":{
+        "0":2,
+        "4":2
+    },
+    "creditGainsThirteenMonths":{
+        "3":1,
+        "4":1,
+        "5":1,
+        "12":1
+    },
+    "creditGainsNineteenMonths":{
+        "16":1,
+        "3":1,
+        "8":1,
+        "9":1
+    },
+    "creditGainsSevenMonthsArr":[[0,2],[0,0],[0,0],[0,0],[4,2]],
+    "creditGainsThirteenMonthsArr":[[0,0],[0,0],[0,0],[3,1],[4,1],[5,1],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[12,1]],
+    "creditGainsNineteenMonthsArr":[[0,0],[0,0],[0,0],[3,1],[0,0],[0,0],[0,0],[0,0],[8,1],[9,1],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[16,1]],
+    "creditGainsSevenMonthsCategorizedArr":[[0,4]],
+    "creditGainsThirteenMonthsCategorizedArr":[[0,3],[10,1]],
+    "creditGainsNineteenMonthsCategorizedArr":[[0,3],[10,1]],
+    "creditGainsSevenMonthsNormCumulArr":[[0,2],[1,2],[2,2],[3,2],[4,4]],
+    "creditGainsThirteenMonthsNormCumulArr":[[0,0],[1,0],[2,0],[3,1],[4,2],[5,3],[6,3],[7,3],[8,3],[9,3],[10,3],[11,3],[12,4]],
+    "creditGainsNineteenMonthsNormCumulArr":[[0,0],[1,0],[2,0],[3,1],[4,1],[5,1],[6,1],[7,1],[8,2],[9,3],[10,3],[11,3],[12,3],[13,3],[14,3],[15,3],[16,4]],
+    "creditGainsSevenMonthsNormCumulReverArr":[[0,2],[1,2],[2,2],[3,2],[4,0]],
+    "creditGainsThirteenMonthsNormCumulReverArr":[[0,4],[1,4],[2,4],[3,3],[4,2],[5,1],[6,1],[7,1],[8,1],[9,1],[10,1],[11,1],[12,0]],
+    "creditGainsNineteenMonthsNormCumulReverArr":[[0,4],[1,4],[2,4],[3,3],[4,3],[5,3],[6,3],[7,3],[8,2],[9,1],[10,1],[11,1],[12,1],[13,1],[14,1],[15,1],[16,0]]
+    }
+
 var testResponse = [{
     "courseId":"582206",
     "dateOfAccomplishment":"2007-12-10",

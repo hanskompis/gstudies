@@ -1,5 +1,6 @@
 package tktl;
 
+import com.google.gson.Gson;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -54,6 +55,7 @@ public class UnitTest {
     @Autowired
     private StatisticService statisticService;
     private CourseStats courseStats = null;
+    private static boolean jsonWritten = false;
 
     public UnitTest() {
     }
@@ -98,6 +100,14 @@ public class UnitTest {
         if (this.courseStats == null) {
             this.courseStats = this.statisticService.doTheMagic("CSPassed", "2006-10-15", "1");
         }
+        if(!this.jsonWritten){
+            Gson gson = new Gson();
+            String json = gson.toJson(this.courseStats);
+            System.out.println(json);
+            this.jsonWritten = false;
+        }
+        
+       
     }
 
     @After
