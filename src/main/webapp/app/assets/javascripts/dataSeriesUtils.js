@@ -212,6 +212,7 @@ var dataSeriesUtils = {
     },
     
     findLargestValueOfSet : function (setOfArrays) {
+        console.log(JSON.stringify(setOfArrays));
         var largest = 0;
         for(var i = 0; i < setOfArrays.length; i++){
             var currentValue = this.findLargestValue(setOfArrays[i].data);
@@ -294,7 +295,7 @@ var dataSeriesUtils = {
         var largestAmountOfStudents = this.findLargestAmountOfStudents(normalizedDataSeries);
         for(var i = 0; i < normalizedDataSeries.length; i++){
             var factor = largestAmountOfStudents/this.studentsOnGroup(normalizedDataSeries[i].data);
-            //       console.log(factor);
+            console.log(factor);
             for(var j = 0; j < normalizedDataSeries[i].data.length; j++){
                 normalizedDataSeries[i].data[j][1] = Math.round(normalizedDataSeries[i].data[j][1]*factor);
             }
@@ -314,7 +315,8 @@ var dataSeriesUtils = {
     },
     
     normalizeCumulativeDataSeries : function(dataSeries) {
-        var normalizedDataSeries = dataSeries;
+        //        var normalizedDataSeries = dataSeries;
+        var normalizedDataSeries = JSON.parse(JSON.stringify(dataSeries));
         var largestAmountOfStudents = this.findLargestAmountOfStudentsCumulative(normalizedDataSeries);
         for(var i = 0; i < normalizedDataSeries.length; i++){
             var factor = largestAmountOfStudents/this.studentsOnGroupCumulative(normalizedDataSeries[i].data);
@@ -329,8 +331,9 @@ var dataSeriesUtils = {
     },
     
     normalizePercentageCumulativeDataSeries : function(dataSeries) {
-        var normalizedDataSeries = dataSeries;
-        //        console.log(JSON.stringify(normalizedDataSeries[0]));
+        //        var normalizedDataSeries = dataSeries;
+        var normalizedDataSeries = JSON.parse(JSON.stringify(dataSeries));
+        //                console.log(JSON.stringify(normalizedDataSeries[0]));
         for(var i = 0; i < normalizedDataSeries.length; i++){
             var amountOfStudents = this.studentsOnGroupCumulative(normalizedDataSeries[i].data);
             var differenceInLength = this.longestArray(normalizedDataSeries)-normalizedDataSeries[i].data.length;
@@ -339,7 +342,7 @@ var dataSeriesUtils = {
             }  
             normalizedDataSeries[i].data = this.addLastPairsToCumulativeSeries(normalizedDataSeries[i].data, differenceInLength);
         }
-        //        console.log(JSON.stringify(normalizedDataSeries[0]));
+        //                console.log(JSON.stringify(normalizedDataSeries[0]));
         normalizedDataSeries = this.addAverageDataSeries(normalizedDataSeries);
         return normalizedDataSeries;
     },
