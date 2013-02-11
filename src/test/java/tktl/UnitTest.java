@@ -19,6 +19,7 @@ import tktl.gstudies.services.CourseObjectService;
 import tktl.gstudies.services.GradeService;
 import tktl.gstudies.services.RightToStudyService;
 import tktl.gstudies.services.StatisticService;
+import tktl.gstudies.services.StatsUtils;
 import tktl.gstudies.services.StatusOfStudyService;
 import tktl.gstudies.services.StudentService;
 import tktl.gstudies.services.StudyService;
@@ -54,6 +55,8 @@ public class UnitTest {
     private TestUtils testUtils;
     @Autowired
     private StatisticService statisticService;
+    @Autowired
+    private StatsUtils statsUtils;
     private CourseStats courseStats = null;
     private static boolean jsonWritten = false;
 
@@ -116,31 +119,31 @@ public class UnitTest {
 
     @Test
     public void findsAllStudentsWhoPassedOnDate() {
-        assertEquals(4, this.statisticService.getCSStudentsFromCourseWhoPassedOnDate("1", "2006-10-15").size());
+        assertEquals(4, this.statsUtils.getCSStudentsFromCourseWhoPassedOnDate("1", "2006-10-15").size());
     }
 
     @Test
     public void findsAllStudentsWhofailedOnDate() {
-        assertEquals(2, this.statisticService.getCSStudentsFromCourseWhoFailedOnDate("2", "2007-03-18").size());
+        assertEquals(2, this.statsUtils.getCSStudentsFromCourseWhoFailedOnDate("2", "2007-03-18").size());
     }
 
     @Test
     public void getsCorrectAmountOfPassedStudies7MonthSpan() {
-        Stud stud = this.statisticService.getCSStudentsFromCourseWhoPassedOnDate("1", "2006-10-15").get(1);
+        Stud stud = this.statsUtils.getCSStudentsFromCourseWhoPassedOnDate("1", "2006-10-15").get(1);
         double epsilon = 0.1;
         assertTrue(Math.abs(4.0 - this.statisticService.getCreditsNMonthsSpan(stud.getStudies(), Date.valueOf("2006-10-15"), 7)) < epsilon);
     }
 
     @Test
     public void getsCorrectAmountOfPassedStudies13MonthSpan() {
-        Stud stud = this.statisticService.getCSStudentsFromCourseWhoPassedOnDate("1", "2006-10-15").get(1);
+        Stud stud = this.statsUtils.getCSStudentsFromCourseWhoPassedOnDate("1", "2006-10-15").get(1);
         double epsilon = 0.1;
         assertTrue(Math.abs(12.0 - this.statisticService.getCreditsNMonthsSpan(stud.getStudies(), Date.valueOf("2006-10-15"), 13)) < epsilon);
     }
 
     @Test
     public void getsCorrectAmountOfPassedStudies19MonthSpan() {
-        Stud stud = this.statisticService.getCSStudentsFromCourseWhoPassedOnDate("1", "2006-10-15").get(1);
+        Stud stud = this.statsUtils.getCSStudentsFromCourseWhoPassedOnDate("1", "2006-10-15").get(1);
         double epsilon = 0.1;
         assertTrue(Math.abs(16.0 - this.statisticService.getCreditsNMonthsSpan(stud.getStudies(), Date.valueOf("2006-10-15"), 19)) < epsilon);
     }
@@ -148,14 +151,14 @@ public class UnitTest {
     @Test
     public void calculatesCorrectGroupAverageOfGradesNMonths() {
         double epsilon = 0.01;
-        List<Stud> studs = this.statisticService.getCSStudentsFromCourseWhoPassedOnDate("1", "2006-10-15");
+        List<Stud> studs = this.statsUtils.getCSStudentsFromCourseWhoPassedOnDate("1", "2006-10-15");
         assertTrue(Math.abs(2.89 - this.statisticService.getGroupAverageGradeNMonthsSpan2(studs, Date.valueOf("2006-10-15"), 19)) < epsilon);
     }
 
     @Test
     public void calculatesCorrectStandardDeviationOfGradesNMonths() {
         double epsilon = 0.01;
-        List<Stud> studs = this.statisticService.getCSStudentsFromCourseWhoPassedOnDate("1", "2006-10-15");
+        List<Stud> studs = this.statsUtils.getCSStudentsFromCourseWhoPassedOnDate("1", "2006-10-15");
         assertTrue(Math.abs(1.54 - this.statisticService.getStandardDeviationOfgrades(studs, Date.valueOf("2006-10-15"), 19)) < epsilon);
     }
 
