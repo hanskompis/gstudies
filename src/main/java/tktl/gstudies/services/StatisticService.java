@@ -40,4 +40,7 @@ public interface StatisticService {
     //   public List<TypeOfStudy> getTypesOfStudy();
 //    public List<Date> findMostPopulatedCourseInstancesBetweenYears(String courseId, int startYear, int endYear);
     public List<CourseStatsResponseObj> getAllDataFromCourseBetweenYears(String courseId, int startYear, int endYear);
+    
+    public void setStandardDeviations(CourseStats courseStats, String dateString, List<Stud> students);
+    public void setAverageGrades(CourseStats courseStats, String dateString, List<Stud> students);
 }

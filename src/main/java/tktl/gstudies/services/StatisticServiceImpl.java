@@ -1,17 +1,12 @@
 package tktl.gstudies.services;
 
 import java.util.Date;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import org.apache.commons.math3.stat.StatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
@@ -19,7 +14,6 @@ import org.springframework.stereotype.Service;
 import tktl.gstudies.domain.CourseObject;
 import tktl.gstudies.domain.Stud;
 import tktl.gstudies.domain.Study;
-import tktl.gstudies.domain.TypeOfStudy;
 import tktl.gstudies.responseobjs.CourseStats;
 import tktl.gstudies.responseobjs.CourseStatsResponseObj;
 
@@ -136,13 +130,15 @@ public class StatisticServiceImpl implements StatisticService {
         }
     }
 
-    private void setStandardDeviations(CourseStats courseStats, String dateString, List<Stud> students) {
+    @Override
+    public void setStandardDeviations(CourseStats courseStats, String dateString, List<Stud> students) {
         courseStats.setStandardDeviationGradesSevenmonths(this.getStandardDeviationOfgrades(students, this.statsUtils.makeDate(dateString), 7));
         courseStats.setStandardDeviationGradesThirteenmonths(this.getStandardDeviationOfgrades(students, this.statsUtils.makeDate(dateString), 13));
         courseStats.setStandardDeviationGradesNineteenmonths(this.getStandardDeviationOfgrades(students, this.statsUtils.makeDate(dateString), 19));
     }
 
-    private void setAverageGrades(CourseStats courseStats, String dateString, List<Stud> students) {
+    @Override
+    public void setAverageGrades(CourseStats courseStats, String dateString, List<Stud> students) {
         courseStats.setAverageGradeSevenMonths(this.getGroupAverageGradeNMonthsSpan2(students, this.statsUtils.makeDate(dateString), 7));
         courseStats.setAverageGradeThirteenMonths(this.getGroupAverageGradeNMonthsSpan2(students, this.statsUtils.makeDate(dateString), 13));
         courseStats.setAverageGradeNineteenMonths(this.getGroupAverageGradeNMonthsSpan2(students, this.statsUtils.makeDate(dateString), 19));

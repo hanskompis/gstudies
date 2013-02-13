@@ -16,6 +16,7 @@ import tktl.gstudies.domain.Stud;
 import tktl.gstudies.responseobjs.CourseStats;
 import tktl.gstudies.services.AcademicYearEnrollmentService;
 import tktl.gstudies.services.CourseObjectService;
+import tktl.gstudies.services.CoursePairStatsService;
 import tktl.gstudies.services.GradeService;
 import tktl.gstudies.services.RightToStudyService;
 import tktl.gstudies.services.StatisticService;
@@ -57,7 +58,10 @@ public class UnitTest {
     private StatisticService statisticService;
     @Autowired
     private StatsUtils statsUtils;
-    private CourseStats courseStats = null;
+    @Autowired
+    private CoursePairStatsService coursePairStatsService;
+    private static CourseStats courseStats = null;
+    private static CourseStats pairCourseStats = null;
     private static boolean jsonWritten = false;
 
     public UnitTest() {
@@ -103,14 +107,18 @@ public class UnitTest {
         if (this.courseStats == null) {
             this.courseStats = this.statisticService.doTheMagic("CSPassed", "2006-10-15", "1");
         }
-        if(!this.jsonWritten){
-            Gson gson = new Gson();
-            String json = gson.toJson(this.courseStats);
-            System.out.println(json);
-            this.jsonWritten = false;
+        if(this.pairCourseStats == null){
+            System.out.println("HEP");
+            this.pairCourseStats = this.coursePairStatsService.getCourseStatsForCoursePair("1", 2006, "5");
         }
-        
-       
+//        if (!this.jsonWritten) {
+//            Gson gson = new Gson();
+//            String json = gson.toJson(this.courseStats);
+//           System.out.println(json);
+//            this.jsonWritten = true;
+//        }
+
+
     }
 
     @After
@@ -303,8 +311,8 @@ public class UnitTest {
     @Test
     public void courseStatsHasCorrectCreditGainsNineteenMonthsArr() {
         int[][] test = {{0, 0}, {0, 0}, {0, 0}, {3, 1}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {8, 1}, {9, 1}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {16, 1}};
-        testUtils.printArray(test);
-        testUtils.printArray(this.courseStats.getCreditGainsNineteenMonthsArr());
+//        testUtils.printArray(test);
+//        testUtils.printArray(this.courseStats.getCreditGainsNineteenMonthsArr());
         assertTrue(testUtils.equivalentArrays(test, this.courseStats.getCreditGainsNineteenMonthsArr()));
     }
 
@@ -362,6 +370,12 @@ public class UnitTest {
     public void courseStatsHasCorrectCreditGainsNormCumulReverNineteenMonthsArr() {
         int[][] test = {{0, 4}, {1, 4}, {2, 4}, {3, 3}, {4, 3}, {5, 3}, {6, 3}, {7, 3}, {8, 2}, {9, 1}, {10, 1}, {11, 1}, {12, 1}, {13, 1}, {14, 1}, {15, 1}, {16, 0}};
         assertTrue(testUtils.equivalentArrays(test, this.courseStats.getCreditGainsNineteenMonthsNormCumulReverArr()));
+    }
+    
+
+    @Test
+    public void courseStatsForCoursePairHasCorrectAmountOfStudents() {
+        assertEquals(3,this.pairCourseStats.getAmountStudents());
     }
 
     @Test

@@ -7,7 +7,7 @@
             <property name="eclipselink.ddl-generation" value="create-tables"/>
             <property name="eclipselink.ddl-generation.output-mode" value="database"/>
             <property name="eclipselink.weaving" value="false"/>
-            <property name="eclipselink.logging.level" value="FINE"/>
+            <property name="eclipselink.logging.level" value="INFO"/>
             <property name="eclipselink.batch.size" value="2048"/>
             <property name="eclipselink.cache.size.default" value="8192"/>
         </properties>
@@ -20,7 +20,7 @@
             <property name="eclipselink.ddl-generation" value="create-tables"/>
             <property name="eclipselink.ddl-generation.output-mode" value="database"/>
             <property name="eclipselink.weaving" value="false"/>
-            <property name="eclipselink.logging.level" value="FINE"/>
+            <property name="eclipselink.logging.level" value="INFO"/>
         </properties>
     </persistence-unit>
 </persistence>

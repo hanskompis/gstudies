@@ -87,10 +87,10 @@ public class TestDBUtils {
         this.saveRightToStudy(Date.valueOf("2005-08-01"), "Tietojenkäsittelytiede", 3);
         this.saveRightToStudy(Date.valueOf("2006-08-01"), "Tietojenkäsittelytiede", 4);
         this.saveRightToStudy(Date.valueOf("2006-01-01"), "Tietojenkäsittelytiede", 5);
-        System.out.println("opinto-oikeudet");
-        System.out.println(rightToStudyService.findAll().toString());
-        System.out.println("opiskelijat");
-        System.out.println(studentService.findAll().toString());
+//        System.out.println("opinto-oikeudet");
+//        System.out.println(rightToStudyService.findAll().toString());
+//        System.out.println("opiskelijat");
+//        System.out.println(studentService.findAll().toString());
     }
 
     public void insertStatusOfStudy() {

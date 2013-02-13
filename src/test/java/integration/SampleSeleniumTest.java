@@ -17,9 +17,9 @@ public class SampleSeleniumTest {
         baseUrl = "http://localhost:8080/gstudies/app/index.html";
     }
 
-    @Test
-    public void hasLinkLol() {
-        driver.get(baseUrl);
-        Assert.assertTrue("gstudies not found", driver.getPageSource().toLowerCase().contains("gstudies"));
-    }
+//    @Test
+//    public void hasLinkLol() {
+//        driver.get(baseUrl);
+//        Assert.assertTrue("gstudies not found", driver.getPageSource().toLowerCase().contains("gstudies"));
+//    }
 }

@@ -9,7 +9,9 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Service;
+import tktl.gstudies.domain.CourseObject;
 import tktl.gstudies.domain.Stud;
+import tktl.gstudies.domain.Study;
 
 @Service
 public class StatsUtils {
@@ -65,7 +67,7 @@ public class StatsUtils {
             toReturn = df.parse(dateString);
             return toReturn;
         } catch (ParseException e) {
-            System.out.println("KUSI!");
+            System.out.println("KUSI DATEN TEKO!");
         }
         return toReturn;
     }
@@ -73,8 +75,76 @@ public class StatsUtils {
     public List<Date> findMostPopulatedCourseInstancesBetweenYears(String courseId, int startYear, int endYear) {
         List<Date> toReturn = new ArrayList<Date>();
         for (int i = startYear; i <= endYear; i++) {
-            toReturn.add(this.findMostPopulatedCourseInstance(courseId, String.valueOf(i)));
+            Date popularCourseInstanceDate = this.findMostPopulatedCourseInstance(courseId, String.valueOf(i));
+            if (popularCourseInstanceDate != null) {
+                toReturn.add(popularCourseInstanceDate);
+            }
         }
         return toReturn;
+    }
+
+    public Date getDateOfConsequentCource(String idOfConsequentCourse, Date dateOfPrecedingCourse) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+        String startYear = sdf.format(dateOfPrecedingCourse);
+        List<Date> dates = this.findMostPopulatedCourseInstancesBetweenYears(idOfConsequentCourse, Integer.parseInt(startYear), Integer.parseInt(startYear) + 2);
+//        System.out.println("POPULARDATES: " + dates);
+        Date anotherDate = new Date();
+        for (Date d : dates) {
+//            System.out.println("DATE D: "+d);
+            if (d.after(dateOfPrecedingCourse)) {
+//                System.out.println("AFTER!!");
+                anotherDate = d;
+                break;
+            }
+        }
+        return anotherDate;
+    }
+
+    public List<Stud> getStudentsWhoPassedConsequentCourseOnDate(List<Stud> studs, String courseId, Date dateOfPrecedingCourse, Date dateOfConsequentCourse) {
+////        System.out.println("DATE DATE: "+date);
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+//        String startYear = sdf.format(date);
+////        System.out.println("STARTYEAR: " + startYear);
+        List<Stud> toReturn = new ArrayList<Stud>();
+//
+//        List<Date> dates = this.findMostPopulatedCourseInstancesBetweenYears(courseId, Integer.parseInt(startYear), Integer.parseInt(startYear) + 2);
+////        System.out.println("POPULARDATES: " + dates);
+//        Date anotherDate = new Date();
+//        for (Date d : dates) {
+////            System.out.println("DATE D: "+d);
+//            if (d.after(date)) {
+////                System.out.println("AFTER!!");
+//                anotherDate = d;
+//                break;
+//            }
+//        }
+//        System.out.println("ANOTHERDATE: "+anotherDate);
+       // Date dateOfConsequentCourse = this.getDateOfConsequentCource(courseId, dateOfPrecedingCourse);
+        
+        for (Stud s : studs) {
+            if (containsPassedStudy(s.getStudies(), dateOfConsequentCourse, courseId)) {
+                toReturn.add(s);
+            }
+        }
+        return toReturn;
+    }
+
+    private boolean containsPassedStudy(List<Study> studies, Date d, String courseId) {
+        for (Study s : studies) {
+            if (courseObjectHasCorrectCourseId(s.getCourseObjects(), courseId)
+                    && s.getDateOfAccomplishment().compareTo(d) == 0 && s.getStatusOfStudy().getCode().intValue() == 4) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean courseObjectHasCorrectCourseId(List<CourseObject> courseObjects, String courseId) {
+        for (CourseObject co : courseObjects) {
+            if (co.getCourseId().equals(courseId)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
