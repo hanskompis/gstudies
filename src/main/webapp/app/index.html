@@ -52,6 +52,19 @@
         <div id="graphsContainer"></div>
     </script>
 
+    <script type="text/template" id="coursePairStatsBaseTemplate">
+        <div class="well">
+            <p>Innit!</p>
+            1st course : <input type="text" id="firstCourseId" class="input-small" value="58131">
+            year of 1st course : <input type="text" id="firstCourseYear" class="input-small" value="2010">
+            2nd course : <input type="text" id="secondCourseId" class="input-small" value="582206"<br />
+            <input type="button" id="submitCoursePairButton" value="send"><br/>
+        </div>
+        <div id="InfoContainer"></div>        
+        <div id="statsContainer"></div>
+        <div id="graphsContainer"></div>
+    </script>
+
     <script type="text/template" id="courseBasicStatsTemplate">
         <br />
         <div class="well">
@@ -78,7 +91,7 @@
                 <td></td><td>7kk</td><td>13kk</td><td>19kk</td><td>7kk</td><td>13kk</td><td>19kk</td><td>7kk</td><td>13kk</td><td>19kk</td>
             </tr>
         </table>
-        
+
         <table id="producedCreditsTable" class="table table-bordered table-nonfluid">
             <caption>Tuotetut opintopisteet</caption>
             <tr>
@@ -349,6 +362,7 @@
                         <li><a href="">graph</a></li>
                         <li><a href="#query">query</a></li>
                         <li><a href="#courseStats">course stats</a></li>
+                        <li><a href="#coursePairStats">course pair stats</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>

@@ -3,6 +3,7 @@ package tktl.gstudies.controllers;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,7 +14,10 @@ import tktl.gstudies.responseobjs.CourseCatcher;
 import tktl.gstudies.responseobjs.Query;
 import tktl.gstudies.repositories.JDBCRepository;
 import tktl.gstudies.responseobjs.CourseAndTimeSpanCatcher;
+import tktl.gstudies.responseobjs.CoursePairCatcher;
+import tktl.gstudies.responseobjs.CourseStats;
 import tktl.gstudies.responseobjs.CourseStatsResponseObj;
+import tktl.gstudies.services.CoursePairStatsService;
 import tktl.gstudies.services.StatisticService;
 import tktl.gstudies.services.StatisticServiceImpl;
 
@@ -30,6 +34,8 @@ public class TestController {
     private JDBCRepository testRepository;
     @Autowired
     private StatisticService statisticService;
+    @Autowired
+    private CoursePairStatsService coursePairStatsService;
 
     @RequestMapping(method = RequestMethod.POST, value = "query", consumes = "application/json", produces = "application/json")
     @ResponseBody
@@ -47,13 +53,20 @@ public class TestController {
     produces = "application/json", consumes = "application/json")
     @ResponseBody
     public List<CourseStatsResponseObj> courseinstances(@RequestBody CourseAndTimeSpanCatcher catsc) {
-        return statisticService.getAllDataFromCourseBetweenYears(catsc.getCourseId(), catsc.getStartYear(), catsc.getEndYear());        
+        return statisticService.getAllDataFromCourseBetweenYears(catsc.getCourseId(), catsc.getStartYear(), catsc.getEndYear());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "test", produces = "application/json")
     @ResponseBody
     public List<CourseStatsResponseObj> test() {
-        
+
         return statisticService.getAllDataFromCourseBetweenYears("581326", 2007, 2007);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "coursepair", produces = "application/json", consumes = "application/json")
+    @ResponseBody
+    public void coursepair(@RequestBody CoursePairCatcher cpc) {
+                System.out.println(cpc.getFirstCourseId()+" "+cpc.getFirstCourseYear()+" "+cpc.getSecondCourseId());
+        //return coursePairStatsService.getCourseStatsForCoursePair("58131", 2010, "582206");
     }
 }

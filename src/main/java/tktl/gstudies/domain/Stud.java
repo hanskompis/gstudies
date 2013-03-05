@@ -44,11 +44,12 @@ public class Stud extends AbstractModel {
 
     @OneToMany(mappedBy = "student")
     private List<AcademicYearEnrollment> enrollments;
-    @OneToMany(mappedBy = "student", fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "student")
     private List<RightToStudy> rightsToStudy;
-    @OneToMany(mappedBy = "student", fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "student")
     private List<Study> studies;
     Integer studentId;
+    String studentNumber;
     String gender;
     Date dateOfBirth;
     Date dateOfEnrollment;
@@ -56,6 +57,7 @@ public class Stud extends AbstractModel {
     public Stud() {
     }
 
+    //for tests' sake
     public Stud(Integer studentId, String gender, Date dateOfBirth, Date dateOfEnrollment) {
         this.studentId = studentId;
         this.gender = gender;
@@ -67,6 +69,15 @@ public class Stud extends AbstractModel {
     public String toString(){
         return this.studentId+" "+this.gender+" "+this.dateOfBirth+" "+this.dateOfEnrollment+" "+this.rightsToStudy.get(0).getMainSubject();
     }
+
+    public String getStudentNumber() {
+        return studentNumber;
+    }
+
+    public void setStudentNumber(String studentNumber) {
+        this.studentNumber = studentNumber;
+    }
+
 
     public List<AcademicYearEnrollment> getEnrollments() {
         return enrollments;

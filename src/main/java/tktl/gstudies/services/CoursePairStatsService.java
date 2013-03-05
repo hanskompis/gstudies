@@ -1,5 +1,6 @@
 package tktl.gstudies.services;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import tktl.gstudies.domain.Stud;
 import tktl.gstudies.responseobjs.CourseStatResponse;
 import tktl.gstudies.responseobjs.CourseStats;
+import tktl.gstudies.responseobjs.CourseStatsResponseObj;
 
 @Service
 public class CoursePairStatsService {
@@ -21,9 +23,11 @@ public class CoursePairStatsService {
     public CourseStats getCourseStatsForCoursePair(String courseId, int year, String followingCourseId) {
         System.out.println(courseId + " " + year + " " + followingCourseId);
         Date date = this.statsUtils.findMostPopulatedCourseInstancesBetweenYears(courseId, year, year).get(0);
-        System.out.println(date);
+
         CourseStats courseStats = new CourseStats(courseId + "-" + followingCourseId);
         Date dateOfConsequentCourse = this.statsUtils.getDateOfConsequentCource(followingCourseId, date);
+        System.out.println("DATE OF PRECEDING COURSE: " + date);
+        System.out.println("DATE OF CONSEQUENT COURSE: " + dateOfConsequentCourse);
         List<Stud> students = this.getStudentGroupFromTwoCourses(courseId, date, followingCourseId, dateOfConsequentCourse);
         courseStats.setAmountStudents(students.size());
         for (Stud s : students) {
@@ -47,12 +51,12 @@ public class CoursePairStatsService {
 //        List<Date> dateOfCourse = this.statsUtils.findMostPopulatedCourseInstancesBetweenYears(courseId, year, year);
 //        System.out.println("EKADATE: "+dateOfCourse);
         List<Stud> studsOnCourse = this.statsUtils.getCSStudentsFromCourseWhoPassedOnDate(courseId, dateOfCourse.toString());
-//        System.out.println("STUDSONCOURSE: "+studsOnCourse);
+        System.out.println("STUDSONCOURSE: " + studsOnCourse.size());
         List<Stud> studsWhoPassedBothCourses = this.statsUtils.getStudentsWhoPassedConsequentCourseOnDate(studsOnCourse, followingCourseId, dateOfCourse, dateOfConsequentCourse);
-//        System.out.println("STUDSPASSED: "+studsWhoPassedBothCourses);
+        System.out.println("STUDSPASSEDBOTH: " + studsWhoPassedBothCourses.size());
 //        System.out.println(studsOnCourse.size());
 //        System.out.println(studsWhoPassedBothCourses.size());
-//        System.out.println("PROSSA: " + (1.0 * studsWhoPassedBothCourses.size() / studsOnCourse.size()) * 100);
+        System.out.println("PROSSA: " + (1.0 * studsWhoPassedBothCourses.size() / studsOnCourse.size()) * 100);
         return studsWhoPassedBothCourses;
     }
 
@@ -60,7 +64,6 @@ public class CoursePairStatsService {
         String prefix = "src/main/webapp/WEB-INF/";
         ApplicationContext ctx = new FileSystemXmlApplicationContext(new String[]{prefix + "gstudies-servlet.xml", prefix + "database.xml"});
         CoursePairStatsService cpss = (CoursePairStatsService) ctx.getBean("coursePairStatsService");
-        System.out.println(cpss.getCourseStatsForCoursePair("581325", 2008, "582103"));
-
+        System.out.println(cpss.getCourseStatsForCoursePair("582103", 2009, "58131"));
     }
 }

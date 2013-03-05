@@ -247,6 +247,6 @@ public class StatisticServiceImpl implements StatisticService {
         CourseStatsResponseObj statsResponseObj = new CourseStatsResponseObj();
         statsResponseObj = ss.getData("2010-12-16", "582206");
         //System.out.println(statsResponseObj.getCourseStatsObjs().get(0).getCreditGainsSevenMonths().toString());
-        System.out.println(statsResponseObj);
+//        System.out.println(statsResponseObj);
     }
 }

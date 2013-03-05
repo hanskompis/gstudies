@@ -64,18 +64,19 @@ public class ImportService {
     @Autowired
     private JDBCRepository jdbcrepository;
     static int i = 0;
+    static int batchSize = 30000;
     Set<Integer> importedStudyIds = new HashSet();
 
     public void importDB() {
-        this.importStudentObjects();
-        this.importRightToStudyObjects();
-        this.importAcademicEnrollmentObjects();
-        this.importStatusOfStudyObjects();
-        this.importTypeOfStudyObjects();
-        this.importCourseObjectObjects();
-        this.importStudyObjects2();
-        this.importTeacherObjects();
-        this.importGradeObjects();
+//        this.importStudentObjects();
+//        this.importRightToStudyObjects();
+//        this.importAcademicEnrollmentObjects();
+//        this.importStatusOfStudyObjects();
+//        this.importTypeOfStudyObjects();
+//        this.importCourseObjectObjects();
+//        this.importStudyObjects2();
+//        this.importTeacherObjects();
+//        this.importGradeObjects();
     }
 
     private void importStatusOfStudyObjects() {
@@ -152,12 +153,13 @@ public class ImportService {
                 }
                 study = studyService.save(study);
                 i++;
-                System.out.println(i + " study: " + study);
+                //System.out.println(i + " study: " + study);
                 Integer studentId = (Integer) rs.getObject("HLO");
                 Integer courseObjectId = (Integer) rs.getObject("OPINKOHD");
                 Integer statusOfStudyCode = (Integer) rs.getObject("OPINSTAT");
                 studyService.save(study, studentId, courseObjectId, statusOfStudyCode, typeOfStudyCode);
                 importedStudyIds.add(studyNumber);
+                System.out.println("HUUUUU" + i);
             }
         });
     }
@@ -191,6 +193,7 @@ public class ImportService {
         });
     }
 
+    //varametodi
     private void importDatesOfAccomplishment() {
         this.jdbcrepository.getStudyData(new RowCallbackHandler() {
             @Override
@@ -202,13 +205,27 @@ public class ImportService {
         });
     }
 
+    public void importStudentNumbers() {
+        i = 0;
+        this.jdbcrepository.getStudentObjects(new RowCallbackHandler() {
+            @Override
+            public void processRow(ResultSet rs) throws SQLException {
+                i++;
+                String studentNumber = (String) rs.getObject("OPISNRO");
+                Integer studentId = (Integer) rs.getObject("HLO");
+                studentService.setStudentNumber(studentNumber, studentId);
+                System.out.println("HUU: "+i);
+            }
+        });
+    }
+
     public static void main(String[] args) {
         // /home/hkeijone/gstudies/
         String prefix = "src/main/webapp/WEB-INF/";
-        ApplicationContext ctx = new FileSystemXmlApplicationContext(new String[]{prefix + "gstudies-servlet.xml", prefix + "spring-database.xml"});
+        ApplicationContext ctx = new FileSystemXmlApplicationContext(new String[]{prefix + "gstudies-servlet.xml", prefix + "database.xml"});
 
         ImportService impo = (ImportService) ctx.getBean("importService");
-        //impo.importDB();
-        impo.importDatesOfAccomplishment();
+//        impo.importDB();
+        impo.importStudentNumbers();
     }
 }

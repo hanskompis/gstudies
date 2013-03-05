@@ -102,11 +102,20 @@ public class JDBCRepository {
     }
 
     public List<Stud> getStudentObjects() {
-        return this.jdbcTemplate.query("SELECT HLO as studentId, SUKUPUOLI as gender, "
+        return this.jdbcTemplate.query("SELECT HLO as studentId, OPISNRO as studentNumber, SUKUPUOLI as gender, "
                 + "SYNTAIK AS dateOfBirth, KIRJOILLETULO AS dateOfEnrollment FROM opiskelija",
                 new BeanPropertyRowMapper(Stud.class));
     }
 
+    public void getStudentObjects(RowCallbackHandler rch) {
+        this.jdbcTemplate.query("SELECT * from opiskelija", rch);
+    }
+
+//    public List<Stud> getStudentObjects() {
+//        return this.jdbcTemplate.query("SELECT HLO as studentId, SUKUPUOLI as gender, "
+//                + "SYNTAIK AS dateOfBirth, KIRJOILLETULO AS dateOfEnrollment FROM opiskelija",
+//                new BeanPropertyRowMapper(Stud.class));
+//    }
     public List<TypeOfStudy> getTypeOfStudyObjects() {
         return this.jdbcTemplate.query("SELECT KOODI as code, SELITE description FROM suortyyp",
                 new BeanPropertyRowMapper(TypeOfStudy.class));

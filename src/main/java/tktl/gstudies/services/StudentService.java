@@ -21,5 +21,14 @@ public class StudentService extends GenericRepositoryService<Stud> {
     @PostConstruct
     private void Init(){
         setRepository(studentRepository);
-    }    
+    }
+    
+    public void setStudentNumber(String studentNumber, Integer StudentId){
+        Stud s = this.studentRepository.findByStudentId(StudentId);
+        if(s == null){
+            return;
+        }
+        s.setStudentNumber(studentNumber); 
+        this.studentRepository.save(s);
+    }
 }

@@ -71,6 +71,30 @@ App.Views.queryView = Backbone.View.extend({
         })       
     }
 }),
+
+App.Views.coursePairStatsView = Backbone.View.extend({
+    render: function (){
+        var content = Mustache.to_html($("#coursePairStatsBaseTemplate").html(),{});
+        $(this.el).html(content);
+    },
+    events : {
+        "click #submitCoursePairButton" : "submitCoursePairAction"
+    },
+    submitCoursePairAction : function(){
+        console.log("pushhhh")
+        var coursepair = new App.Models.CoursePair({
+            firstCourseId : $("#firstCourseId").val(),
+            firstCourseYear : $("#firstCourseYear").val(),
+            secondCourseId : $("#secondCourseId").val()
+        })
+        coursepair.save({},{
+            success : function(model,response){
+                alert("HELLO!");
+            }
+        })
+    }
+}),
+    
 App.Views.courseStatsView = Backbone.View.extend({
     PASSED : 0, 
     FAILED : 1, 
@@ -243,24 +267,24 @@ App.Views.courseStatsView = Backbone.View.extend({
         var content = Mustache.to_html($("#InfoTemplate").html(),{});
         $(("#graphsContainer")).html(content);
         
-
+        //
         this.response = new Backbone.Collection(testResponse);
         dataSeriesUtils.response = this.response;
         dataSeriesUtils.setDataSeries();
         this.render();
 
     //  kommentti veke, kun rendaus valmis
-//                                var self = this;
-//                                course.save({},{
-//                                    success : function (model,response){
-//                                        var courseResponse = new Backbone.Collection(response);
-//                                        self.response = courseResponse;
-//                                        //        console.log(self.response);
-//                                        dataSeriesUtils.response = courseResponse;
-//                                        dataSeriesUtils.setDataSeries();
-//                                        self.render();  
-//                                    }
-//                                })
+    //                                var self = this;
+    //                                course.save({},{
+    //                                    success : function (model,response){
+    //                                        var courseResponse = new Backbone.Collection(response);
+    //                                        self.response = courseResponse;
+    //                                        //        console.log(self.response);
+    //                                        dataSeriesUtils.response = courseResponse;
+    //                                        dataSeriesUtils.setDataSeries();
+    //                                        self.render();  
+    //                                    }
+    //                                })
     },
       
     getOptions : function(xmax, ymax) {

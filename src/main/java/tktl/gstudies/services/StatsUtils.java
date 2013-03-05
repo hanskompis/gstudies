@@ -8,10 +8,13 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.stereotype.Service;
 import tktl.gstudies.domain.CourseObject;
 import tktl.gstudies.domain.Stud;
 import tktl.gstudies.domain.Study;
+import tktl.gstudies.importClasses.ImportService;
 
 @Service
 public class StatsUtils {
@@ -119,8 +122,8 @@ public class StatsUtils {
 //            }
 //        }
 //        System.out.println("ANOTHERDATE: "+anotherDate);
-       // Date dateOfConsequentCourse = this.getDateOfConsequentCource(courseId, dateOfPrecedingCourse);
-        
+        // Date dateOfConsequentCourse = this.getDateOfConsequentCource(courseId, dateOfPrecedingCourse);
+
         for (Stud s : studs) {
             if (containsPassedStudy(s.getStudies(), dateOfConsequentCourse, courseId)) {
                 toReturn.add(s);
@@ -130,11 +133,28 @@ public class StatsUtils {
     }
 
     private boolean containsPassedStudy(List<Study> studies, Date d, String courseId) {
+        if (studies == null) {
+            System.out.println("EI OPINTOJA!!");
+            return false;
+        }
         for (Study s : studies) {
+            if (s.getCourseObjects() == null) {
+                System.out.println("EI KURSSIOBJEKTEJA!!");
+                return false;
+            }
+            if (s.getDateOfAccomplishment() == null) {
+                System.out.println("EI DATEOFACCOA");
+                return false;
+            }
+            if (s.getStatusOfStudy() == null) {
+                System.out.println("EI STATUSOFÄÄSSIÄ");
+                return false;
+            }
             if (courseObjectHasCorrectCourseId(s.getCourseObjects(), courseId)
                     && s.getDateOfAccomplishment().compareTo(d) == 0 && s.getStatusOfStudy().getCode().intValue() == 4) {
                 return true;
             }
+
         }
         return false;
     }
@@ -146,5 +166,19 @@ public class StatsUtils {
             }
         }
         return false;
+    }
+
+    public List<Study> getStudiesByStudentNumber(String studentNumber) {
+        return em.createNamedQuery("getStudiesBasedOnStudentNumber").setParameter("studentNumber", studentNumber).getResultList();
+    }
+
+    public static void main(String[] args) {
+        // /home/hkeijone/gstudies/
+        String prefix = "src/main/webapp/WEB-INF/";
+        ApplicationContext ctx = new FileSystemXmlApplicationContext(new String[]{prefix + "gstudies-servlet.xml", prefix + "database.xml"});
+
+        StatsUtils su = (StatsUtils) ctx.getBean("statsUtils");
+        System.out.println(su.getStudiesByStudentNumber("013546975"));
+
     }
 }

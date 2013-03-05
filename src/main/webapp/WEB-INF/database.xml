@@ -18,7 +18,8 @@
         http://www.springframework.org/schema/jdbc 
            http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd
         http://www.springframework.org/schema/data/jpa
-           http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+           http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd" xmlns:aop="http://www.springframework.org/schema/aop">
     
     <jpa:repositories base-package="tktl.gstudies.repositories" />
    
@@ -32,9 +33,10 @@
     
         
     <bean id="importDataSource"
-              class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://localhost:3306/gkanta" />
+        <!--<property name="url" value="jdbc:mysql://localhost:3306/gkanta" />--> 
+        <property name="url" value="jdbc:mysql://localhost:3306/kanta_helmi13" /> 
         <property name="username" value="root" />
         <property name="password" value="" />
     </bean>
@@ -76,9 +78,10 @@
         
         
         <bean id="dataSource"
-          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+              class="org.springframework.jdbc.datasource.DriverManagerDataSource">
             <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-            <property name="url" value="jdbc:mysql://localhost:3306/ormkanta" />
+            <!--<property name="url" value="jdbc:mysql://localhost:3306/ormkanta" />--> 
+            <property name="url" value="jdbc:mysql://localhost:3306/orm_helmi13" />
             <property name="username" value="root" />
             <property name="password" value="" />
         </bean> 

@@ -25,9 +25,15 @@ import javax.persistence.OneToOne;
         name = "findDatesOfCourse",
     query = "SELECT DISTINCT s.dateOfAccomplishment FROM Study s JOIN s.courseObjects co WHERE co.courseId = :courseId AND s.dateOfAccomplishment BETWEEN :startDate AND :endDate"),
     @NamedQuery(
-        name = "findMostPopulatedCourseInstance",
-    query = "SELECT COUNT(s.dateOfAccomplishment), s.dateOfAccomplishment from Study s JOIN s.courseObjects co "
-    + "WHERE co.courseId = '582206' AND s.dateOfAccomplishment BETWEEN '2010-01-01' AND '2010-12-31' GROUP BY s.dateOfAccomplishment")
+        name = "getStudiesBasedOnStudentNumber",
+        query = "SELECT DISTINCT s FROM Study s JOIN s.student student WHERE student.studentNumber = :studentNumber"
+//                query = "SELECT DISTINCT s.studyNumber FROM Study s JOIN s.student student WHERE student.studentNumber = '013546975' "
+
+        )
+//    @NamedQuery(
+//        name = "findMostPopulatedCourseInstance",
+//    query = "SELECT COUNT(s.dateOfAccomplishment), s.dateOfAccomplishment from Study s JOIN s.courseObjects co "
+//    + "WHERE co.courseId = '582206' AND s.dateOfAccomplishment BETWEEN '2010-01-01' AND '2010-12-31' GROUP BY s.dateOfAccomplishment")
 })
 public class Study extends AbstractModel implements Comparable {
 
@@ -35,7 +41,7 @@ public class Study extends AbstractModel implements Comparable {
     @JoinColumn
     private Stud student;
     private Integer studyNumber;
-    @ManyToMany(fetch=FetchType.EAGER)
+    @ManyToMany
     private List<CourseObject> courseObjects;
     @ManyToOne
     @JoinColumn
@@ -164,6 +170,7 @@ public class Study extends AbstractModel implements Comparable {
             ret = ret + this.studyNumber.toString() + " ";
         }
         ret = ret + Double.toString(credits);
+        ret = ret + this.courseObjects.get(0).getName();
         return ret;
     }
 

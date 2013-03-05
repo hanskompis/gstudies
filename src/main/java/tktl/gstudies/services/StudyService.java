@@ -75,4 +75,8 @@ public class StudyService extends GenericRepositoryService<Study> {
         succ++;
         System.out.println("succ: "+succ);
     }
+    @Transactional
+    public Study findByStudyNumber(Integer studyNumber){
+        return studyRepository.findByStudyNumber(studyNumber);
+    }
 }

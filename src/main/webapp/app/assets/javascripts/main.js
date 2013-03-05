@@ -2,7 +2,8 @@ App.Routers.Main = Backbone.Router.extend({
     routes: {
         "":    "home",
         "query" : "query",
-        "courseStats" : "courseStats"
+        "courseStats" : "courseStats",
+        "coursePairStats" : "coursePairStats"
     },
   
     home : function() {
@@ -27,6 +28,15 @@ App.Routers.Main = Backbone.Router.extend({
             el: $("#mainContainer")
         });
         courseStatsView.render();
+    },
+    
+    coursePairStats: function(){
+        $("#pictureContainer").empty();
+        $("#mainContainer").empty();
+        var coursePairStatsView = new App.Views.coursePairStatsView ({
+            el: $("#mainContainer")
+        });
+        coursePairStatsView.render();
     }
 });
 
