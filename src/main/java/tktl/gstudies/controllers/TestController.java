@@ -58,15 +58,15 @@ public class TestController {
 
     @RequestMapping(method = RequestMethod.GET, value = "test", produces = "application/json")
     @ResponseBody
-    public List<CourseStatsResponseObj> test() {
+    public CourseStats test() {
+        return coursePairStatsService.getCourseStatsForCoursePair("58131",2010,"582206");
 
-        return statisticService.getAllDataFromCourseBetweenYears("581326", 2007, 2007);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "coursepair", produces = "application/json", consumes = "application/json")
     @ResponseBody
-    public void coursepair(@RequestBody CoursePairCatcher cpc) {
-                System.out.println(cpc.getFirstCourseId()+" "+cpc.getFirstCourseYear()+" "+cpc.getSecondCourseId());
-        //return coursePairStatsService.getCourseStatsForCoursePair("58131", 2010, "582206");
+    public CourseStats coursepair(@RequestBody CoursePairCatcher cpc) {
+        System.out.println(cpc.getFirstCourseId() + " " + cpc.getFirstCourseYear() + " " + cpc.getSecondCourseId());
+        return coursePairStatsService.getCourseStatsForCoursePair(cpc.getFirstCourseId(), cpc.getFirstCourseYear(), cpc.getSecondCourseId(), cpc.getSecondCourseYear());
     }
 }

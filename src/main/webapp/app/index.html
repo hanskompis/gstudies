@@ -55,16 +55,70 @@
     <script type="text/template" id="coursePairStatsBaseTemplate">
         <div class="well">
             <p>Innit!</p>
-            1st course : <input type="text" id="firstCourseId" class="input-small" value="58131">
-            year of 1st course : <input type="text" id="firstCourseYear" class="input-small" value="2010">
-            2nd course : <input type="text" id="secondCourseId" class="input-small" value="582206"<br />
+            1st course : <input type="text" id="firstCourseId" class="input-small" value="582103">
+            year of 1st course : <input type="text" id="firstCourseYear" class="input-small" value="2009"><br />
+            2nd course : <input type="text" id="secondCourseId" class="input-small" value="58131">
+            year of 2nd course : <input type="text" id="secondCourseYear" class="input-small" value="2010"><br />
+
             <input type="button" id="submitCoursePairButton" value="send"><br/>
         </div>
         <div id="InfoContainer"></div>        
         <div id="statsContainer"></div>
         <div id="graphsContainer"></div>
     </script>
-
+    <script type="text/template" id="coursePairBasicStatsTemplate">
+        <br />
+        <div class="well">
+            <p><strong>course pair: {{courseId}}</strong></p>
+            <p><strong># studs passed course pair: {{passed}}</strong></p>
+            <table class="table table-bordered table-nonfluid">
+                <caption>Total credit yield after course pair</caption>
+                <tr>
+                    <td>7 months</td><td>13 months</td><td>19 months</td>
+                </tr>
+                <tr>
+                    <td>{{total7}}</td><td>{{total13}}</td><td>{{total19}}</td>
+                </tr>
+            </table>
+            <table class="table table-bordered table-nonfluid">
+                <caption>Average credit yield after course pair</caption>
+                <tr>
+                    <td>7 months</td><td>13 months</td><td>19 months</td>
+                </tr>
+                <tr>
+                    <td>{{amount7}}</td><td>{{amount13}}</td><td>{{amount19}}</td>
+                </tr>
+            </table>
+            <table class="table table-bordered table-nonfluid">
+                <caption>Average grade after course pair</caption>
+                <tr>
+                    <td>7 months</td><td>13 months</td><td>19 months</td>
+                </tr>
+                <tr>
+                    <td>{{aveGrades7}}</td><td>{{aveGrades13}}</td><td>{{aveGrades19}}</td>
+                </tr>
+            </table>
+            <table class="table table-bordered table-nonfluid">
+                <caption>SD of grades after course pair</caption>
+                <tr>
+                    <td>7 months</td><td>13 months</td><td>19 months</td>
+                </tr>
+                <tr>
+                    <td>{{SD7}}</td><td>{{SD13}}</td><td>{{SD19}}</td>
+                </tr>
+            </table>
+            <table class="table table-bordered table-nonfluid">
+                <caption>Zero achievers after course pair</caption>
+                <tr>
+                    <td>7 months</td><td>13 months</td><td>19 months</td>
+                </tr>
+                <tr>
+                    <td>{{zero7}}</td><td>{{zero13}}</td><td>{{zero19}}</td>
+                </tr>
+            </table>
+            <a class="btn btn-primary btn-small" id="csvImport">csv import &raquo;</a>
+        </div>
+    </script>
     <script type="text/template" id="courseBasicStatsTemplate">
         <br />
         <div class="well">
@@ -372,6 +426,7 @@
     <div id="pictureContainer"></div>
     <div id="mainContainer" class="container"></div>
 
+    <script src="assets/libs/FileSaver.min.js"></script>
     <script src="assets/libs/jquery-1.8.0.min.js"></script>
     <script src="assets/libs/jquery.flot.js"></script>
     <script src="assets/libs/jquery.curvedlines-0.2.3.min.js"></script>

@@ -5,6 +5,15 @@ public class CoursePairCatcher {
     String firstCourseId;
     Integer firstCourseYear;
     String secondCourseId;
+    Integer secondCourseYear;
+
+    public Integer getSecondCourseYear() {
+        return secondCourseYear;
+    }
+
+    public void setSecondCourseYear(Integer secondCourseYear) {
+        this.secondCourseYear = secondCourseYear;
+    }
 
     public String getFirstCourseId() {
         return firstCourseId;

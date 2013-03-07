@@ -73,25 +73,94 @@ App.Views.queryView = Backbone.View.extend({
 }),
 
 App.Views.coursePairStatsView = Backbone.View.extend({
-    render: function (){
+    response : null,
+    firstCourse : null,
+    secondCourse : null,
+    firstYear : null,
+    secondYear : null,
+
+    
+    render: function (response){
         var content = Mustache.to_html($("#coursePairStatsBaseTemplate").html(),{});
         $(this.el).html(content);
+        if(this.response){
+            console.log(JSON.stringify(this.response));
+            var courseBasicStats = Mustache.to_html($("#coursePairBasicStatsTemplate").html(),
+            {
+                courseId : this.response.get("groupIdentifier"),
+                passed : this.response.get("amountStudents"),
+                aveGrades7 : this.response.get("averageGradeSevenMonths").toFixed(2),
+                aveGrades13 : this.response.get("averageGradeThirteenMonths").toFixed(2),
+                aveGrades19 : this.response.get("averageGradeNineteenMonths").toFixed(2),
+                SD7 : this.response.get("standardDeviationGradesSevenMonths").toFixed(2),
+                SD13 : this.response.get("standardDeviationGradesThirteenMonths").toFixed(2),
+                SD19 : this.response.get("standardDeviationGradesNineteenMonths").toFixed(2),
+                amount7 : this.response.get("averageCreditsSevenMonths"),
+                amount13 : this.response.get("averageCreditsThirteenMonths"),
+                amount19 : this.response.get("averageCreditsNineteenMonths"),
+                zero7 : this.response.get("amountZeroAchieversSevenMonths"),
+                zero13 : this.response.get("amountZeroAchieversThirteenMonths"),
+                zero19 : this.response.get("amountZeroAchieversNineteenMonths"),
+                total7 : this.response.get("amountCreditsSevenMonths"),
+                total13 : this.response.get("amountCreditsThirteenMonths"),
+                total19 : this.response.get("amountCreditsNineteenMonths")
+            });  
+            $("#statsContainer").append(courseBasicStats);
+        }
     },
     events : {
-        "click #submitCoursePairButton" : "submitCoursePairAction"
+        "click #submitCoursePairButton" : "submitCoursePairAction",
+        "click #csvImport" : "csvImportAction"
     },
+    
+    csvImportAction : function(){
+        var csv = this.composeCSV();
+        //        alert(csv);
+        var blob = new Blob([csv], {
+            type: "text/plain;charset=utf-8"
+        });
+        saveAs(blob, this.response.get("groupIdentifier")+".csv");  
+    },
+    
     submitCoursePairAction : function(){
-        console.log("pushhhh")
+        this.firstCourse = $("#firstCourseId").val();
+        this.secondCourse = $("#secondCourseId").val();
+        this.firstYear = $("#firstCourseYear").val();
+        this.secondYear = $("#secondCourseYear").val();        
+        
         var coursepair = new App.Models.CoursePair({
             firstCourseId : $("#firstCourseId").val(),
             firstCourseYear : $("#firstCourseYear").val(),
-            secondCourseId : $("#secondCourseId").val()
+            secondCourseId : $("#secondCourseId").val(),
+            secondCourseYear : $("#secondCourseYear").val()
         })
-        coursepair.save({},{
-            success : function(model,response){
-                alert("HELLO!");
-            }
-        })
+        var self = this;
+        this.response = new Backbone.Model(pairtestresponse);
+        this.render();
+    //        coursepair.save({},{
+    //            success : function(model,response){
+    //                console.log(JSON.stringify(response));
+    //                self.response = new Backbone.Model(response);
+    //                self.render();
+    //            }
+    //        })
+    }
+    ,
+    composeCSV : function(){
+        var csv = '';
+        csv += "first course, year, second course, year\n";
+        csv += this.firstCourse+","+this.firstYear+","+this.secondCourse+","+this.secondYear+"\n\n"
+        csv += "students passed\n";
+        csv += this.response.get("amountStudents")+("\n\n");
+        csv += "total credits 7 months, total credits 13 months, total credits 19 months \n"
+        csv += this.response.get("amountCreditsSevenMonths")+(",")+this.response.get("amountCreditsThirteenMonths")+(",")+this.response.get("amountCreditsNineteenMonths")+"\n\n"
+        csv += "average credits 7 months, average credits 13 months, average credits 19 months \n"
+        csv += this.response.get("averageCreditsSevenMonths")+(",")+this.response.get("averageCreditsThirteenMonths")+(",")+this.response.get("averageCreditsNineteenMonths")+"\n\n"
+        csv += "average grade 7 months, average grade 13 months, average grade 19 months \n"
+        csv += this.response.get("averageGradeSevenMonths")+(",")+this.response.get("averageGradeThirteenMonths")+(",")+this.response.get("averageGradeNineteenMonths")+"\n\n"
+        csv += "SD of grades 7 months, SD of grades 13 months, SD of grades 19 months \n"
+        csv += this.response.get("standardDeviationGradesSevenMonths")+(",")+this.response.get("standardDeviationGradesThirteenMonths")+(",")+this.response.get("standardDeviationGradesNineteenMonths")+"\n\n"
+        return csv;
     }
 }),
     
