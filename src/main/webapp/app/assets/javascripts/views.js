@@ -168,7 +168,7 @@ App.Views.courseStatsView = Backbone.View.extend({
     PASSED : 0, 
     FAILED : 1, 
     ALL : 2,
-    dataSeries2 : null, 
+//    dataSeries2 : null, 
 
     response :null,    
     render: function (){
@@ -204,11 +204,20 @@ App.Views.courseStatsView = Backbone.View.extend({
         "click #credits19CumulGraphButton" : "credits19CumulGraphAction",
         "click #credits7CumulReverGraphButton" : "credits7CumulReverGraphAction",
         "click #credits13CumulReverGraphButton" : "credits13CumulReverGraphAction",
-        "click #credits19CumulReverGraphButton" : "credits19CumulReverGraphAction"
+        "click #credits19CumulReverGraphButton" : "credits19CumulReverGraphAction",
+        "click #csvImportSingle" : "csvImportActionSingle"
     //    "click #credits7HistoGraphButton" : "credits7HistoGraphAction"//,
     //        "click #credits13HistoGraphButton" : "credits13HistoGraphAction",
     //        "click #credits19HistoGraphButton" : "credits19HistoGraphAction"
 
+    },
+    
+    csvImportActionSingle : function(){
+        var csv = this.response.models[0].get("courseId");
+        var blob = new Blob([csv], {
+            type: "text/plain;charset=utf-8"
+        });
+        saveAs(blob, this.response.models[0].get("courseId")+".csv");
     },
     
     credits7GraphAction : function (){
