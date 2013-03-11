@@ -114,7 +114,8 @@ App.Views.coursePairStatsView = Backbone.View.extend({
     },
     
     csvImportAction : function(){
-        var csv = this.composeCSV();
+        CSVUtils.response = this.response;
+        var csv = CSVUtils.composeCSV();
         //        alert(csv);
         var blob = new Blob([csv], {
             type: "text/plain;charset=utf-8"
@@ -145,30 +146,13 @@ App.Views.coursePairStatsView = Backbone.View.extend({
     //            }
     //        })
     }
-    ,
-    composeCSV : function(){
-        var csv = '';
-        csv += "first course, year, second course, year\n";
-        csv += this.firstCourse+","+this.firstYear+","+this.secondCourse+","+this.secondYear+"\n\n"
-        csv += "students passed\n";
-        csv += this.response.get("amountStudents")+("\n\n");
-        csv += "total credits 7 months, total credits 13 months, total credits 19 months \n"
-        csv += this.response.get("amountCreditsSevenMonths")+(",")+this.response.get("amountCreditsThirteenMonths")+(",")+this.response.get("amountCreditsNineteenMonths")+"\n\n"
-        csv += "average credits 7 months, average credits 13 months, average credits 19 months \n"
-        csv += this.response.get("averageCreditsSevenMonths")+(",")+this.response.get("averageCreditsThirteenMonths")+(",")+this.response.get("averageCreditsNineteenMonths")+"\n\n"
-        csv += "average grade 7 months, average grade 13 months, average grade 19 months \n"
-        csv += this.response.get("averageGradeSevenMonths")+(",")+this.response.get("averageGradeThirteenMonths")+(",")+this.response.get("averageGradeNineteenMonths")+"\n\n"
-        csv += "SD of grades 7 months, SD of grades 13 months, SD of grades 19 months \n"
-        csv += this.response.get("standardDeviationGradesSevenMonths")+(",")+this.response.get("standardDeviationGradesThirteenMonths")+(",")+this.response.get("standardDeviationGradesNineteenMonths")+"\n\n"
-        return csv;
-    }
 }),
     
 App.Views.courseStatsView = Backbone.View.extend({
     PASSED : 0, 
     FAILED : 1, 
     ALL : 2,
-//    dataSeries2 : null, 
+    //    dataSeries2 : null, 
 
     response :null,    
     render: function (){
@@ -213,13 +197,14 @@ App.Views.courseStatsView = Backbone.View.extend({
     },
     
     csvImportActionSingle : function(){
-        var csv = this.response.models[0].get("courseId");
+        CSVUtils.response = this.response;
+        var csv = CSVUtils.composeSingleCourseCSV();
         var blob = new Blob([csv], {
             type: "text/plain;charset=utf-8"
         });
         saveAs(blob, this.response.models[0].get("courseId")+".csv");
     },
-    
+      
     credits7GraphAction : function (){
         $("#graphsContainer").empty();
         var content = Mustache.to_html($("#credits7Template").html(),{});
