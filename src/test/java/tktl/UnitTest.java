@@ -109,7 +109,7 @@ public class UnitTest {
         }
         if(this.pairCourseStats == null){
             System.out.println("HEP");
-            this.pairCourseStats = this.coursePairStatsService.getCourseStatsForCoursePair("1", 2006, "5");
+            this.pairCourseStats = this.coursePairStatsService.getCourseStatsForCoursePair("1", 2006, "5",2008);
         }
 //        if (!this.jsonWritten) {
 //            Gson gson = new Gson();

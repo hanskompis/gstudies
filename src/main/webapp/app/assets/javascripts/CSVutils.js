@@ -3,6 +3,10 @@ var CSVUtils = {
     PASSED : 0, 
     FAILED : 1, 
     ALL : 2,
+    firstCourse : null,
+    secondCourse : null,
+    firstYear : null,
+    secondYear : null,
     
     composeSingleCourseCSV : function(){
         var csv = '';

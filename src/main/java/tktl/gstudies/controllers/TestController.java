@@ -2,12 +2,16 @@ package tktl.gstudies.controllers;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import tktl.gstudies.exceptions.GstudiesException;
 
 import tktl.gstudies.importClasses.ImportService;
 import tktl.gstudies.responseobjs.CourseCatcher;
@@ -17,6 +21,8 @@ import tktl.gstudies.responseobjs.CourseAndTimeSpanCatcher;
 import tktl.gstudies.responseobjs.CoursePairCatcher;
 import tktl.gstudies.responseobjs.CourseStats;
 import tktl.gstudies.responseobjs.CourseStatsResponseObj;
+import tktl.gstudies.responseobjs.JSONMessage;
+import tktl.gstudies.responseobjs.JSONMessageCode;
 import tktl.gstudies.services.CoursePairStatsService;
 import tktl.gstudies.services.StatisticService;
 import tktl.gstudies.services.StatisticServiceImpl;
@@ -59,14 +65,40 @@ public class TestController {
     @RequestMapping(method = RequestMethod.GET, value = "test", produces = "application/json")
     @ResponseBody
     public CourseStats test() {
-        return coursePairStatsService.getCourseStatsForCoursePair("58131",2010,"582206");
+        return coursePairStatsService.getCourseStatsForCoursePair("58131", 2010, "582206");
 
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "coursepair", produces = "application/json", consumes = "application/json")
     @ResponseBody
     public CourseStats coursepair(@RequestBody CoursePairCatcher cpc) {
-        System.out.println(cpc.getFirstCourseId() + " " + cpc.getFirstCourseYear() + " " + cpc.getSecondCourseId());
+        System.out.println(cpc.getFirstCourseId() + " " + cpc.getFirstCourseYear() + " " + cpc.getSecondCourseId() + " " + cpc.getSecondCourseYear());
         return coursePairStatsService.getCourseStatsForCoursePair(cpc.getFirstCourseId(), cpc.getFirstCourseYear(), cpc.getSecondCourseId(), cpc.getSecondCourseYear());
+    }
+
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public JSONMessage handleException(Exception exception) {
+
+        System.out.println("handleException");
+        System.out.println(exception.toString());
+        exception.printStackTrace();
+        return new JSONMessage(JSONMessageCode.INTERNAL_ERROR, "Internal error.");
+    }
+
+    @ExceptionHandler(IndexOutOfBoundsException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public JSONMessage handleHttpMessageNotReadableException(IndexOutOfBoundsException exception) {
+        return new JSONMessage(JSONMessageCode.INTERNAL_ERROR, "IndexOutOfBound");
+    }
+
+    @ExceptionHandler(GstudiesException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public JSONMessage handleZeroDatesException(GstudiesException exception) {
+        System.out.println(exception.getMessage());
+        return new JSONMessage(JSONMessageCode.INTERNAL_ERROR, exception.getMessage());
     }
 }

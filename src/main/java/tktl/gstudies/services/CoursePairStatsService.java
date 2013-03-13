@@ -8,6 +8,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.stereotype.Service;
 import tktl.gstudies.domain.Stud;
+import tktl.gstudies.exceptions.GstudiesException;
 import tktl.gstudies.responseobjs.CourseStatResponse;
 import tktl.gstudies.responseobjs.CourseStats;
 import tktl.gstudies.responseobjs.CourseStatsResponseObj;
@@ -49,12 +50,13 @@ public class CoursePairStatsService {
     }
     
         public CourseStats getCourseStatsForCoursePair(String firstCourseId, int firstYear, String followingCourseId, int followingYear) {
+            if(this.statsUtils.findMostPopulatedCourseInstancesBetweenYears(firstCourseId, firstYear, firstYear).size() == 0){
+                throw new GstudiesException("zero dates motherfucker, course: "+firstCourseId+", year: "+firstYear);
+            }
         Date date = this.statsUtils.findMostPopulatedCourseInstancesBetweenYears(firstCourseId, firstYear, firstYear).get(0);
 
         CourseStats courseStats = new CourseStats(firstCourseId + "-" + followingCourseId);
         Date dateOfConsequentCourse = this.statsUtils.findMostPopulatedCourseInstancesBetweenYears(followingCourseId, followingYear, followingYear).get(0);
-        System.out.println("DATE OF PRECEDING COURSE: " + date);
-        System.out.println("DATE OF CONSEQUENT COURSE: " + dateOfConsequentCourse);
         List<Stud> students = this.getStudentGroupFromTwoCourses(firstCourseId, date, followingCourseId, dateOfConsequentCourse);
         courseStats.setAmountStudents(students.size());
         for (Stud s : students) {

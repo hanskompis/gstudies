@@ -42,9 +42,9 @@
     <script type="text/template" id="courseStatsBaseTemplate">
         <div class="well">
             <p>Booyakasha!</p>
-            tunniste : <input type="text" id="courseId" class="input-small" value="582206">
-            aloitusvuosi : <input type="text" id="startYear" class="input-small" value="2007">
-            päättymisvuosivuosi : <input type="text" id="endYear" class="input-small" value="2010"<br />
+            tunniste : <input type="text" id="courseId" class="input-small">
+            aloitusvuosi : <input type="text" id="startYear" class="input-small">
+            päättymisvuosivuosi : <input type="text" id="endYear" class="input-small" <br />
             <input type="button" id="submitCourseButton" value="lähetä"><br/>
         </div>
         <div id="InfoContainer"></div>        
@@ -397,7 +397,7 @@
 
 <script type="text/template" id="InfoTemplate">
     <div class="alert alert-info">
-        <Strong>Busy.</strong> Y U no take coffee while waiting?
+        <Strong>{{strongInfo}}</strong> {{otherInfo}}
     </div>
 </script>
 
