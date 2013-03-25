@@ -59,6 +59,7 @@ public class TestController {
     produces = "application/json", consumes = "application/json")
     @ResponseBody
     public List<CourseStatsResponseObj> courseinstances(@RequestBody CourseAndTimeSpanCatcher catsc) {
+        System.out.println(catsc.getCourseId()+" "+ catsc.getStartYear()+" "+ catsc.getEndYear());
         return statisticService.getAllDataFromCourseBetweenYears(catsc.getCourseId(), catsc.getStartYear(), catsc.getEndYear());
     }
 

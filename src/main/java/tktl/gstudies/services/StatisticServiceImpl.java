@@ -14,14 +14,10 @@ import org.springframework.stereotype.Service;
 import tktl.gstudies.domain.CourseObject;
 import tktl.gstudies.domain.Stud;
 import tktl.gstudies.domain.Study;
+import tktl.gstudies.exceptions.GstudiesException;
 import tktl.gstudies.responseobjs.CourseStats;
 import tktl.gstudies.responseobjs.CourseStatsResponseObj;
 
-/**
- * Service class for producing statistical report on course instance.
- *
- * @author hkeijone
- */
 @Service
 public class StatisticServiceImpl implements StatisticService {
 
@@ -224,6 +220,9 @@ public class StatisticServiceImpl implements StatisticService {
     @Override
     public List<CourseStatsResponseObj> getAllDataFromCourseBetweenYears(String courseId, int startYear, int endYear) {
         List<Date> dates = this.statsUtils.findMostPopulatedCourseInstancesBetweenYears(courseId, startYear, endYear);
+        if(dates.size() == 0){
+            throw new GstudiesException("No dates dipshit! course: "+courseId+" years: "+startYear+" "+endYear);
+        }
 
         List<CourseStatsResponseObj> toReturn = new ArrayList<CourseStatsResponseObj>();
         for (Date d : dates) {

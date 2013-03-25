@@ -11,7 +11,9 @@ import javax.persistence.PersistenceContext;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.stereotype.Service;
+import tktl.gstudies.domain.AcademicYearEnrollment;
 import tktl.gstudies.domain.CourseObject;
+import tktl.gstudies.domain.RightToStudy;
 import tktl.gstudies.domain.Stud;
 import tktl.gstudies.domain.Study;
 import tktl.gstudies.importClasses.ImportService;
@@ -171,14 +173,14 @@ public class StatsUtils {
     public List<Study> getStudiesByStudentNumber(String studentNumber) {
         return em.createNamedQuery("getStudiesBasedOnStudentNumber").setParameter("studentNumber", studentNumber).getResultList();
     }
-
+    
     public static void main(String[] args) {
         // /home/hkeijone/gstudies/
         String prefix = "src/main/webapp/WEB-INF/";
         ApplicationContext ctx = new FileSystemXmlApplicationContext(new String[]{prefix + "gstudies-servlet.xml", prefix + "database.xml"});
 
         StatsUtils su = (StatsUtils) ctx.getBean("statsUtils");
-        System.out.println(su.getStudiesByStudentNumber("013546975"));
-
+        //System.out.println(su.getStudiesByStudentNumber("013546975"));
+//        su.getAllCSStudsEnrollingInSemester(su.makeDate("2010-08-01"));
     }
 }

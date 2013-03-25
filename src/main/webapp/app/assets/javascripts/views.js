@@ -119,6 +119,25 @@ App.Views.coursePairStatsView = Backbone.View.extend({
     },
     
     submitCoursePairAction : function(){
+        $("#statsContainer").empty();
+        $("#infoContainer").empty();
+        var content = Mustache.to_html($("#infoTemplate").html(),{
+            strongInfo : "Busy.", 
+            otherInfo : "Y U no take coffee while waiting"
+        });
+        $(("#infoContainer")).html(content);
+        
+        if($("#firstCourseYear").val() > $("#secondCourseYear").val()){
+
+            alert("ei näitä!");
+            var content = Mustache.to_html($("#errorTemplate").html(),{
+                strongInfo : "Error.", 
+                otherInfo : "1st year larger than 2nd year, for fuck's sake"
+            });
+            $(("#infoContainer")).html(content);
+            return;
+            return;
+        }
         CSVUtils.firstCourse = $("#firstCourseId").val();
         CSVUtils.secondCourse = $("#secondCourseId").val();
         CSVUtils.firstYear = $("#firstCourseYear").val();
@@ -140,15 +159,15 @@ App.Views.coursePairStatsView = Backbone.View.extend({
                 self.render();
             },
             error : function(model,response){
+                $("#statsContainer").empty();
                 var message = JSON.parse(response.responseText).message;
-                if(message.indexOf("zero dates") !== -1){
-                    console.log("JEHH");
-                    $("#statsContainer").empty();
-                    var content = Mustache.to_html($("#InfoTemplate").html(),{
+                if(message.indexOf("dates") !== -1){
+                    $("#infoContainer").empty();
+                    var content = Mustache.to_html($("#errorTemplate").html(),{
                         strongInfo : "Error.", 
                         otherInfo : message
                     });
-                    $(("#graphsContainer")).html(content)
+                    $("#infoContainer").html(content)
                 }
             }
         })
@@ -333,12 +352,21 @@ App.Views.courseStatsView = Backbone.View.extend({
             startYear : $("#startYear").val(),
             endYear : $("#endYear").val()
         });
+        if(course.get("startYear") > course.get("endYear")){
+            var content = Mustache.to_html($("#errorTemplate").html(),{
+                strongInfo : "Error.", 
+                otherInfo : "start year larger than end year, for fuck's sake"
+            });
+            $(("#infoContainer")).html(content);
+            return;
+        }
         $("#statsContainer").empty();
-        var content = Mustache.to_html($("#InfoTemplate").html(),{
-            strongInfo : "Busy", 
+        $("#infoContainer").empty();
+        var content = Mustache.to_html($("#infoTemplate").html(),{
+            strongInfo : "Busy.", 
             otherInfo : "Y U no take coffee while waiting"
         });
-        $(("#graphsContainer")).html(content);
+        $(("#infoContainer")).html(content);
         
         //
         //        this.response = new Backbone.Collection(testResponse);
@@ -356,6 +384,21 @@ App.Views.courseStatsView = Backbone.View.extend({
                 dataSeriesUtils.response = courseResponse;
                 dataSeriesUtils.setDataSeries();
                 self.render();  
+            },
+            error : function(model,response){
+                console.log(JSON.parse(response.responseText).message);
+                var message = JSON.parse(response.responseText).message;
+                if(message.indexOf("dates") !== -1){
+                    console.log("täällä")
+                    $("#infoContainer").empty();
+                    var content = Mustache.to_html($("#errorTemplate").html(),{
+                        strongInfo : "Error.", 
+                        otherInfo : message
+                    });
+                    console.log(content);
+                    $("#infoContainer").html(content);
+
+                }
             }
         })
     },

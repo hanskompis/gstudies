@@ -47,7 +47,7 @@
             päättymisvuosivuosi : <input type="text" id="endYear" class="input-small" <br />
             <input type="button" id="submitCourseButton" value="lähetä"><br/>
         </div>
-        <div id="InfoContainer"></div>        
+        <div id="infoContainer"></div>        
         <div id="statsContainer"></div>
         <div id="graphsContainer"></div>
     </script>
@@ -62,7 +62,7 @@
 
             <input type="button" id="submitCoursePairButton" value="send"><br/>
         </div>
-        <div id="InfoContainer"></div>        
+        <div id="infoContainer"></div>        
         <div id="statsContainer"></div>
         <div id="graphsContainer"></div>
     </script>
@@ -395,8 +395,14 @@
     </div>
 </script>
 
-<script type="text/template" id="InfoTemplate">
+<script type="text/template" id="infoTemplate">
     <div class="alert alert-info">
+        <Strong>{{strongInfo}}</strong> {{otherInfo}}
+    </div>
+</script>
+
+<script type="text/template" id="errorTemplate">
+    <div class="alert alert-error">
         <Strong>{{strongInfo}}</strong> {{otherInfo}}
     </div>
 </script>

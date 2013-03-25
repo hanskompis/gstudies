@@ -80,6 +80,9 @@ public class CoursePairStatsService {
         List<Stud> studsOnCourse = this.statsUtils.getCSStudentsFromCourseWhoPassedOnDate(courseId, dateOfCourse.toString());
         System.out.println("STUDSONCOURSE: " + studsOnCourse.size());
         List<Stud> studsWhoPassedBothCourses = this.statsUtils.getStudentsWhoPassedConsequentCourseOnDate(studsOnCourse, followingCourseId, dateOfCourse, dateOfConsequentCourse);
+        if(studsWhoPassedBothCourses.size() == 0){
+            throw new GstudiesException("Number of student who passed both courses: zero, nil. Jesus...");
+        }
         System.out.println("STUDSPASSEDBOTH: " + studsWhoPassedBothCourses.size());
         System.out.println("PROSSA: " + (1.0 * studsWhoPassedBothCourses.size() / studsOnCourse.size()) * 100);
         return studsWhoPassedBothCourses;
