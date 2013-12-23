@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,8 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import tktl.gstudies.exceptions.GstudiesException;
 
-import tktl.gstudies.importClasses.ImportService;
-import tktl.gstudies.responseobjs.CourseCatcher;
 import tktl.gstudies.responseobjs.Query;
 import tktl.gstudies.repositories.JDBCRepository;
 import tktl.gstudies.responseobjs.CourseAndTimeSpanCatcher;
@@ -25,7 +22,6 @@ import tktl.gstudies.responseobjs.JSONMessage;
 import tktl.gstudies.responseobjs.JSONMessageCode;
 import tktl.gstudies.services.CoursePairStatsService;
 import tktl.gstudies.services.StatisticService;
-import tktl.gstudies.services.StatisticServiceImpl;
 
 /**
  * Controller for getting course information. GUI will maybe not be implemented
@@ -63,12 +59,12 @@ public class TestController {
         return statisticService.getAllDataFromCourseBetweenYears(catsc.getCourseId(), catsc.getStartYear(), catsc.getEndYear());
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "test", produces = "application/json")
-    @ResponseBody
-    public CourseStats test() {
-        return coursePairStatsService.getCourseStatsForCoursePair("58131", 2010, "582206");
-
-    }
+//    @RequestMapping(method = RequestMethod.GET, value = "test", produces = "application/json")
+//    @ResponseBody
+//    public CourseStats test() {
+//        return coursePairStatsService.getCourseStatsForCoursePair("58131", 2010, "582206");
+//
+//    }
 
     @RequestMapping(method = RequestMethod.POST, value = "coursepair", produces = "application/json", consumes = "application/json")
     @ResponseBody

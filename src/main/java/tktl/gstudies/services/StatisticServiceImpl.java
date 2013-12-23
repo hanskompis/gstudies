@@ -50,6 +50,22 @@ public class StatisticServiceImpl implements StatisticService {
         return sumCredits;
     }
 
+    @Override
+    public double getCSCreditsNMonthsSpan(List<Study> studies, Date startDate, int timeSpan) {
+        double sumCredits = 0;
+        Date endDate = AddMonthsToDate(startDate, timeSpan);
+        for (Study s : studies) {
+            if (s.getTypeOfStudy().getCode() != 1 || s.getStatusOfStudy().getCode() != 4 || s.getCourseObjects().get(0).getCourseId().indexOf("58") != 0) {
+                continue;
+            }
+            Date dateOfAccomplishment = s.getDateOfAccomplishment();
+            if (dateOfAccomplishment.after(startDate) && dateOfAccomplishment.before(endDate)) {
+                sumCredits = sumCredits + s.getCredits();
+            }
+        }
+        return sumCredits;
+    }
+
     private int getAmountPassedCoursesFromStud(List<Study> studies, Date startDate, int timeSpan) {
         int amountCourses = 0;
         Date endDate = AddMonthsToDate(startDate, timeSpan);
@@ -220,8 +236,8 @@ public class StatisticServiceImpl implements StatisticService {
     @Override
     public List<CourseStatsResponseObj> getAllDataFromCourseBetweenYears(String courseId, int startYear, int endYear) {
         List<Date> dates = this.statsUtils.findMostPopulatedCourseInstancesBetweenYears(courseId, startYear, endYear);
-        if(dates.size() == 0){
-            throw new GstudiesException("No dates dipshit! course: "+courseId+" years: "+startYear+" "+endYear);
+        if (dates.size() == 0) {
+            throw new GstudiesException("No dates dipshit! course: " + courseId + " years: " + startYear + " " + endYear);
         }
 
         List<CourseStatsResponseObj> toReturn = new ArrayList<CourseStatsResponseObj>();

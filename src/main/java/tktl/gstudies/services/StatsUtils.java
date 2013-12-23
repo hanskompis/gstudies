@@ -24,12 +24,72 @@ public class StatsUtils {
     @PersistenceContext
     EntityManager em;
 
-    public List<Stud> getCSStudentsFromCourseWhoPassedOnDate(String courseId, String dateOfAccomplishment) {
-        Date paramDate = makeDate(dateOfAccomplishment);
+    private AcademicYearEnrollment getFirstEnrollment(List<AcademicYearEnrollment> enrollments) {
+        if (enrollments.size() == 0) {
+            return null;
+        }
+        AcademicYearEnrollment first = enrollments.get(0);
+        for (AcademicYearEnrollment a : enrollments) {
+            if (a.getStartDate().before(first.getStartDate())) {
+                first = a;
+            }
+        }
+        return first;
+    }
+
+    private RightToStudy getFirstRightToStudy(List<RightToStudy> ritesToStudy) {
+        if (ritesToStudy.isEmpty()) {
+            return null;
+        }
+        RightToStudy first = ritesToStudy.get(0);
+        for (RightToStudy r : ritesToStudy) {
+            if (!r.getMainSubject().equals("Tietojenkäsittelytiede")) {
+                continue;
+            }
+            if (r.getStartingDate().before(first.getStartingDate())) {
+                first = r;
+            }
+        }
+        return first;
+    }
+
+    /**
+     *
+     * muokatu paprua varten - palauta!!!!
+     */
+    public List<Stud> getAllCSStudsEnrollingInSemester(String dateOfEnrollment, String dateOfRightToStudy) {
+        Date ofEnrollment = this.makeDate(dateOfEnrollment);
+        Date ofRiteToStudy = this.makeDate(dateOfRightToStudy);
+        List<Stud> studs = em.createNamedQuery("getAllCSStuds").getResultList();
+        //lisäys papruun - poistettava!!!
+//        List<Stud> studsUnder22 = new ArrayList<Stud>();
+//        for (Stud stud : studs) {
+//            if(stud.getAge(ofEnrollment) < 22){
+//                studsUnder22.add(stud);
+//            }
+//        }
+        List<Stud> toReturn = new ArrayList<Stud>();
+
+        for (Stud s : studs) {
+            if (this.getFirstEnrollment(s.getEnrollments()) != null
+                    && this.getFirstEnrollment(s.getEnrollments()).getStartDate().equals(ofEnrollment)
+                    && this.getFirstRightToStudy(s.getRightsToStudy()).getStartingDate().equals(ofRiteToStudy)
+                    && this.getFirstRightToStudy(s.getRightsToStudy()) != null) {
+                toReturn.add(s);
+            }
+        }
+        return toReturn;
+    }
+
+    public List<Stud> getCSStudentsFromCourseWhoPassedOnDate(String courseId, Date date) {
         return em.createNamedQuery("findCSStudentsFromCourseWhoPassedOnDate")
                 .setParameter("courseId", courseId)
-                .setParameter("dateOfAccomplishment", paramDate)
+                .setParameter("dateOfAccomplishment", date)
                 .getResultList();
+    }
+
+    public List<Stud> getCSStudentsFromCourseWhoPassedOnDate(String courseId, String dateOfAccomplishment) {
+        return getCSStudentsFromCourseWhoPassedOnDate(courseId, makeDate(dateOfAccomplishment));
     }
 
     public List<Stud> getCSStudentsFromCourseWhoFailedOnDate(String courseId, String dateOfAccomplishment) {
@@ -44,6 +104,37 @@ public class StatsUtils {
         Date paramDate = this.makeDate(dateString);
         return em.createNamedQuery("findCSStudentsFromCourseOnDate").setParameter("courseId", courseId)
                 .setParameter("dateOfAccomplishment", paramDate).getResultList();
+
+    }
+
+//    public List<Stud> getCSStudentsUnder22FromCourseOnDate(String dateStringCourse, String courseId, String dateStringEnrollment) {
+//        Date paramDate = this.makeDate(dateStringCourse);
+//        Date enrollMentDate = this.makeDate(dateStringEnrollment);
+//        List<Stud> allStuds = em.createNamedQuery("findCSStudentsFromCourseOnDate").setParameter("courseId", courseId)
+//                .setParameter("dateOfAccomplishment", paramDate).getResultList();
+//        List<Stud> under22 = this.getUnder22(allStuds, enrollMentDate);
+//        return under22;
+//    }
+
+//    public List<Stud> getCSStudentsUnder22FromCourseWhoPassedOnDate(String courseId, Date date, String dateStringEnrollment) {
+//        Date enrollMentDate = this.makeDate(dateStringEnrollment);
+//
+//        List<Stud> allStuds = em.createNamedQuery("findCSStudentsFromCourseWhoPassedOnDate")
+//                .setParameter("courseId", courseId)
+//                .setParameter("dateOfAccomplishment", date)
+//                .getResultList();
+//        List<Stud> under22 = this.getUnder22(allStuds, enrollMentDate);
+//        return under22;
+//    }
+
+    public List<Stud> getUnder22(List<Stud> allStuds, Date date) {
+        List<Stud> under22 = new ArrayList<Stud>();
+        for (Stud stud : allStuds) {
+            if (stud.getAge(date) < 22) {
+                under22.add(stud);
+            }
+        }
+        return under22;
     }
 
     public List<Date> findDatesOfCourse(String courseId, String year) {
@@ -61,7 +152,11 @@ public class StatsUtils {
                 mostStudents = amountStudents;
                 dateOfMostStudents = d;
             }
+
+//            System.out.println("\t" + amountStudents + " ON " + d.toGMTString());
         }
+
+//        System.out.println("MOST STUDENTS: " + mostStudents + " ON DATE: " + dateOfMostStudents);
         return dateOfMostStudents;
     }
 
@@ -139,25 +234,28 @@ public class StatsUtils {
             System.out.println("EI OPINTOJA!!");
             return false;
         }
+
         for (Study s : studies) {
             if (s.getCourseObjects() == null) {
-                System.out.println("EI KURSSIOBJEKTEJA!!");
-                return false;
+//                System.out.println("EI KURSSIOBJEKTEJA!!");
+                continue;
             }
             if (s.getDateOfAccomplishment() == null) {
-                System.out.println("EI DATEOFACCOA");
-                return false;
+//                System.out.println("EI DATEOFACCOA");
+                continue;
             }
             if (s.getStatusOfStudy() == null) {
-                System.out.println("EI STATUSOFÄÄSSIÄ");
-                return false;
+//                System.out.println("EI STATUSOFÄÄSSIÄ");
+                continue;
             }
+
             if (courseObjectHasCorrectCourseId(s.getCourseObjects(), courseId)
                     && s.getDateOfAccomplishment().compareTo(d) == 0 && s.getStatusOfStudy().getCode().intValue() == 4) {
                 return true;
             }
 
         }
+
         return false;
     }
 
@@ -173,13 +271,14 @@ public class StatsUtils {
     public List<Study> getStudiesByStudentNumber(String studentNumber) {
         return em.createNamedQuery("getStudiesBasedOnStudentNumber").setParameter("studentNumber", studentNumber).getResultList();
     }
-    
+
     public static void main(String[] args) {
         // /home/hkeijone/gstudies/
         String prefix = "src/main/webapp/WEB-INF/";
         ApplicationContext ctx = new FileSystemXmlApplicationContext(new String[]{prefix + "gstudies-servlet.xml", prefix + "database.xml"});
 
         StatsUtils su = (StatsUtils) ctx.getBean("statsUtils");
+        List<Stud> studs = su.getAllCSStudsEnrollingInSemester("2010-08-01", "2010-08-01");
         //System.out.println(su.getStudiesByStudentNumber("013546975"));
 //        su.getAllCSStudsEnrollingInSemester(su.makeDate("2010-08-01"));
     }

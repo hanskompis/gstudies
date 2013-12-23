@@ -17,6 +17,7 @@ public interface StatisticService {
 
 //    public List<Stud> getCSStudentsFromCourseWhoPassedOnDate(String courseId, String dateOfWrite);
     //  public List<Stud> getCSStudentsFromCourseWhoFailedOnDate(String courseId, String dateOfWrite);
+    public double getCSCreditsNMonthsSpan(List<Study> studies, Date startDate, int timeSpan);
     public void sortCourses(Stud s);
 
     public CourseStats doTheMagic(String groupIdentifier, String dateString, String courseId);

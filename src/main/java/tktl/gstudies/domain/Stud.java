@@ -1,6 +1,7 @@
 package tktl.gstudies.domain;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
@@ -18,8 +19,8 @@ import javax.persistence.OneToMany;
 @NamedQueries({
     @NamedQuery(
             name = "findCSStudentsFromCourseWhoPassedOnDate",
-    query = "SELECT DISTINCT s FROM Stud s JOIN s.rightsToStudy r, s.studies t JOIN t.courseObjects c, t.statusOfStudy o "
-    + "WHERE c.courseId = :courseId AND t.dateOfAccomplishment = :dateOfAccomplishment AND o.code = 4 AND r.mainSubject ='Tietojenkäsittelytiede'"),
+    query = "SELECT DISTINCT s FROM Stud s JOIN  s.studies t JOIN t.courseObjects c, t.statusOfStudy o " // s.rightsToStudy r,
+    + "WHERE c.courseId = :courseId AND t.dateOfAccomplishment = :dateOfAccomplishment AND o.code = 4"), // AND r.mainSubject ='Tietojenkäsittelytiede'
     @NamedQuery(
             name = "findOtherStudentsFromCourseWhoPassedOnDate",
     query = "SELECT DISTINCT s FROM Stud s JOIN s.rightsToStudy r, s.studies t JOIN t.courseObjects c, t.statusOfStudy o "
@@ -156,4 +157,40 @@ public class Stud extends AbstractModel {
         this.studies.add(s);
     }
 
+    public int getAge(java.util.Date atTime) {
+//        System.out.println("date of birth: " + new java.util.Date(dateOfBirth.getTime()).toString());
+//        System.out.println("comparing with: " + new java.util.Date(atTime.getTime()).toString());
+        
+        long diff = atTime.getTime() - dateOfBirth.getTime();
+        int years = (int) (diff / 31556952000L);
+        
+//        System.out.println("years: " + years);
+        return years;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 59 * hash + (this.studentId != null ? this.studentId.hashCode() : 0);
+        hash = 59 * hash + (this.studentNumber != null ? this.studentNumber.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Stud other = (Stud) obj;
+        if (this.studentId != other.studentId && (this.studentId == null || !this.studentId.equals(other.studentId))) {
+            return false;
+        }
+        if ((this.studentNumber == null) ? (other.studentNumber != null) : !this.studentNumber.equals(other.studentNumber)) {
+            return false;
+        }
+        return true;
+    }
 }
